@@ -149,3 +149,9 @@
 
 1207432987 /usr/include/GL/glu_mangle.h
 
+1225149342 source:/home/danielm/Projetos/glpaint/main.cpp
+	<stdlib.h>
+	<GL/glut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
