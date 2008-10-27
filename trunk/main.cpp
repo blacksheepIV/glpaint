@@ -53,7 +53,7 @@ int fill = 0;						/* fill flag	 */
 void drawSquare(int x, int y)
 {
         y=wh-y;
-        glColor3ub( (char) rand()%256, (char) rand()%256, (char) rand()%256);
+        //glColor3ub( (char) rand()%256, (char) rand()%256, (char) rand()%256);
         glBegin(GL_POLYGON);
                 glVertex2f(x+size, y+size);
                 glVertex2f(x-size, y+size);
@@ -144,7 +144,7 @@ void mouse(int btn, int state, int x, int y)
 					  yp[0] = y;
 
                         glBegin(GL_POINTS);
-                        glVertex2f(x,wh-yp[0]);
+                        glVertex2f(x[count],wh-yp[0]);
                         glEnd();
 				  }
 				  else
@@ -355,9 +355,10 @@ void key(unsigned char k, int xx, int yy)
    }
    else
    {
-		glColor3f(1.0,1.0,0.5);
+		//glColor3f(1.0,1.0,0.5);
 		glRasterPos2i(rx,ry);
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, k);
+		glFlush();
 		//glutStrokeCharacter(GLUT_STROKE_ROMAN,k);
 		rx+=glutBitmapWidth(GLUT_BITMAP_9_BY_15,k);
    }
@@ -522,6 +523,7 @@ int main(int argc, char** argv)
 		glutAddSubMenu("Fill",       f_menu);
 	// Attach the menu just created to the right mouse button
     glutAttachMenu(GLUT_MIDDLE_BUTTON);
+
 
 	// Initialization OpenGL commands
     myinit ();
