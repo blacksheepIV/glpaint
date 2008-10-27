@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="glPaint" />
+		<Option title="glpaint" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Script file="lib_finder.script" />
 			<Target title="Release">
-				<Option output="bin/Release/glPaint" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/glpaint" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="/usr/bin" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
