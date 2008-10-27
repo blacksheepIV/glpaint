@@ -245,30 +245,12 @@ void mouse(int btn, int state, int x, int y)
                 glEnd();
                 break;
             case(RECTANGLE):
-                drawPallete(1,0,1,1,1);
+                drawPallete(1.0,0.0,1.0,1.0,1.0);
                 glColor3f(1.0,1.0,0.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(60.0,wh-30);
                     glVertex2f(70,wh-40);
                     glVertex2f(90,wh-10);
-                glEnd();
-                break;
-            case(TRIANGLE):
-                drawPallete(1,1,0,1,1);
-                glColor3f(0.0,0.0,1.0);
-                glBegin(GL_LINE_STRIP);
-                    glVertex2f(110.0,wh-30);
-                    glVertex2f(120,wh-40);
-                    glVertex2f(140,wh-10);
-                glEnd();
-                break;
-            case(POINTS):
-                drawPallete(1,1,1,0,1);
-                glColor3f(1.0,1.0,1.0);
-                glBegin(GL_LINE_STRIP);
-                    glVertex2f(160.0,wh-30);
-                    glVertex2f(170,wh-40);
-                    glVertex2f(190,wh-10);
                 glEnd();
                 break;
         }
@@ -360,40 +342,39 @@ void drawPallete(int a, int b, int c, int d, int e){
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    if(a==1){
+    if(a!=0){
     // Draw a White box for the line menu
     glColor3f(1.0, 1.0, 1.0);
     screen_box(0,wh-ww/10,ww/10);
     }
 
-    if(b==1){
+    if(b!=0){
     // Draw a Red box for the rectangle menu
     glColor3f(1.0, 0.0, 0.0);
     screen_box(ww/10,wh-ww/10,ww/10);
     }
 
-    if(c==1){
+    if(c!=0){
     // Draw a Green box for the triangle menu
     glColor3f(0.0, 1.0, 0.0);
     screen_box(ww/5,wh-ww/10,ww/10);
     }
 
-    if(d==1){
+    if(d!=0){
     // Draw a Blue box for the point menu
     glColor3f(0.0, 0.0, 1.0);
     screen_box(3*ww/10,wh-ww/10,ww/10);
     }
 
-    if(e==1){
+    if(e!=0){
     // Draw a yellow box for the point menu
     glColor3f(1.0, 1.0, 0.0);
     screen_box(2*ww/5,wh-ww/10,ww/10);
     }
 
 
-    if(a==1){
+    if(a!=0){
     // Draw a Black line on the line menu box
-    glLineWidth(2);
     glColor3f(0.0, 0.0, 0.0);
     glBegin(GL_LINES);
         glVertex2i(wh/40,wh-ww/20);
@@ -401,15 +382,13 @@ void drawPallete(int a, int b, int c, int d, int e){
     glEnd();
     }
 
-    if(b==1){
+    if(b!=0){
     // Draw a Black rectangle on the rectangle menu box
-    glColor3f(0.0,0.0,0.0);
     screen_box(ww/10+ww/40,wh-ww/10+ww/40,ww/20);
     }
 
-    if(c==1){
+    if(c!=0){
     // Draw a Black triangle in the triangle menu box
-    glColor3f(0.0,0.0,0.0);
     glBegin(GL_TRIANGLES);
        glVertex2i(ww/5+ww/40,wh-ww/10+ww/40);
        glVertex2i(ww/5+ww/20,wh-ww/40);
@@ -417,18 +396,16 @@ void drawPallete(int a, int b, int c, int d, int e){
     glEnd();
     }
 
-    if(d==1){
+    if(d!=0){
     // Draw a Black point in the point menu	box
-    glColor3f(0.0,0.0,0.0);
     glPointSize(3.0);
     glBegin(GL_POINTS);
        glVertex2i(3*ww/10+ww/20, wh-ww/20);
     glEnd();
     }
 
-    if(e==1){
+    if(e!=0){
     // Draw a Black text string on the text menu box
-    glColor3f(0.0,0.0,0.0);
     glRasterPos2i(2*ww/5 + 10,wh-ww/20);
     glutBitmapCharacter  (GLUT_BITMAP_9_BY_15, 'A');
     shift=glutBitmapWidth(GLUT_BITMAP_9_BY_15, 'A');
@@ -440,12 +417,11 @@ void drawPallete(int a, int b, int c, int d, int e){
     glRasterPos2i(2*ww/5+ 10+shift,wh-ww/20);
     glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'C');
     }
-
     glPopAttrib();
 }
 
 void display(void){
-    //glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     glClearColor (0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -455,7 +431,7 @@ void display(void){
 
 
     glFlush();
-    //glPopAttrib();
+    glPopAttrib();
 }
 
 
