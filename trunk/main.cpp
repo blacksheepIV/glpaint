@@ -271,6 +271,15 @@ void mouse(int btn, int state, int x, int y)
                     glVertex2f(190,wh-10);
                 glEnd();
                 break;
+            case(TEXT):
+                drawPallete(1,1,1,1,0);
+                glColor3f(1.0,0.0,0.0);
+                glBegin(GL_LINE_STRIP);
+                    glVertex2f(210.0,wh-30);
+                    glVertex2f(220,wh-40);
+                    glVertex2f(240,wh-10);
+                glEnd();
+                break;
         }
 
     glPopAttrib();
