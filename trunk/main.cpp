@@ -38,7 +38,8 @@ void color_menu(int);
 void pixel_menu(int);
 void fill_menu(int);
 int  pick(int, int);
-void drawPallete(int a, int b, int c, int d, int e);
+void drawButtons(int a, int b, int c, int d, int e);
+void collorpalete(void);
 
 /* globals */
 
@@ -143,15 +144,16 @@ void mouse(int btn, int state, int x, int y)
 					  xp[0] = x;
 					  yp[0] = y;
 
+                        // Desenha um ponto para marcar o inicio da linha
                         glBegin(GL_POINTS);
-                        glVertex2f(x[count],wh-yp[0]);
+                        glVertex2f(xp[0],wh-yp[0]);
                         glEnd();
 				  }
 				  else
 				  {
-                      glBegin(GL_LINES);
+                      /*glBegin(GL_LINES);
                       glVertex3f(0.0,wh-ww/10,ww/10);
-                      glEnd();
+                      glEnd();*/
 
 					  glBegin(GL_LINES);
 						 glVertex2i(x,wh-y);
@@ -167,6 +169,11 @@ void mouse(int btn, int state, int x, int y)
 					  count++;
 					  xp[0] = x;
 					  yp[0] = y;
+
+                      // Desenha um ponto para marcar o canto do retangulo
+					  glBegin(GL_POINTS);
+                      glVertex2f(xp[0],wh-yp[0]);
+                      glEnd();
 				  }
 				  else
 				  {
@@ -188,13 +195,24 @@ void mouse(int btn, int state, int x, int y)
 					  count++;
 					  xp[0] = x;
 					  yp[0] = y;
+
+					  // Desenha um ponto para marcar o 1o vertice do triangulo
+					  glBegin(GL_POINTS);
+                      glVertex2f(xp[0],wh-yp[0]);
+                      glEnd();
 					  break;
 					case(1):
 					  count++;
 					  xp[1] = x;
 					  yp[1] = y;
+
+					  // Desenha um ponto para marcar o 2o vertice do triangulo
+					  glBegin(GL_POINTS);
+                      glVertex2f(xp[1],wh-yp[1]);
+                      glEnd();
 					  break;
 					case(2):
+
 					  if(fill) glBegin(GL_POLYGON);
 					  else glBegin(GL_LINE_LOOP);
 						 glVertex2i(xp[0],wh-yp[0]);
@@ -215,6 +233,12 @@ void mouse(int btn, int state, int x, int y)
 				  {
 					 rx=x;
 					 ry=wh-y;
+
+					 // Desenha um ponto para marcar o inicio do texto
+					  glBegin(GL_POINTS);
+                      glVertex2f(rx,ry);
+                      glEnd();
+
 					 glRasterPos2i(rx,ry);
 					 count=0;
 				  }
@@ -236,7 +260,7 @@ void mouse(int btn, int state, int x, int y)
         }*/
         switch(where){
             case(LINE):
-                drawPallete(0,1,1,1,1);
+                drawButtons(0,1,1,1,1);
                 glColor3f(1.0,0.0,0.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(10.0,wh-30);
@@ -245,7 +269,7 @@ void mouse(int btn, int state, int x, int y)
                 glEnd();
                 break;
             case(RECTANGLE):
-                drawPallete(1,0,1,1,1);
+                drawButtons(1,0,1,1,1);
                 glColor3f(1.0,1.0,0.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(60.0,wh-30);
@@ -254,7 +278,7 @@ void mouse(int btn, int state, int x, int y)
                 glEnd();
                 break;
             case(TRIANGLE):
-                drawPallete(1,1,0,1,1);
+                drawButtons(1,1,0,1,1);
                 glColor3f(0.0,0.0,1.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(110.0,wh-30);
@@ -263,7 +287,7 @@ void mouse(int btn, int state, int x, int y)
                 glEnd();
                 break;
             case(POINTS):
-                drawPallete(1,1,1,0,1);
+                drawButtons(1,1,1,0,1);
                 glColor3f(1.0,1.0,1.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(160.0,wh-30);
@@ -272,7 +296,7 @@ void mouse(int btn, int state, int x, int y)
                 glEnd();
                 break;
             case(TEXT):
-                drawPallete(1,1,1,1,0);
+                drawButtons(1,1,1,1,0);
                 glColor3f(1.0,0.0,0.0);
                 glBegin(GL_LINE_STRIP);
                     glVertex2f(210.0,wh-30);
@@ -365,7 +389,8 @@ void key(unsigned char k, int xx, int yy)
 
 }
 
-void drawPallete(int a, int b, int c, int d, int e){
+
+void drawButtons(int a, int b, int c, int d, int e){
     int shift=0;
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -455,17 +480,12 @@ void drawPallete(int a, int b, int c, int d, int e){
 }
 
 void display(void){
-    //glPushAttrib(GL_ALL_ATTRIB_BITS);
-
     glClearColor (0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-
-    drawPallete(1,1,1,1,1);
-
+    drawButtons(1,1,1,1,1);
 
     glFlush();
-    //glPopAttrib();
 }
 
 
