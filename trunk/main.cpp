@@ -17,6 +17,17 @@ interfacing with a window system */
 #define TRIANGLE	3
 #define POINTS		4
 #define TEXT		5
+#define RED         10
+#define GREEN       11
+#define BLUE        12
+#define CYAN        13
+#define MAGENTA     14
+#define YELLOW      15
+#define ORANGE      16
+#define GRAY        17
+#define WHITE       18
+#define BLACK       19
+
 
 #include <stdlib.h>
 #include <GL/glut.h>
@@ -46,7 +57,6 @@ void collorpalete(void);
 
 /* globals */
 
-static int selected[3] = {1,1,1};
 GLsizei wh = 500, ww = 500; /* initial window size			*/
 GLfloat size = 3.0;			/* half side length of square	*/
 int draw_mode = 0;			/* drawing mode					*/
@@ -353,46 +363,51 @@ void mouse(int btn, int state, int x, int y)
 			case(LINE):
 				drawButtons(0,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
-				glBegin(GL_LINE_STRIP);
-				glVertex2f(10.0,wh-30);
-				glVertex2f(20,wh-40);
-				glVertex2f(40,wh-10);
+				glBegin(GL_LINES);
+				glVertex2f(0.0,wh-ww/10);
+				glVertex2f(ww/10,wh);
+				glVertex2f(ww/10,wh-ww/10);
+				glVertex2f(0.0,wh);
 				glEnd();
 				break;
 			case(RECTANGLE):
 				drawButtons(1,0,1,1,1);
 				glColor3f(1.0,1.0,0.0);
-				glBegin(GL_LINE_STRIP);
-				glVertex2f(60.0,wh-30);
-				glVertex2f(70,wh-40);
-				glVertex2f(90,wh-10);
+				glBegin(GL_LINES);
+				glVertex2f(ww/10.0,wh-ww/10);
+				glVertex2f(2*ww/10,wh);
+				glVertex2f(2*ww/10,wh-ww/10);
+				glVertex2f(ww/10.0,wh);
 				glEnd();
 				break;
 			case(TRIANGLE):
 				drawButtons(1,1,0,1,1);
 				glColor3f(0.0,0.0,1.0);
-				glBegin(GL_LINE_STRIP);
-				glVertex2f(110.0,wh-30);
-				glVertex2f(120,wh-40);
-				glVertex2f(140,wh-10);
+				glBegin(GL_LINES);
+				glVertex2f(ww/5.0,wh-ww/10);
+				glVertex2f(3*ww/10.0,wh);
+				glVertex2f(3*ww/10.0,wh-ww/10);
+				glVertex2f(ww/5.0,wh);
 				glEnd();
 				break;
 			case(POINTS):
 				drawButtons(1,1,1,0,1);
 				glColor3f(1.0,1.0,1.0);
-				glBegin(GL_LINE_STRIP);
-				glVertex2f(160.0,wh-30);
-				glVertex2f(170,wh-40);
-				glVertex2f(190,wh-10);
+				glBegin(GL_LINES);
+				glVertex2f(3*ww/10.0,wh-ww/10);
+				glVertex2f(4*ww/10.0,wh);
+				glVertex2f(4*ww/10.0,wh-ww/10);
+				glVertex2f(3*ww/10.0,wh);
 				glEnd();
 				break;
 			case(TEXT):
 				drawButtons(1,1,1,1,0);
 				glColor3f(1.0,0.0,0.0);
-				glBegin(GL_LINE_STRIP);
-				glVertex2f(210.0,wh-30);
-				glVertex2f(220,wh-40);
-				glVertex2f(240,wh-10);
+				glBegin(GL_LINES);
+				glVertex2f(2*ww/5,wh-ww/10);
+				glVertex2f(ww/2,wh);
+				glVertex2f(ww/2,wh-ww/10);
+				glVertex2f(2*ww/5,wh);
 				glEnd();
 				break;
 		}
@@ -413,7 +428,9 @@ int pick(int x, int y)
 	else if(x < 3*ww/10 ) return TRIANGLE;
 	else if(x < 2*ww/5  ) return POINTS;
 	else if(x < ww/2    ) return TEXT;
-	else return 0;
+	/*else if(y > wh-ww/10+ww/15) return 0;
+        else if(x > 10 && x<ww/15) return WHITE;*/
+        else return 0;
 }
 
 void screen_box(int x, int y, int s )
@@ -447,6 +464,9 @@ void color_menu(int id)
 	else if(id == 6) {r = 1.0; g = 1.0; b = 0.0;}  // yellow
 	else if(id == 7) {r = 1.0; g = 1.0; b = 1.0;}  // white
 	else if(id == 8) {r = 0.0; g = 0.0; b = 0.0;}  // black
+	else if(id == 9) {r = 1.0; g = 0.5; b = 0.0;}  // orange
+	else if(id == 10){r = 0.5; g = 0.5; b = 0.5;}  // gray
+	display();
 }
 
 
@@ -577,47 +597,58 @@ void collorpalete(void){
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    // Draw a White box for the line menu
-	glColor3f(selected[0], selected[1], selected[2]);
-	screen_box(10,10,30);
+    // Draw the a square painted with selected color
+	glColor3f(r, g, b);
+	screen_box(10,ww/10,ww/15);
 
+    // Draw a RED square
 	glColor3f(1.0,0.0,0.0);
-	screen_box(50,40,30);
+	screen_box(ww/10,ww/10,ww/15);
 
-	glColor3f(1.0,1.0,0.0);
-	screen_box(50,10,30);
+    // Draw a GREEN square
+	glColor3f(0.0,1.0,0.0);
+	screen_box(ww/10,ww/10-ww/15,ww/15);
 
-	glColor3f(0.0,1.0,1.0);
-	screen_box(80,40,30);
-
+    // Draw a BLUE square
 	glColor3f(0.0,0.0,1.0);
-	screen_box(80,10,30);
+	screen_box(ww/10+ww/15,ww/10,ww/15);
 
-	glColor3f(1.0,1.0,1.0);
-	screen_box(110,40,30);
+    // Draw a CYAN square
+	glColor3f(0.0,1.0,1.0);
+	screen_box(ww/10+ww/15,ww/10-ww/15,ww/15);
 
+    // Draw a MAGENTA square
 	glColor3f(1.0,0.0,1.0);
-	screen_box(110,10,30);
+	screen_box(ww/10+ww/15+ww/15,ww/10,ww/15);
 
-	glColor3f(0.5,0.5,0.5);
-	screen_box(140,40,30);
+    // Draw a YELLOW square
+	glColor3f(1.0,1.0,0.0);
+	screen_box(ww/10+ww/15+ww/15,ww/10-ww/15,ww/15);
 
+	// Draw a ORANGE square
+    glColor3f(1.0,0.5,0.0);
+	screen_box(ww/10+3*(ww/15),ww/10,ww/15);
+
+    // Draw a BLACK square
 	glColor3f(1.0,1.0,1.0);
-	screen_box(140,10,30);
+	screen_box(ww/10+3*(ww/15),ww/10-ww/15,ww/15);
 	glColor3f(0.0,0.0,0.0);
-	screen_box(141,11,28);
+	screen_box(1+ww/10+3*(ww/15),1+ww/10-ww/15,ww/16);
 
-	glColor3f(1.0,1.0,0.5);
-	screen_box(170,40,30);
+    // Draw a GREY square
+	glColor3f(0.5,0.5,0.5);
+	screen_box(ww/10+4*(ww/15),ww/10,ww/15);
 
-	glColor3f(1.0,0.5,1.0);
-	screen_box(170,10,30);
+    // Draw a white square
+	glColor3f(1.0,1.0,1.0);
+	screen_box(ww/10+4*(ww/15),ww/10-ww/15,ww/15);
 
-	glColor3f(0.5,1.0,1.0);
-	screen_box(200,40,30);
+	/*glColor3f(0.5,1.0,1.0);
+	//screen_box(200,40,30);
+	screen_box(ww/10+5*(ww/15),ww/10,ww/15);
 
 	glColor3f(1.0,0.5,0.0);
-	screen_box(200,10,30);
+	screen_box(ww/10+5*(ww/15),ww/10-ww/15,ww/15);*/
 
 	glPopAttrib();
 
@@ -665,6 +696,8 @@ int main(int argc, char** argv)
 	glutAddMenuEntry("Yellow", 6);
 	glutAddMenuEntry("White",  7);
 	glutAddMenuEntry("Black",  8);
+	glutAddMenuEntry("Orange",  9);
+	glutAddMenuEntry("Gray",  10);
 
 	// Create a pixel resize pop-up menu and a function associated with it
 	p_menu = glutCreateMenu(pixel_menu);
