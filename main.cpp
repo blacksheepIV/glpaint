@@ -422,15 +422,32 @@ void mouse(int btn, int state, int x, int y)
 int pick(int x, int y)
 {
 	y = wh - y;
-	if     (y < wh-ww/10) return 0;
-	else if(x < ww/10   ) return LINE;
-	else if(x < ww/5    ) return RECTANGLE;
-	else if(x < 3*ww/10 ) return TRIANGLE;
-	else if(x < 2*ww/5  ) return POINTS;
-	else if(x < ww/2    ) return TEXT;
-	/*else if(y > wh-ww/10+ww/15) return 0;
-        else if(x > 10 && x<ww/15) return WHITE;*/
+
+    printf("x=%d, y=%d.\n",x,y);
+	// Verifica se y esta' na parte superior da tela
+	// onde estao os botões de selecao das ferramentas
+	if (y > wh-ww/10) {
+        if(x < ww/10   ) return LINE;
+        else if(x < ww/5    ) return RECTANGLE;
+        else if(x < 3*ww/10 ) return TRIANGLE;
+        else if(x < 2*ww/5  ) return POINTS;
+        else if(x < ww/2    ) return TEXT;
         else return 0;
+	}
+	// Verifica se y esta na parte inferior onde estao as cores
+	if(y > ww/10 + ww/15) {printf("entrei aqui!\n");return 0;}
+	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) {r=1.0;g=0.0;b=0.0;display();return RED;}
+	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {r=0.0;g=1.0;b-0.0;display(); return GREEN;}
+	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {r=0.0,g=0.0,b=1.0;display();return BLUE;}
+	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {r=0.0,g=1.0,b=1.0;display();return CYAN;}
+	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {r=1.0,g=0.0,b=1.0;display();return MAGENTA;}
+	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=0.0;display();return YELLOW;}
+	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {r=1.0,g=0.5,b=0.0;display();return ORANGE;}
+	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {r=0.0,g=0.0,b=0.0;display();return BLACK;}
+	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {r=0.5,g=0.5,b=0.5;display();return GRAY;}
+	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=1.0;display();return WHITE;}
+	else return 0;
+
 }
 
 void screen_box(int x, int y, int s )
