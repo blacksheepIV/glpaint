@@ -43,6 +43,7 @@ void collorpalete(void);
 
 /* globals */
 
+static int selected[3] = {1,1,1};
 GLsizei wh = 500, ww = 500; /* initial window size			*/
 GLfloat size = 3.0;			/* half side length of square	*/
 int draw_mode = 0;			/* drawing mode					*/
@@ -479,11 +480,67 @@ void drawButtons(int a, int b, int c, int d, int e){
     glPopAttrib();
 }
 
+
+
+void collorpalete(void){
+//        int shift=0;
+
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+    // Draw a White box for the line menu
+    glColor3f(selected[0], selected[1], selected[2]);
+    screen_box(10,10,30);
+
+    glColor3f(1.0,0.0,0.0);
+    screen_box(50,40,30);
+
+    glColor3f(1.0,1.0,0.0);
+    screen_box(50,10,30);
+
+    glColor3f(0.0,1.0,1.0);
+    screen_box(80,40,30);
+
+    glColor3f(0.0,0.0,1.0);
+    screen_box(80,10,30);
+
+    glColor3f(1.0,1.0,1.0);
+    screen_box(110,40,30);
+
+    glColor3f(1.0,0.0,1.0);
+    screen_box(110,10,30);
+
+    glColor3f(0.5,0.5,0.5);
+    screen_box(140,40,30);
+
+    glColor3f(1.0,1.0,1.0);
+    screen_box(140,10,30);
+    glColor3f(0.0,0.0,0.0);
+    screen_box(141,11,28);
+
+    glColor3f(1.0,1.0,0.5);
+    screen_box(170,40,30);
+
+    glColor3f(1.0,0.5,1.0);
+    screen_box(170,10,30);
+
+    glColor3f(0.5,1.0,1.0);
+    screen_box(200,40,30);
+
+    glColor3f(1.0,0.5,0.0);
+    screen_box(200,10,30);
+
+    glPopAttrib();
+
+}
+
+
+
 void display(void){
     glClearColor (0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
     drawButtons(1,1,1,1,1);
+    collorpalete();
 
     glFlush();
 }
