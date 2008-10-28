@@ -23,6 +23,9 @@ interfacing with a window system */
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <stdio.h>
+#include <string.h>
+
 void mouse(int, int, int, int);
 void key(unsigned char, int, int);
 void display(void);
@@ -120,6 +123,7 @@ void myinit(void)
 
 void mouse_move(int x, int y)
 {
+	puts("mouse_move");
 
 	static int x_ant,y_ant;
 
@@ -132,19 +136,18 @@ void mouse_move(int x, int y)
 	{
 		x_ant=xp[0];
 		y_ant=yp[0];
+
+		cont++;
 	}
 
 	int where;
-//static int xp,yp;
-
-  //glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	where = pick(x,y);
 	glColor3f(r, g, b);
 
 	if(where != 0)
 	{
-          //cont = 0;
+      //cont = 0;
 		draw_mode = where;
 	}
 
@@ -154,60 +157,62 @@ void mouse_move(int x, int y)
 		{
 			case(LINE):
 
-
-
-
-
+               // desenha linha temporária
 				glBegin(GL_LINES);
 				glVertex2i(x_ant,wh-y_ant);
 				glVertex2i(xp[0],wh-yp[0]);
 				glEnd();
 
-
-
-
-
-				if(cont==0)
+				if(cont!=0)
 				{
-					cont=1;
-                   //xp[0] = x;
-                   //yp[0] = y;
-                  // printf("%s\n","motion 1");
-				}
-
-				else
-				{
-
-
 					x_ant=x;
 					y_ant=y;
+
+                   // desenha (apaga) por cima da linha anterior
 					glBegin(GL_LINES);
 					glVertex2i(x,wh-y);
 					glVertex2i(xp[0],wh-yp[0]);
 					glEnd();
-//                    printf("%s\n","motion");
-                    //draw_mode=0;
-                    // count=0;
+
 				} break;
+
+			case(RECTANGLE):
+
+                // desenha retângulo temporário
+
+				glRecti(x_ant,wh-y_ant,xp[0],wh-yp[0]);
+
+				if(cont!=0)
+				{
+					x_ant=x;
+					y_ant=y;
+
+                    // desenha (apaga) por cima do retângulo anterior
+					glRecti(x,wh-y,xp[0],wh-yp[0]);
+
+				} break;
+
+
 				default: break;
 		}
 
 	}
 
-	glDisable(GL_COLOR_LOGIC_OP);
+
 //glPopAttrib();
 	glFlush();
       // printf("%s\n","estou na motion");
+	glDisable(GL_COLOR_LOGIC_OP);
 }
 
 void mouse(int btn, int state, int x, int y)
 {
-    //static int cont;
 	int where;
-    //static int xp[2],yp[2];
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
+		puts("mouse down");
+
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 		where = pick(x,y);
@@ -218,43 +223,27 @@ void mouse(int btn, int state, int x, int y)
 			cont = 0;
 			draw_mode = where;
 		}
+
 		else
 		{
 			switch(draw_mode)
 			{
 				case(LINE):
 
-				 // defino o ponto inicial da linha (ao clicar)
+              // defino o ponto inicial da linha (ao clicar)
 					xp[0] = x;
 					yp[0] = y;
 
 					break;
 
 				case(RECTANGLE):
-					if(cont == 0)
-					{
-						cont++;
-						xp[0] = x;
-						yp[0] = y;
 
-                      // Desenha um ponto para marcar o canto do retangulo
-						glBegin(GL_POINTS);
-						glVertex2f(xp[0],wh-yp[0]);
-						glEnd();
-					}
-					else
-					{
-						if(fill)	glBegin(GL_POLYGON);
-						else		glBegin(GL_LINE_LOOP);
-						glVertex2i(x,wh-y);
-						glVertex2i(x,wh-yp[0]);
-						glVertex2i(xp[0],wh-yp[0]);
-						glVertex2i(xp[0],wh-y);
-						glEnd();
-						draw_mode=0;
-						cont=0;
-					}
+              // defino o ponto inicial do retângulo (ao clicar)
+					xp[0] = x;
+					yp[0] = y;
+
 					break;
+
 				case (TRIANGLE):
 					switch(cont)
 					{
@@ -316,13 +305,45 @@ void mouse(int btn, int state, int x, int y)
 		glFlush();
 	}
 
-	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP){
+	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP)
+	{
+		puts("mouse up");
 
 		cont=0;
+
+		if (xp[0]!=0 & yp[0]!=0 & pick(x,y)==0)
+		{
+                // aqui eu desenho as figuras definitivas (ao soltar o botão)
+			switch (draw_mode) {
+
+				case(LINE):
+
+				{
+					glBegin(GL_LINES);
+					glVertex2i(x,wh-y);
+					glVertex2i(xp[0],wh-yp[0]);
+					glEnd();
+				} break;
+
+				case(RECTANGLE):
+
+				{
+                            // desenha retângulo temporário
+					glRecti(x,wh-y,xp[0],wh-yp[0]);
+				} break;
+
+				defaut: break;
+
+			} // fim do swicth
+		}
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 		where = pick(x,y);
 		glLineWidth(3);
+
+
+
+
         /*if(where != 0)
 		{
 		cont = 0;
