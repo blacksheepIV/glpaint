@@ -379,6 +379,7 @@ void mouse(int btn, int state, int x, int y)
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
 		puts("mouse down");
+		pick_color(x,y);
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
