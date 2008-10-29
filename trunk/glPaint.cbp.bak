@@ -2,22 +2,29 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="glPaint" />
+		<Option title="glpaint" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Script file="lib_finder.script" />
 			<Target title="Release">
-				<Option output="bin/Release/glPaint" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/glpaint" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="/usr/bin" />
 				<Option object_output="obj/Release/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="bin/Debug/glpaint" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
 			</Target>
 		</Build>
 		<Compiler>
@@ -31,7 +38,12 @@
 			<Add library="Xxf86vm" />
 			<Add directory="/usr/lib" />
 		</Linker>
-		<Unit filename="main.cpp" />
+		<Unit filename="figuras.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />

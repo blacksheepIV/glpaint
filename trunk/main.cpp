@@ -59,8 +59,9 @@ void fill_menu(int);
 int  pick(int, int);
 int  pick_color(int, int);
 void drawButtons(int a, int b, int c, int d, int e, int f);
-void collorpalete(void);
+void colorpalete(void);
 void set_color(int);
+void set_bgcolor(int);
 bool area_de_desenho(void);
 
 /* globals */
@@ -71,6 +72,7 @@ int draw_mode = 0;			/* drawing mode					*/
 int rx, ry;					/* raster position				*/
 
 GLfloat r = 1.0, g = 1.0, b = 1.0;	/* drawing color */
+GLfloat rb = 0.0, gb = 0.0, bb = 0.0; /* background color */
 int fill = 0;						/* fill flag	 */
 
 int cont = 0;
@@ -192,6 +194,8 @@ void mouse_idle()
 
 void mouse_passive_motion(int x, int y)
 {
+    int wherec;
+
     if (area_de_desenho())
     {
 
@@ -205,14 +209,14 @@ void mouse_passive_motion(int x, int y)
         int where;
 
         where = pick(x,y);
-
+        wherec = pick_color(x,y);
         // se não estiver sobre os menus
-        if(where == 0)
+        if(where == 0 && wherec == 0)
         {
 
             cont_idle = 0;
 
-            if (mpm=0)
+            if (mpm==0)
             {
                 xi=x;
                 yi=y;
@@ -230,6 +234,8 @@ void mouse_passive_motion(int x, int y)
                 {
 
                     case (ERASER):
+
+                        glColor3f(rb,gb,bb);
 
                         glEnable(GL_COLOR_LOGIC_OP);
 
@@ -287,12 +293,13 @@ void mouse_motion(int x, int y)
             cont++;
         }
 
-        int where;
+        int where,wherec;
 
         where = pick(x,y);
+        wherec = pick_color(x,y);
         glColor3f(r, g, b);
 
-        if(where != 0)
+        if(where != 0 && wherec!=0)
         {
           //cont = 0;
             draw_mode = where;
@@ -378,7 +385,8 @@ void mouse_motion(int x, int y)
 
                 case (ERASER):
                     glDisable(GL_COLOR_LOGIC_OP);
-
+                    // Aplica a cor de background
+                    glColor3f(rb,gb,bb);
                     quadrado(x,wh-y,tamanho);
                     break;
 
@@ -399,7 +407,7 @@ void mouse_motion(int x, int y)
 void mouse(int btn, int state, int x, int y)
 {
 	int where;
-	int cor;
+	int cor,bcor;
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
@@ -530,7 +538,7 @@ void mouse(int btn, int state, int x, int y)
                     else retangulo(x,wh-y,xp[0],wh-yp[0]);
 				} break;
 
-				defaut: break;
+				default: break;
 
 			} // fim do swicth
 		}
@@ -616,9 +624,16 @@ void mouse(int btn, int state, int x, int y)
 		glFlush();
 	}
 
+    /*if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN){
+        bcor = pick_color(x,y);
+        if (bcor!=0)
+	    set_bgcolor(cor);
+    }*/
 
     if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN)
 	{
+	    bcor = pick_color(x,y);
+	    if(bcor!=0) set_bgcolor(bcor);
         //retangulo(5,wh-5,30,wh-30);
 	}
 
@@ -653,16 +668,35 @@ void set_color(int cor)
 {
     switch (cor)
     {
-        case (RED): {r=1.0;g=0.0;b=0.0; collorpalete();} break;
-        case (GREEN): {r=0.0;g=1.0;b-0.0; collorpalete();} break;
-        case (BLUE): {r=0.0,g=0.0,b=1.0; collorpalete();} break;
-        case (CYAN): {r=0.0,g=1.0,b=1.0; collorpalete();} break;
-        case (MAGENTA): {r=1.0,g=0.0,b=1.0; collorpalete();} break;
-        case (YELLOW): {r=1.0,g=1.0,b=0.0; collorpalete();} break;
-        case (ORANGE): {r=1.0,g=0.5,b=0.0; collorpalete();} break;
-        case (GRAY): {r=0.5,g=0.5,b=0.5; collorpalete();} break;
-        case (WHITE): {r=1.0,g=1.0,b=1.0; collorpalete();} break;
-        case (BLACK): {r=0.0,g=0.0,b=0.0; collorpalete();} break;
+        case (RED): {r=1.0;g=0.0;b=0.0; colorpalete();} break;
+        case (GREEN): {r=0.0;g=1.0;b=0.0; colorpalete();} break;
+        case (BLUE): {r=0.0,g=0.0,b=1.0; colorpalete();} break;
+        case (CYAN): {r=0.0,g=1.0,b=1.0; colorpalete();} break;
+        case (MAGENTA): {r=1.0,g=0.0,b=1.0; colorpalete();} break;
+        case (YELLOW): {r=1.0,g=1.0,b=0.0; colorpalete();} break;
+        case (ORANGE): {r=1.0,g=0.5,b=0.0; colorpalete();} break;
+        case (GRAY): {r=0.5,g=0.5,b=0.5; colorpalete();} break;
+        case (WHITE): {r=1.0,g=1.0,b=1.0; colorpalete();} break;
+        case (BLACK): {r=0.0,g=0.0,b=0.0; colorpalete();} break;
+
+        default: break;
+    }
+}
+
+void set_bgcolor(int cor)
+{
+    switch (cor)
+    {
+        case (RED): {rb=1.0;gb=0.0;bb=0.0; colorpalete();} break;
+        case (GREEN): {rb=0.0;gb=1.0;bb=0.0; colorpalete();} break;
+        case (BLUE): {rb=0.0,gb=0.0,bb=1.0; colorpalete();} break;
+        case (CYAN): {rb=0.0,gb=1.0,bb=1.0; colorpalete();} break;
+        case (MAGENTA): {rb=1.0,gb=0.0,bb=1.0; colorpalete();} break;
+        case (YELLOW): {rb=1.0,gb=1.0,bb=0.0; colorpalete();} break;
+        case (ORANGE): {rb=1.0,gb=0.5,bb=0.0; colorpalete();} break;
+        case (GRAY): {rb=0.5,gb=0.5,bb=0.5; colorpalete();} break;
+        case (WHITE): {rb=1.0,gb=1.0,bb=1.0; colorpalete();} break;
+        case (BLACK): {rb=0.0,gb=0.0,bb=0.0; colorpalete();} break;
 
         default: break;
     }
@@ -675,27 +709,27 @@ int pick_color(int x, int y)
 	y = wh - y;
 
 	// Verifica se y esta na parte inferior onde estao as cores
-	if(y > ww/10 + ww/15) {/*printf("entrei aqui!\n");*/return 0;}
-	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) { /*printf("entrei no vermelho\n");*//*collorpalete();*/ return RED;}
-	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {/*collorpalete();*/return GREEN;}
-	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {/*collorpalete();*/return BLUE;}
-	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {/*collorpalete();*/return CYAN;}
-	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {/*collorpalete();*/return MAGENTA;}
-	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {/*collorpalete();*/return YELLOW;}
-	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {/*collorpalete();*/return ORANGE;}
-	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {/*collorpalete();*/return BLACK;}
-	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {/*collorpalete();*/return GRAY;}
-	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {/*collorpalete();*/return WHITE;}
+	if(y > ww/10 + ww/15) return 0;
+	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) return RED;
+	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) return GREEN;
+	else if(x < (ww/10+2*(ww/15)) && y> ww/10) return BLUE;
+	else if(x < (ww/10+2*(ww/15)) && y< ww/10) return CYAN;
+	else if(x < (ww/10+3*(ww/15)) && y> ww/10) return MAGENTA;
+	else if(x < (ww/10+3*(ww/15)) && y< ww/10) return YELLOW;
+	else if(x < (ww/10+4*(ww/15)) && y> ww/10) return ORANGE;
+	else if(x < (ww/10+4*(ww/15)) && y< ww/10) return BLACK;
+	else if(x < (ww/10+5*(ww/15)) && y> ww/10) return GRAY;
+	else if(x < (ww/10+5*(ww/15)) && y< ww/10) return WHITE;
 	else return 0;
 
 }
 
 
-void right_menu(int id)
+/*void right_menu(int id)
 {
 	if(id == 1) exit(0);
 	else display();
-}
+}*/
 
 void middle_menu(int id)
 {
@@ -855,7 +889,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 
 
 
-void collorpalete(void){
+void colorpalete(void){
 //        int shift=0;
 
 	//glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -863,6 +897,10 @@ void collorpalete(void){
     // Draw the a square painted with selected color
 	glColor3f(r, g, b);
 	screen_box(10,ww/10,ww/15);
+
+	// Draw the a square painted with selected background color
+	glColor3f(rb, gb, bb);
+	screen_box(10,ww/10-ww/15,ww/15);
 
     // Draw a RED square
 	glColor3f(1.0,0.0,0.0);
@@ -924,7 +962,7 @@ void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	drawButtons(1,1,1,1,1,1);
-	collorpalete();
+	colorpalete();
 
 	glFlush();
 }
@@ -973,11 +1011,11 @@ int main(int argc, char** argv)
 	glutAddMenuEntry("fill off", 2);
 
 	// Create a pop-up menu for clearing or quitting and function associated with it
-	glutCreateMenu(right_menu);
+	/*glutCreateMenu(right_menu);
 	glutAddMenuEntry("quit", 1);
 	glutAddMenuEntry("clear",2);
 	// Attach the menu just created to the right mouse button
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);*/
 
 	// Create a pop-up menu for selecting color, pixel resize or fill mode
 	glutCreateMenu(middle_menu);
