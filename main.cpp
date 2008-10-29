@@ -115,7 +115,7 @@ void myReshape(GLsizei w, GLsizei h)
 	glViewport(0,0,w,h);
 	glClearColor (0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	display();
+	//display();
 	glFlush();
 
 	/* set global size for use by drawing routine */
@@ -589,16 +589,16 @@ int pick(int x, int y)
 	}
 	// Verifica se y esta na parte inferior onde estao as cores
 	if(y > ww/10 + ww/15) {printf("entrei aqui!\n");return 0;}
-	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) {r=1.0;g=0.0;b=0.0;display();return RED;}
-	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {r=0.0;g=1.0;b-0.0;display(); return GREEN;}
-	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {r=0.0,g=0.0,b=1.0;display();return BLUE;}
-	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {r=0.0,g=1.0,b=1.0;display();return CYAN;}
-	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {r=1.0,g=0.0,b=1.0;display();return MAGENTA;}
-	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=0.0;display();return YELLOW;}
-	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {r=1.0,g=0.5,b=0.0;display();return ORANGE;}
-	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {r=0.0,g=0.0,b=0.0;display();return BLACK;}
-	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {r=0.5,g=0.5,b=0.5;display();return GRAY;}
-	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=1.0;display();return WHITE;}
+	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) {r=1.0;g=0.0;b=0.0;collorpalete(); return RED;}
+	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {r=0.0;g=1.0;b-0.0;collorpalete();return GREEN;}
+	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {r=0.0,g=0.0,b=1.0;collorpalete();return BLUE;}
+	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {r=0.0,g=1.0,b=1.0;collorpalete();return CYAN;}
+	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {r=1.0,g=0.0,b=1.0;collorpalete();return MAGENTA;}
+	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=0.0;collorpalete();return YELLOW;}
+	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {r=1.0,g=0.5,b=0.0;collorpalete();return ORANGE;}
+	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {r=0.0,g=0.0,b=0.0;collorpalete();return BLACK;}
+	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {r=0.5,g=0.5,b=0.5;collorpalete();return GRAY;}
+	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=1.0;collorpalete();return WHITE;}
 	else return 0;
 
 }
@@ -761,7 +761,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 		glRectf((5*ww/10+ww/40)+3*ww/80,(wh-ww/10+ww/40),(5*ww/10+ww/40)+ww/20,(wh-ww/10+ww/40)+3*ww/80);
 
 	}
-
+    glFlush();
 	glPopAttrib();
 }
 
