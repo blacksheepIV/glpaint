@@ -945,13 +945,6 @@ void colorpalete(void){
 	glColor3f(1.0,1.0,1.0);
 	screen_box(ww/10+4*(ww/15),ww/10-ww/15,ww/15);
 
-	/*glColor3f(0.5,1.0,1.0);
-	//screen_box(200,40,30);
-	screen_box(ww/10+5*(ww/15),ww/10,ww/15);
-
-	glColor3f(1.0,0.5,0.0);
-	screen_box(ww/10+5*(ww/15),ww/10-ww/15,ww/15);*/
-
 	//glPopAttrib();
 
     // Necessario para criar os botoes imediatamente;
@@ -986,7 +979,7 @@ int main(int argc, char** argv)
 	glutInitWindowSize(500, 500);
 
 	// Creates a window with the Title ("square")
-	glutCreateWindow("square");
+	glutCreateWindow("glPaint - by C.H. Sindeaux e D.R. Matos");
 
 	// Register the Display callback function (display)
 	glutDisplayFunc(display);
@@ -1026,7 +1019,7 @@ int main(int argc, char** argv)
 	glutAddSubMenu("Colors",     c_menu);
 	glutAddSubMenu("Pixel Size", p_menu);
 	glutAddSubMenu("Fill",       f_menu);
-	// Attach the menu just created to the right mouse button
+	// Attach the menu just created to the middle mouse button
 	glutAttachMenu(GLUT_MIDDLE_BUTTON);
 
 
