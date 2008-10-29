@@ -57,6 +57,7 @@ void color_menu(int);
 void pixel_menu(int);
 void fill_menu(int);
 int  pick(int, int);
+int  pick_color(int, int);
 void drawButtons(int a, int b, int c, int d, int e, int f);
 void collorpalete(void);
 
@@ -375,6 +376,8 @@ void mouse(int btn, int state, int x, int y)
 	{
 		puts("mouse down");
 
+		pick_color(x,y);
+
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 		where = pick(x,y);
@@ -575,18 +578,24 @@ int pick(int x, int y)
 {
 	y = wh - y;
 
-    printf("x=%d, y=%d.\n",x,y);
+    //printf("x=%d, y=%d.\n",x,y);
 	// Verifica se y esta' na parte superior da tela
 	// onde estao os botões de selecao das ferramentas
-	if (y > wh-ww/10) {
-        if(x < ww/10   ) return LINE;
+	if (y < wh-ww/10) return 0;
+        else if(x < ww/10   ) return LINE;
         else if(x < ww/5    ) return RECTANGLE;
         else if(x < 3*ww/10 ) return TRIANGLE;
         else if(x < 2*ww/5  ) return POINTS;
         else if(x < ww/2    ) return TEXT;
 	    else if(x < 3*ww/5  ) return ERASER;
         else return 0;
-	}
+
+}
+
+int pick_color(int x, int y)
+{
+	y = wh - y;
+
 	// Verifica se y esta na parte inferior onde estao as cores
 	if(y > ww/10 + ww/15) {printf("entrei aqui!\n");return 0;}
 	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) {r=1.0;g=0.0;b=0.0;collorpalete(); return RED;}
