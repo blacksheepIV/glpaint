@@ -385,6 +385,7 @@ void mouse_motion(int x, int y)
 
                 case (ERASER):
                     glDisable(GL_COLOR_LOGIC_OP);
+
                     // Aplica a cor de background
                     glColor3f(rb,gb,bb);
                     quadrado(x,wh-y,tamanho);
@@ -952,6 +953,9 @@ void colorpalete(void){
 	screen_box(ww/10+5*(ww/15),ww/10-ww/15,ww/15);*/
 
 	//glPopAttrib();
+
+    // Necessario para criar os botoes imediatamente;
+	glFlush();
 
 }
 
