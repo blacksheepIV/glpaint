@@ -700,7 +700,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 	}
 
 	if(e==1){
-    // Draw a yellow box for the point menu
+    // Draw a yellow box for the text menu
 		glColor3f(1.0, 1.0, 0.0);
 		screen_box(2*ww/5,wh-ww/10,ww/10);
 	}
