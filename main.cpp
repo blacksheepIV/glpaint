@@ -161,7 +161,7 @@ void teste()
 
 		glLogicOp(GL_XOR);
 
-		quadrado(xi,wh-yi,tamanho);
+		borracha(xi,wh-yi,tamanho);
 
 		glDisable(GL_COLOR_LOGIC_OP);
 
@@ -172,6 +172,8 @@ void teste()
 
 void mouse_passive_motion(int x, int y)
 {
+
+
 
 	puts("mouse_passive_motion");
 
@@ -211,7 +213,7 @@ void mouse_passive_motion(int x, int y)
 					glLogicOp(GL_XOR);
 
                     // desenha borracha temporária
-					quadrado(x,wh-y,tamanho);
+					borracha(x,wh-y,tamanho);
 
                     // guarda a posição da borracha
 					xi=x;
@@ -221,7 +223,7 @@ void mouse_passive_motion(int x, int y)
 					{
 
                         // desenha por cima da anterior
-                       // quadrado(x_ant,wh-y_ant,tamanho);
+                       // borracha(x_ant,wh-y_ant,tamanho);
 
 					} break;
 
@@ -303,7 +305,8 @@ void mouse_motion(int x, int y)
 
                 // desenha retângulo temporário
 
-				glRecti(x_ant,wh-y_ant,xp[0],wh-yp[0]);
+				if (fill) glRecti(x_ant,wh-y_ant,xp[0],wh-yp[0]);
+				else quadrado(x_ant,wh-y_ant,xp[0],wh-yp[0]);
 
 				if(cont!=0)
 				{
@@ -312,7 +315,8 @@ void mouse_motion(int x, int y)
 					y_ant=y;
 
                     // desenha (apaga) por cima do retângulo anterior
-					glRecti(x,wh-y,xp[0],wh-yp[0]);
+					if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
+					else quadrado(x,wh-y,xp[0],wh-yp[0]);
 
 				} break;
 
@@ -352,7 +356,7 @@ void mouse_motion(int x, int y)
 			case (ERASER):
 				glDisable(GL_COLOR_LOGIC_OP);
 
-				quadrado(x,wh-y,tamanho);
+				borracha(x,wh-y,tamanho);
 				break;
 
 				default: break;
@@ -375,8 +379,6 @@ void mouse(int btn, int state, int x, int y)
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
 		puts("mouse down");
-
-		pick_color(x,y);
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -493,8 +495,12 @@ void mouse(int btn, int state, int x, int y)
 				case(RECTANGLE):
 
 				{
-                            // desenha retângulo temporário
-					glRecti(x,wh-y,xp[0],wh-yp[0]);
+                    if (fill)
+                    {
+                        // desenha retângulo temporário
+                        glRecti(x,wh-y,xp[0],wh-yp[0]);
+                    }
+                    else quadrado(x,wh-y,xp[0],wh-yp[0]);
 				} break;
 
 				defaut: break;
@@ -611,6 +617,7 @@ int pick_color(int x, int y)
 	else return 0;
 
 }
+
 
 void right_menu(int id)
 {
