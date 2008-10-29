@@ -172,8 +172,6 @@ void teste()
 void mouse_passive_motion(int x, int y)
 {
 
-
-
 	puts("mouse_passive_motion");
 
    // static int x_ant,y_ant;
@@ -586,7 +584,7 @@ int pick(int x, int y)
         else if(x < 3*ww/10 ) return TRIANGLE;
         else if(x < 2*ww/5  ) return POINTS;
         else if(x < ww/2    ) return TEXT;
-	else if(x < 3*ww/5  ) return ERASER;
+	    else if(x < 3*ww/5  ) return ERASER;
         else return 0;
 	}
 	// Verifica se y esta na parte inferior onde estao as cores
@@ -603,16 +601,6 @@ int pick(int x, int y)
 	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=1.0;display();return WHITE;}
 	else return 0;
 
-}
-
-void screen_box(int x, int y, int s )
-{
-	glBegin(GL_QUADS);
-	glVertex2i(x,   y  );
-	glVertex2i(x+s, y  );
-	glVertex2i(x+s, y+s);
-	glVertex2i(x,   y+s);
-	glEnd();
 }
 
 void right_menu(int id)
@@ -763,7 +751,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 		glRasterPos2i(2*ww/5+ 10+shift,wh-ww/20);
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'C');
 	}
-	
+
 	if(f==1){
     // Draw an eraser menu box
 		glColor3f(1.0,0.0,0.0);
