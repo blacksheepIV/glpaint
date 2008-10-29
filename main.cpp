@@ -17,6 +17,9 @@ interfacing with a window system */
 #define TRIANGLE	3
 #define POINTS		4
 #define TEXT		5
+#define ERASER		6
+
+
 #define RED         10
 #define GREEN       11
 #define BLUE        12
@@ -37,6 +40,8 @@ interfacing with a window system */
 #include <stdio.h>
 #include <string.h>
 
+#include "figuras.h"
+
 void mouse(int, int, int, int);
 void key(unsigned char, int, int);
 void display(void);
@@ -52,7 +57,7 @@ void color_menu(int);
 void pixel_menu(int);
 void fill_menu(int);
 int  pick(int, int);
-void drawButtons(int a, int b, int c, int d, int e);
+void drawButtons(int a, int b, int c, int d, int e, int f);
 void collorpalete(void);
 
 /* globals */
@@ -67,6 +72,16 @@ int fill = 0;						/* fill flag	 */
 
 int cont = 0;
 int xp[2],yp[2];
+
+// tamanho inicial ta borracha
+int tamanho=20;
+
+
+int mpm = 0;
+int idle = 1;
+
+int xi,yi;
+int cont_idle = 1;
 
 void drawSquare(int x, int y)
 {
@@ -131,9 +146,107 @@ void myinit(void)
 }
 
 
-void mouse_move(int x, int y)
+void teste()
 {
-	puts("mouse_move");
+    //mpm = 0;
+    //cont_idle--;
+
+	if (idle!=0 & cont_idle==0)
+	{
+
+		puts("idlefunc");
+
+		glEnable(GL_COLOR_LOGIC_OP);
+
+		glLogicOp(GL_XOR);
+
+		quadrado(xi,wh-yi,tamanho);
+
+		glDisable(GL_COLOR_LOGIC_OP);
+
+		cont_idle=1;
+
+	}
+}
+
+void mouse_passive_motion(int x, int y)
+{
+
+
+
+	puts("mouse_passive_motion");
+
+   // static int x_ant,y_ant;
+	int where;
+
+	where = pick(x,y);
+
+   // se não estiver sobre os menus
+	if(where == 0)
+	{
+
+		cont_idle = 0;
+
+
+		if (mpm=0)
+		{
+			xi=x;
+			yi=y;
+
+			//
+			mpm=1;
+
+			idle = 0;
+			puts("idle1");
+		}
+
+		else
+		{
+			switch(draw_mode)
+			{
+
+				case (ERASER):
+
+					glEnable(GL_COLOR_LOGIC_OP);
+
+					glLogicOp(GL_XOR);
+
+                    // desenha borracha temporária
+					quadrado(x,wh-y,tamanho);
+
+                    // guarda a posição da borracha
+					xi=x;
+					yi=y;
+
+					if(mpm!=0)
+					{
+
+                        // desenha por cima da anterior
+                       // quadrado(x_ant,wh-y_ant,tamanho);
+
+					} break;
+
+					break;
+
+					default: break;
+			}
+
+
+
+
+//glPopAttrib();
+			glFlush();
+      // printf("%s\n","estou na motion");
+			glDisable(GL_COLOR_LOGIC_OP);
+		}
+	}
+
+}
+
+
+void mouse_motion(int x, int y)
+{
+	puts("mouse_motion");
 
 	static int x_ant,y_ant;
 
@@ -141,7 +254,7 @@ void mouse_move(int x, int y)
 
 	glLogicOp(GL_XOR);
 
-
+    // primeiro movimento após clicar com o mouse (segurando o botão)
 	if (cont == 0)
 	{
 		x_ant=xp[0];
@@ -175,6 +288,7 @@ void mouse_move(int x, int y)
 
 				if(cont!=0)
 				{
+                   // guarda o ponto final da linha atual
 					x_ant=x;
 					y_ant=y;
 
@@ -194,6 +308,7 @@ void mouse_move(int x, int y)
 
 				if(cont!=0)
 				{
+                    // guarda o ponto final da linha atual
 					x_ant=x;
 					y_ant=y;
 
@@ -202,6 +317,44 @@ void mouse_move(int x, int y)
 
 				} break;
 
+			case(TRIANGLE):
+
+               // desenha linha temporária
+				glBegin(GL_LINES);
+				glVertex2i(x_ant,wh-y_ant);
+				glVertex2i(xp[0],wh-yp[0]);
+				glEnd();
+
+				switch (cont){
+
+					case (1):
+					{
+                       // guarda o ponto final da linha atual
+						x_ant=x;
+						y_ant=y;
+
+                       // desenha (apaga) por cima da linha anterior
+						glBegin(GL_LINES);
+						glVertex2i(x,wh-y);
+						glVertex2i(xp[0],wh-yp[0]);
+						glEnd();
+
+					} break;
+
+					case (2):
+					{
+
+					} break;
+
+					default: break;
+
+				}
+
+			case (ERASER):
+				glDisable(GL_COLOR_LOGIC_OP);
+
+				quadrado(x,wh-y,tamanho);
+				break;
 
 				default: break;
 		}
@@ -214,6 +367,7 @@ void mouse_move(int x, int y)
       // printf("%s\n","estou na motion");
 	glDisable(GL_COLOR_LOGIC_OP);
 }
+
 
 void mouse(int btn, int state, int x, int y)
 {
@@ -361,7 +515,7 @@ void mouse(int btn, int state, int x, int y)
 	}*/
 		switch(where){
 			case(LINE):
-				drawButtons(0,1,1,1,1);
+				drawButtons(0,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(0.0,wh-ww/10);
@@ -371,7 +525,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(RECTANGLE):
-				drawButtons(1,0,1,1,1);
+				drawButtons(1,0,1,1,1,1);
 				glColor3f(1.0,1.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/10.0,wh-ww/10);
@@ -381,7 +535,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TRIANGLE):
-				drawButtons(1,1,0,1,1);
+				drawButtons(1,1,0,1,1,1);
 				glColor3f(0.0,0.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/5.0,wh-ww/10);
@@ -391,7 +545,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(POINTS):
-				drawButtons(1,1,1,0,1);
+				drawButtons(1,1,1,0,1,1);
 				glColor3f(1.0,1.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(3*ww/10.0,wh-ww/10);
@@ -401,7 +555,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TEXT):
-				drawButtons(1,1,1,1,0);
+				drawButtons(1,1,1,1,0,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(2*ww/5,wh-ww/10);
@@ -432,6 +586,7 @@ int pick(int x, int y)
         else if(x < 3*ww/10 ) return TRIANGLE;
         else if(x < 2*ww/5  ) return POINTS;
         else if(x < ww/2    ) return TEXT;
+	else if(x < 3*ww/5  ) return ERASER;
         else return 0;
 	}
 	// Verifica se y esta na parte inferior onde estao as cores
@@ -518,7 +673,7 @@ void key(unsigned char k, int xx, int yy)
 }
 
 
-void drawButtons(int a, int b, int c, int d, int e){
+void drawButtons(int a, int b, int c, int d, int e, int f){
 	int shift=0;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -553,6 +708,11 @@ void drawButtons(int a, int b, int c, int d, int e){
 		screen_box(2*ww/5,wh-ww/10,ww/10);
 	}
 
+	if(f==1){
+    // Draw a box for the eraser menu
+		glColor3f(0.0, 0.8, 1.0);
+		screen_box(ww/2,wh-ww/10,ww/10);
+	}
 
 	if(a==1){
     // Draw a Black line on the line menu box
@@ -602,6 +762,16 @@ void drawButtons(int a, int b, int c, int d, int e){
 
 		glRasterPos2i(2*ww/5+ 10+shift,wh-ww/20);
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, 'C');
+	}
+	
+	if(f==1){
+    // Draw an eraser menu box
+		glColor3f(1.0,0.0,0.0);
+		screen_box(5*ww/10+ww/40,wh-ww/10+ww/40,3*ww/80);
+
+		glColor3f(1.0,1.0,1.0);
+		glRectf((5*ww/10+ww/40)+3*ww/80,(wh-ww/10+ww/40),(5*ww/10+ww/40)+ww/20,(wh-ww/10+ww/40)+3*ww/80);
+
 	}
 
 	glPopAttrib();
@@ -677,7 +847,7 @@ void display(void){
 	glClearColor (0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	drawButtons(1,1,1,1,1);
+	drawButtons(1,1,1,1,1,1);
 	collorpalete();
 
 	glFlush();
@@ -754,7 +924,11 @@ int main(int argc, char** argv)
 	// Register callback function mouse to be called when a mouse event occurs
 	glutMouseFunc (mouse);
 
-	glutMotionFunc (mouse_move);
+	glutMotionFunc (mouse_motion);
+
+	glutPassiveMotionFunc(mouse_passive_motion);
+
+	glutIdleFunc(teste);
 
 	// Enter the event loop
 	glutMainLoop();
