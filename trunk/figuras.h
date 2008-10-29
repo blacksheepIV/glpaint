@@ -1,7 +1,7 @@
 #ifndef FIGURAS_H_INCLUDED
 #define FIGURAS_H_INCLUDED
 
-void quadrado(int x1, int y1, int x2, int y2)
+void retangulo(int x1, int y1, int x2, int y2)
 {
     glBegin(GL_LINE_LOOP);
         glVertex2i(x1,y1);
@@ -11,7 +11,7 @@ void quadrado(int x1, int y1, int x2, int y2)
     glEnd();
 }
 
-void borracha(int xc, int yc, int lado)
+void quadrado(int xc, int yc, int lado)
 {
     glBegin(GL_POLYGON);
         glVertex2i(xc-lado/2,yc-lado/2);

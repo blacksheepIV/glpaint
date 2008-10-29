@@ -60,6 +60,8 @@ int  pick(int, int);
 int  pick_color(int, int);
 void drawButtons(int a, int b, int c, int d, int e, int f);
 void collorpalete(void);
+void set_color(int);
+bool area_de_desenho(void);
 
 /* globals */
 
@@ -146,235 +148,258 @@ void myinit(void)
 	glFlush();
 }
 
+bool area_de_desenho()
+{
+    int opcoes = pick(xi,yi);
+    int cores = pick_color(xi,yi);
 
-void teste()
+    if (!opcoes & !cores) return true;
+    else return false;
+}
+
+
+// o picking vai acontecer direto! sempre que o mouse estiver ocioso
+void mouse_idle()
 {
     //mpm = 0;
     //cont_idle--;
+    //int where = pick(xi,yi);
 
-	if (idle!=0 & cont_idle==0)
+
+    if(area_de_desenho())
+    {
+
+	if (idle==1 & cont_idle==0 & draw_mode == ERASER)
 	{
 
-		puts("idlefunc");
+		//puts("idlefunc");
 
 		glEnable(GL_COLOR_LOGIC_OP);
 
 		glLogicOp(GL_XOR);
 
-		borracha(xi,wh-yi,tamanho);
+		quadrado(xi,wh-yi,tamanho);
 
 		glDisable(GL_COLOR_LOGIC_OP);
 
+        // garantir que a borracha so é desenhada uma vez (quando fica idle)
 		cont_idle=1;
 
 	}
+
+}
 }
 
 void mouse_passive_motion(int x, int y)
 {
+    if (area_de_desenho())
+    {
 
+        // zerando os parametros pra funcao idle
+        xi=0;
+        yi=0;
 
+        //puts("mouse_passive_motion");
 
-	puts("mouse_passive_motion");
+        // static int x_ant,y_ant;
+        int where;
 
-   // static int x_ant,y_ant;
-	int where;
+        where = pick(x,y);
 
-	where = pick(x,y);
+        // se não estiver sobre os menus
+        if(where == 0)
+        {
 
-   // se não estiver sobre os menus
-	if(where == 0)
-	{
+            cont_idle = 0;
 
-		cont_idle = 0;
+            if (mpm=0)
+            {
+                xi=x;
+                yi=y;
 
+                //
+                mpm=1;
 
-		if (mpm=0)
-		{
-			xi=x;
-			yi=y;
+                idle = 0;
+                puts("idle1");
+            }
 
-			//
-			mpm=1;
+            else
+            {
+                switch(draw_mode)
+                {
 
-			idle = 0;
-			puts("idle1");
-		}
+                    case (ERASER):
 
-		else
-		{
-			switch(draw_mode)
-			{
+                        glEnable(GL_COLOR_LOGIC_OP);
 
-				case (ERASER):
+                        glLogicOp(GL_XOR);
 
-					glEnable(GL_COLOR_LOGIC_OP);
+                        // apaga borracha (posição antiga)
+                        quadrado(x,wh-y,tamanho);
 
-					glLogicOp(GL_XOR);
+                        // guarda a posição da borracha
+                        xi=x;
+                        yi=y;
 
-                    // desenha borracha temporária
-					borracha(x,wh-y,tamanho);
+                     break;
 
-                    // guarda a posição da borracha
-					xi=x;
-					yi=y;
+                        break;
 
-					if(mpm!=0)
-					{
-
-                        // desenha por cima da anterior
-                       // borracha(x_ant,wh-y_ant,tamanho);
-
-					} break;
-
-					break;
-
-					default: break;
-			}
+                        default: break;
+                }
 
 
 
 
-//glPopAttrib();
-			glFlush();
-      // printf("%s\n","estou na motion");
-			glDisable(GL_COLOR_LOGIC_OP);
-		}
-	}
+                //glPopAttrib();
+                glFlush();
+                // printf("%s\n","estou na motion");
+                glDisable(GL_COLOR_LOGIC_OP);
+            }
+        }
+
+    }
 
 }
 
 
 void mouse_motion(int x, int y)
 {
-	puts("mouse_motion");
 
-	static int x_ant,y_ant;
+//    if (area_de_desenho())
+//    {
 
-	glEnable(GL_COLOR_LOGIC_OP);
+        puts("mouse_motion");
 
-	glLogicOp(GL_XOR);
+        static int x_ant,y_ant;
 
-    // primeiro movimento após clicar com o mouse (segurando o botão)
-	if (cont == 0)
-	{
-		x_ant=xp[0];
-		y_ant=yp[0];
+        glEnable(GL_COLOR_LOGIC_OP);
 
-		cont++;
-	}
+        glLogicOp(GL_XOR);
 
-	int where;
+        // primeiro movimento após clicar com o mouse (segurando o botão)
+        if (cont == 0)
+        {
+            x_ant=xp[0];
+            y_ant=yp[0];
 
-	where = pick(x,y);
-	glColor3f(r, g, b);
+            cont++;
+        }
 
-	if(where != 0)
-	{
-      //cont = 0;
-		draw_mode = where;
-	}
+        int where;
 
-	else {
+        where = pick(x,y);
+        glColor3f(r, g, b);
 
-		switch(draw_mode)
-		{
-			case(LINE):
+        if(where != 0)
+        {
+          //cont = 0;
+            draw_mode = where;
+        }
 
-               // desenha linha temporária
-				glBegin(GL_LINES);
-				glVertex2i(x_ant,wh-y_ant);
-				glVertex2i(xp[0],wh-yp[0]);
-				glEnd();
+        else {
 
-				if(cont!=0)
-				{
-                   // guarda o ponto final da linha atual
-					x_ant=x;
-					y_ant=y;
+            switch(draw_mode)
+            {
+                case(LINE):
 
-                   // desenha (apaga) por cima da linha anterior
-					glBegin(GL_LINES);
-					glVertex2i(x,wh-y);
-					glVertex2i(xp[0],wh-yp[0]);
-					glEnd();
+                   // desenha linha temporária
+                    glBegin(GL_LINES);
+                    glVertex2i(x_ant,wh-y_ant);
+                    glVertex2i(xp[0],wh-yp[0]);
+                    glEnd();
 
-				} break;
-
-			case(RECTANGLE):
-
-                // desenha retângulo temporário
-
-				if (fill) glRecti(x_ant,wh-y_ant,xp[0],wh-yp[0]);
-				else quadrado(x_ant,wh-y_ant,xp[0],wh-yp[0]);
-
-				if(cont!=0)
-				{
-                    // guarda o ponto final da linha atual
-					x_ant=x;
-					y_ant=y;
-
-                    // desenha (apaga) por cima do retângulo anterior
-					if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
-					else quadrado(x,wh-y,xp[0],wh-yp[0]);
-
-				} break;
-
-			case(TRIANGLE):
-
-               // desenha linha temporária
-				glBegin(GL_LINES);
-				glVertex2i(x_ant,wh-y_ant);
-				glVertex2i(xp[0],wh-yp[0]);
-				glEnd();
-
-				switch (cont){
-
-					case (1):
-					{
+                    if(cont!=0)
+                    {
                        // guarda o ponto final da linha atual
-						x_ant=x;
-						y_ant=y;
+                        x_ant=x;
+                        y_ant=y;
 
                        // desenha (apaga) por cima da linha anterior
-						glBegin(GL_LINES);
-						glVertex2i(x,wh-y);
-						glVertex2i(xp[0],wh-yp[0]);
-						glEnd();
+                        glBegin(GL_LINES);
+                        glVertex2i(x,wh-y);
+                        glVertex2i(xp[0],wh-yp[0]);
+                        glEnd();
 
-					} break;
+                    } break;
 
-					case (2):
-					{
+                case(RECTANGLE):
 
-					} break;
+                    // desenha retângulo temporário
 
-					default: break;
+                    if (fill) glRecti(x_ant,wh-y_ant,xp[0],wh-yp[0]);
+                    else retangulo(x_ant,wh-y_ant,xp[0],wh-yp[0]);
 
-				}
+                    if(cont!=0)
+                    {
+                        // guarda o ponto final da linha atual
+                        x_ant=x;
+                        y_ant=y;
 
-			case (ERASER):
-				glDisable(GL_COLOR_LOGIC_OP);
+                        // desenha (apaga) por cima do retângulo anterior
+                        if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
+                        else retangulo(x,wh-y,xp[0],wh-yp[0]);
 
-				borracha(x,wh-y,tamanho);
-				break;
+                    } break;
 
-				default: break;
-		}
+                case(TRIANGLE):
 
-	}
+                   // desenha linha temporária
+                    glBegin(GL_LINES);
+                    glVertex2i(x_ant,wh-y_ant);
+                    glVertex2i(xp[0],wh-yp[0]);
+                    glEnd();
+
+                    switch (cont){
+
+                        case (1):
+                        {
+                           // guarda o ponto final da linha atual
+                            x_ant=x;
+                            y_ant=y;
+
+                           // desenha (apaga) por cima da linha anterior
+                            glBegin(GL_LINES);
+                            glVertex2i(x,wh-y);
+                            glVertex2i(xp[0],wh-yp[0]);
+                            glEnd();
+
+                        } break;
+
+                        case (2):
+                        {
+
+                        } break;
+
+                        default: break;
+
+                    }
+
+                case (ERASER):
+                    glDisable(GL_COLOR_LOGIC_OP);
+
+                    quadrado(x,wh-y,tamanho);
+                    break;
+
+                    default: break;
+            }
+
+        }
 
 
-//glPopAttrib();
-	glFlush();
-      // printf("%s\n","estou na motion");
-	glDisable(GL_COLOR_LOGIC_OP);
+    //glPopAttrib();
+        glFlush();
+          // printf("%s\n","estou na motion");
+        glDisable(GL_COLOR_LOGIC_OP);
+//    }
 }
 
 
 void mouse(int btn, int state, int x, int y)
 {
 	int where;
+	int cor;
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
@@ -384,7 +409,8 @@ void mouse(int btn, int state, int x, int y)
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 		where = pick(x,y);
-		glColor3f(r, g, b);
+		cor = pick_color(x,y);
+		set_color(cor);
 
 		if(where != 0)
 		{
@@ -501,7 +527,7 @@ void mouse(int btn, int state, int x, int y)
                         // desenha retângulo temporário
                         glRecti(x,wh-y,xp[0],wh-yp[0]);
                     }
-                    else quadrado(x,wh-y,xp[0],wh-yp[0]);
+                    else retangulo(x,wh-y,xp[0],wh-yp[0]);
 				} break;
 
 				defaut: break;
@@ -521,6 +547,8 @@ void mouse(int btn, int state, int x, int y)
 		cont = 0;
 		draw_mode = where;
 	}*/
+
+        // marcar com um X a opção escolhida
 		switch(where){
 			case(LINE):
 				drawButtons(0,1,1,1,1,1);
@@ -572,12 +600,33 @@ void mouse(int btn, int state, int x, int y)
 				glVertex2f(2*ww/5,wh);
 				glEnd();
 				break;
+            case(ERASER):
+				drawButtons(1,1,1,1,1,0);
+				glColor3f(1.0,0.0,0.0);
+				glBegin(GL_LINES);
+				glVertex2f(ww/2,wh-ww/10);
+				glVertex2f(3*ww/5,wh);
+				glVertex2f(3*ww/5,wh-ww/10);
+				glVertex2f(ww/2,wh);
+				glEnd();
+				break;
 		}
 
 		glPopAttrib();
 		glFlush();
 	}
 
+
+    if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN)
+	{
+        //retangulo(5,wh-5,30,wh-30);
+	}
+
+
+    if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN)
+	{
+         //retangulo(5,wh-5,50,wh-50);
+	}
 }
 
 
@@ -599,22 +648,44 @@ int pick(int x, int y)
 
 }
 
+
+void set_color(int cor)
+{
+    switch (cor)
+    {
+        case (RED): {r=1.0;g=0.0;b=0.0; collorpalete();} break;
+        case (GREEN): {r=0.0;g=1.0;b-0.0; collorpalete();} break;
+        case (BLUE): {r=0.0,g=0.0,b=1.0; collorpalete();} break;
+        case (CYAN): {r=0.0,g=1.0,b=1.0; collorpalete();} break;
+        case (MAGENTA): {r=1.0,g=0.0,b=1.0; collorpalete();} break;
+        case (YELLOW): {r=1.0,g=1.0,b=0.0; collorpalete();} break;
+        case (ORANGE): {r=1.0,g=0.5,b=0.0; collorpalete();} break;
+        case (GRAY): {r=0.5,g=0.5,b=0.5; collorpalete();} break;
+        case (WHITE): {r=1.0,g=1.0,b=1.0; collorpalete();} break;
+        case (BLACK): {r=0.0,g=0.0,b=0.0; collorpalete();} break;
+
+        default: break;
+    }
+}
+
+// as mudanças de cores devem ser feitas só quando o cara clicar
+// do jeito que tava sempre q passasse o mouse em cima ele mudava
 int pick_color(int x, int y)
 {
 	y = wh - y;
 
 	// Verifica se y esta na parte inferior onde estao as cores
-	if(y > ww/10 + ww/15) {printf("entrei aqui!\n");return 0;}
-	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) {r=1.0;g=0.0;b=0.0;collorpalete(); return RED;}
-	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {r=0.0;g=1.0;b-0.0;collorpalete();return GREEN;}
-	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {r=0.0,g=0.0,b=1.0;collorpalete();return BLUE;}
-	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {r=0.0,g=1.0,b=1.0;collorpalete();return CYAN;}
-	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {r=1.0,g=0.0,b=1.0;collorpalete();return MAGENTA;}
-	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=0.0;collorpalete();return YELLOW;}
-	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {r=1.0,g=0.5,b=0.0;collorpalete();return ORANGE;}
-	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {r=0.0,g=0.0,b=0.0;collorpalete();return BLACK;}
-	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {r=0.5,g=0.5,b=0.5;collorpalete();return GRAY;}
-	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {r=1.0,g=1.0,b=1.0;collorpalete();return WHITE;}
+	if(y > ww/10 + ww/15) {/*printf("entrei aqui!\n");*/return 0;}
+	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) { /*printf("entrei no vermelho\n");*//*collorpalete();*/ return RED;}
+	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) {/*collorpalete();*/return GREEN;}
+	else if(x < (ww/10+2*(ww/15)) && y> ww/10) {/*collorpalete();*/return BLUE;}
+	else if(x < (ww/10+2*(ww/15)) && y< ww/10) {/*collorpalete();*/return CYAN;}
+	else if(x < (ww/10+3*(ww/15)) && y> ww/10) {/*collorpalete();*/return MAGENTA;}
+	else if(x < (ww/10+3*(ww/15)) && y< ww/10) {/*collorpalete();*/return YELLOW;}
+	else if(x < (ww/10+4*(ww/15)) && y> ww/10) {/*collorpalete();*/return ORANGE;}
+	else if(x < (ww/10+4*(ww/15)) && y< ww/10) {/*collorpalete();*/return BLACK;}
+	else if(x < (ww/10+5*(ww/15)) && y> ww/10) {/*collorpalete();*/return GRAY;}
+	else if(x < (ww/10+5*(ww/15)) && y< ww/10) {/*collorpalete();*/return WHITE;}
 	else return 0;
 
 }
@@ -643,7 +714,7 @@ void color_menu(int id)
 	else if(id == 8) {r = 0.0; g = 0.0; b = 0.0;}  // black
 	else if(id == 9) {r = 1.0; g = 0.5; b = 0.0;}  // orange
 	else if(id == 10){r = 0.5; g = 0.5; b = 0.5;}  // gray
-	display();
+	//display();
 }
 
 
@@ -787,7 +858,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 void collorpalete(void){
 //        int shift=0;
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	//glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     // Draw the a square painted with selected color
 	glColor3f(r, g, b);
@@ -842,7 +913,7 @@ void collorpalete(void){
 	glColor3f(1.0,0.5,0.0);
 	screen_box(ww/10+5*(ww/15),ww/10-ww/15,ww/15);*/
 
-	glPopAttrib();
+	//glPopAttrib();
 
 }
 
@@ -933,7 +1004,7 @@ int main(int argc, char** argv)
 
 	glutPassiveMotionFunc(mouse_passive_motion);
 
-	glutIdleFunc(teste);
+	glutIdleFunc(mouse_idle);
 
 	// Enter the event loop
 	glutMainLoop();
