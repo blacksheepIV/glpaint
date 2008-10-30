@@ -62,7 +62,7 @@ int tamanho=20;
 int mpm = 0;
 int idle = 1;
 
-
+int cont_motion = 0;
 
 // posição do mouse (a última posição onde o mouse ficou ocioso)
 // possui uma defasagem com relação à posição atual
@@ -151,8 +151,6 @@ bool area_de_desenho(int x, int y)
 void mouse_idle()
 {
 
-//mpm =0;
-
 /*<<<<<<< .mine
     if(area_de_desenho())
     {
@@ -163,18 +161,14 @@ void mouse_idle()
 //>>>>>>> .r33
 	{
 
-		glFlush();
-
-      //  printf("cor: %d\n",cor);
-      //  printf("bcor: %d\n",bcor);
-
 		if(area_de_desenho(xi, yi))
 		{
   //         puts("desenho");
 
-
-			if (draw_mode == ERASER & idle==1)
+		    if (draw_mode == ERASER & idle==1)
 			{
+
+			    int aux = cor;
 				glPushAttrib(GL_ALL_ATTRIB_BITS);
                         //puts("idlefunc");
 
@@ -182,32 +176,22 @@ void mouse_idle()
 
 				glLogicOp(GL_XOR);
 
-            //            int aux = cor;
-
-				set_color(bcor, &cor);
+				set_color(bcor,&cor);
 
 				quadrado(xi,wh-yi,tamanho);
-                       //  glFlush();
 
-             //           set_color(aux);
+				set_color(aux,&cor);
+
+				glDisable(GL_XOR);
 
 				glPopAttrib();
-
-
-
-
 			}
-
-
             // evitar um loop desnecessario (quando o mouse estiver parado)
 			cont_idle = 1;
-
-
 		}
 
 		else
 		{
-      //     puts("menus");
 			cont_idle = 1;
 		}
 	}
@@ -227,8 +211,10 @@ void mouse_passive_motion(int x, int y)
 	if(area_de_desenho(x,y))
 	{
 
-//            cont_idle = 0;
+        // na primeira vez que entrar nesta função
 
+//<<<<<<< .mine
+//=======
 /*<<<<<<< .mine
         where = pick(x,y);
         wherec = pick_color(x,y);
@@ -239,6 +225,7 @@ void mouse_passive_motion(int x, int y)
             // na primeira vez que entrar nesta função
 //>>>>>>> .r33
 
+//>>>>>>> .r34
 		cont_idle = 0;
 
 
@@ -263,7 +250,7 @@ void mouse_passive_motion(int x, int y)
 				case (ERASER):
 				{
 
-               //        int aux = cor;
+                       int aux = cor;
 					set_color(bcor,&cor);
 
 					glEnable(GL_COLOR_LOGIC_OP);
@@ -274,9 +261,9 @@ void mouse_passive_motion(int x, int y)
 					quadrado(x,wh-y,tamanho);
                       //   glFlush();
 
-                       // glDisable(GL_COLOR_LOGIC_OP);
+                        glDisable(GL_COLOR_LOGIC_OP);
 
-                 //      set_color(aux);
+                       set_color(aux,&cor);
 
                         // guarda a posição da borracha
 					xi=x;
@@ -319,12 +306,12 @@ void mouse_motion(int x, int y)
 	glLogicOp(GL_XOR);
 
     // primeiro movimento após clicar com o mouse (segurando o botão)
-	if (cont == 0)
+	if (cont_motion == 0)
 	{
 		xi=xp[0];
 		yi=yp[0];
 
-		cont++;
+		cont_motion++;
 	}
 
 
@@ -340,25 +327,27 @@ void mouse_motion(int x, int y)
 		case(LINE):
 //>>>>>>> .r33
 
-			if(cont!=0)
+			if(cont_motion!=0)
 			{
 				printf("cor: %d",cor);
 
-                        // desenha linha temporária
+
+                // desenha (apaga) por cima da linha anterior
 				glBegin(GL_LINES);
 				glVertex2i(xi,wh-yi);
 				glVertex2i(xp[0],wh-yp[0]);
 				glEnd();
 
-                        // guarda o ponto final da linha atual
+                // guarda o ponto final da linha atual
 				xi=x;
 				yi=y;
 
-                        // desenha (apaga) por cima da linha anterior
+                // desenha linha temporária
 				glBegin(GL_LINES);
 				glVertex2i(x,wh-y);
 				glVertex2i(xp[0],wh-yp[0]);
 				glEnd();
+
 
 //                        glFlush();
 
@@ -366,18 +355,20 @@ void mouse_motion(int x, int y)
 
 		case(RECTANGLE):
 
-                    // desenha retângulo temporário
+
+
+             // desenha (apaga) por cima do retângulo anterior
 
 			if (fill) glRecti(xi,wh-yi,xp[0],wh-yp[0]);
 			else retangulo(xi,wh-yi,xp[0],wh-yp[0]);
 
-			if(cont!=0)
+			if(cont_motion!=0)
 			{
-                        // guarda o ponto final da linha atual
+                // guarda o ponto final da linha atual
 				xi=x;
 				yi=y;
 
-                        // desenha (apaga) por cima do retângulo anterior
+                // desenha retângulo temporário
 				if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
 				else retangulo(x,wh-y,xp[0],wh-yp[0]);
 
@@ -385,38 +376,28 @@ void mouse_motion(int x, int y)
 
 		case(TRIANGLE):
 
-                   // desenha linha temporária
-			glBegin(GL_LINES);
-			glVertex2i(xi,wh-yi);
-			glVertex2i(xp[0],wh-yp[0]);
-			glEnd();
+            if (cont_motion!=0)
+            {
 
-			switch (cont){
+                    // desenha linha temporária
+                    glBegin(GL_LINES);
+                    glVertex2i(xi,wh-yi);
+                    glVertex2i(xp[0],wh-yp[0]);
+                    glEnd();
 
-				case (1):
-				{
-                           // guarda o ponto final da linha atual
-					xi=x;
-					yi=y;
+                    // guarda o ponto final da linha atual
+                    xi=x;
+                    yi=y;
 
-                           // desenha (apaga) por cima da linha anterior
-					glBegin(GL_LINES);
-					glVertex2i(x,wh-y);
-					glVertex2i(xp[0],wh-yp[0]);
-					glEnd();
+                    // desenha (apaga) por cima da linha anterior
+                    glBegin(GL_LINES);
+                    glVertex2i(x,wh-y);
+                    glVertex2i(xp[0],wh-yp[0]);
+                    glEnd();
 
-				} break;
+            } break;
 
-				case (2):
-				{
-
-				} break;
-
-				default: break;
-
-			}
-
-		case (ERASER):
+        case (ERASER):
 		{
 		    if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 
@@ -460,10 +441,10 @@ void mouse(int btn, int state, int x, int y)
 	{
 		puts("mouse down");
 
-		printf("%d",pick_color(x,y,wh,ww));
+		//printf("%d",pick_color(x,y));
 
 		// define a cor de desenho
-		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww)!=0))
+		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww) !=0))
 		{
 		//	puts("setei a cor");
 
@@ -472,7 +453,7 @@ void mouse(int btn, int state, int x, int y)
 		//	printf("cor: %d\n", cor);
 
             // redesenha a paleta
-			colorpalete(cor, bcor, wh, ww);
+			colorpalete(cor,bcor,wh,ww);
 		}
 
 
@@ -491,76 +472,75 @@ void mouse(int btn, int state, int x, int y)
 			switch(draw_mode)
 			{
 				case(LINE):
+				{
 
               // defino o ponto inicial da linha (ao clicar)
 					xp[0] = x;
 					yp[0] = y;
 
-					break;
+                } break;
 
 				case(RECTANGLE):
+				{
+                    // defino o ponto inicial do retângulo (ao clicar)
 
-              // defino o ponto inicial do retângulo (ao clicar)
 					xp[0] = x;
 					yp[0] = y;
 
-					break;
+                } break;
 
 				case (TRIANGLE):
-					switch(cont)
-					{
-						case(0):
-							cont++;
-							xp[0] = x;
-							yp[0] = y;
+				{
 
-					  // Desenha um ponto para marcar o 1o vertice do triangulo
-							glBegin(GL_POINTS);
-							glVertex2f(xp[0],wh-yp[0]);
-							glEnd();
-							break;
-						case(1):
-							cont++;
-							xp[1] = x;
-							yp[1] = y;
+                    if(cont==0)
+                    {
+                        // defino o ponto inicial da linha (ao clicar)
+                        xp[0] = x;
+                        yp[0] = y;
+                        cont++;
+                    }
+                    else
+                    {
+                        printf("x =%d e y=%d\n",x,y);
+                        printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
+                        printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
 
-					  // Desenha um ponto para marcar o 2o vertice do triangulo
-							glBegin(GL_POINTS);
-							glVertex2f(xp[1],wh-yp[1]);
-							glEnd();
-							break;
-						case(2):
+                        puts("jeghrjagjh");
+                        glBegin(GL_LINES);
+                            glVertex2i(x,wh-y);
+                            glVertex2i(xp[0],wh-yp[0]);
+                        glEnd();
 
-							if(fill) glBegin(GL_POLYGON);
-							else glBegin(GL_LINE_LOOP);
-							glVertex2i(xp[0],wh-yp[0]);
-							glVertex2i(xp[1],wh-yp[1]);
-							glVertex2i(x,wh-y);
-							glEnd();
-							draw_mode=0;
-							cont=0;
-					}
-					break;
+                        glBegin(GL_LINES);
+                            glVertex2i(x,wh-y);
+                            glVertex2i(xp[1],wh-yp[1]);
+                        glEnd();
+
+                        cont = 0;
+                    }
+				} break;
+
 				case(POINTS):
 				{
-					drawSquare(x,y);
-					cont++;
-				}
-				break;
-				case(TEXT):
-				{
-					rx=x;
-					ry=wh-y;
+                    {
+                        drawSquare(x,y);
+                        cont++;
+                    }
+                    break;
+                    case(TEXT):
+                    {
+                        rx=x;
+                        ry=wh-y;
 
-					 // Desenha um ponto para marcar o inicio do texto
-					glBegin(GL_POINTS);
-					glVertex2f(rx,ry);
-					glEnd();
+                         // Desenha um ponto para marcar o inicio do texto
+                        glBegin(GL_POINTS);
+                        glVertex2f(rx,ry);
+                        glEnd();
 
-					glRasterPos2i(rx,ry);
-					cont=0;
-				}
-				break;
+                        glRasterPos2i(rx,ry);
+                        cont=0;
+                    }
+				} break;
 
 				case (ERASER):
 				{
@@ -571,18 +551,12 @@ void mouse(int btn, int state, int x, int y)
 
 					quadrado(x,wh-y,tamanho);
 
-
-					set_color(aux,&cor);
-				}
-				break;
+                    set_color(aux,&cor);
+				} break;
 
 				default : break;
 			}
 		}
-
-
-
-		//glPopAttrib();
 
 	}
 
@@ -610,6 +584,8 @@ void mouse(int btn, int state, int x, int y)
 					glVertex2i(xp[0],wh-yp[0]);
 					glEnd();
 
+					cont=0;
+
 
 				} break;
 
@@ -622,6 +598,26 @@ void mouse(int btn, int state, int x, int y)
 						glRecti(x,wh-y,xp[0],wh-yp[0]);
 					}
 					else retangulo(x,wh-y,xp[0],wh-yp[0]);
+
+					cont=0;
+
+				} break;
+
+				case(TRIANGLE):
+
+				{
+				    if (cont==1)
+				    {
+                        xp[1]=x;
+                        yp[1]=y;
+
+                        glBegin(GL_LINES);
+                        glVertex2i(x,wh-y);
+                        glVertex2i(xp[0],wh-yp[0]);
+                        glEnd();
+                    }
+
+
 				} break;
 
 				default: break;
@@ -708,7 +704,8 @@ void mouse(int btn, int state, int x, int y)
 		}
 
 
-cont=0;
+
+cont_motion=0;
 		glPopAttrib();
 		glFlush();
 	}
@@ -725,10 +722,10 @@ cont=0;
 		{
 			puts("setei a cor de fundo");
 
-			set_bgcolor(pick_color(x,y,wh,ww),&bcor,&rb,&gb,&bb);
+			set_bgcolor(pick_color(x,y,wh,ww),&bcor, &rb, &gb, &bb);
 
 	        // redesenha a paleta de cores
-			colorpalete(cor,bcor,wh,ww);
+			colorpalete(cor, bcor, wh, ww);
 		}
         //retangulo(5,wh-5,30,wh-30);
 	}
