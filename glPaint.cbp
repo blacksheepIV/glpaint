@@ -42,7 +42,6 @@
 			<Add directory="/usr/lib" />
 		</Linker>
 		<Unit filename="figuras.cpp" />
-		<Unit filename="figuras.h" />
 		<Unit filename="include/definicoes.h" />
 		<Unit filename="include/pick.cpp" />
 		<Unit filename="include/pick.h" />

@@ -155,14 +155,14 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1225397982 source:/home/danielm/projetos/glpaint/main.cpp
+1225398359 source:/home/danielm/projetos/glpaint/main.cpp
 	<stdlib.h>
 	<GL/glut.h>
 	<GL/gl.h>
 	<GL/glu.h>
 	<stdio.h>
 	<string.h>
-	"figuras.h"
+	"include/figuras.h"
 	"include/pick.h"
 	"include/definicoes.h"
 
@@ -398,11 +398,20 @@
 1225397531 source:/home/danielm/projetos/glpaint/figuras.cpp
 	"figuras.h"
 
-1225397806 source:/home/danielm/projetos/glpaint/include/pick.cpp
+1225398384 source:/home/danielm/projetos/glpaint/include/pick.cpp
 	"pick.h"
 
 1225397864 /home/danielm/projetos/glpaint/include/pick.h
 	"definicoes.h"
 
 1225397749 /home/danielm/projetos/glpaint/include/definicoes.h
+
+1225398259 source:/home/danielm/projetos/glpaint/include/figuras.cpp
+	"figuras.h"
+
+1225398259 /home/danielm/projetos/glpaint/include/figuras.h
+	<math.h>
+	<GL/glut.h>
+	<GL/gl.h>
+	<GL/glu.h>
 

@@ -18,7 +18,7 @@ interfacing with a window system */
 #include <stdio.h>
 #include <string.h>
 
-#include "figuras.h"
+#include "include/figuras.h"
 #include "include/pick.h"
 #include "include/definicoes.h"
 
