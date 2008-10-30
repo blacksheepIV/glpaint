@@ -155,7 +155,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1225398359 source:/home/danielm/projetos/glpaint/main.cpp
+1225399692 source:/home/danielm/projetos/glpaint/main.cpp
 	<stdlib.h>
 	<GL/glut.h>
 	<GL/gl.h>
@@ -165,6 +165,7 @@
 	"include/figuras.h"
 	"include/pick.h"
 	"include/definicoes.h"
+	"include/color.h"
 
 1207352239 /usr/include/stdio.h
 	<features.h>
@@ -411,6 +412,16 @@
 
 1225398259 /home/danielm/projetos/glpaint/include/figuras.h
 	<math.h>
+	<GL/glut.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1225399672 source:/home/danielm/projetos/glpaint/include/color.cpp
+	"color.h"
+	"figuras.h"
+	"definicoes.h"
+
+1225399716 /home/danielm/projetos/glpaint/include/color.h
 	<GL/glut.h>
 	<GL/gl.h>
 	<GL/glu.h>

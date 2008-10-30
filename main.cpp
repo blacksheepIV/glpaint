@@ -21,6 +21,7 @@ interfacing with a window system */
 #include "include/figuras.h"
 #include "include/pick.h"
 #include "include/definicoes.h"
+#include "include/color.h"
 
 void mouse(int, int, int, int);
 void key(unsigned char, int, int);
@@ -36,9 +37,6 @@ void color_menu(int);
 void pixel_menu(int);
 void fill_menu(int);
 void drawButtons(int a, int b, int c, int d, int e, int f, int h);
-void colorpalete(void);
-void set_color(int);
-void set_bgcolor(int);
 bool area_de_desenho(void);
 
 /* globals */
@@ -185,8 +183,8 @@ void mouse_idle()
 				glLogicOp(GL_XOR);
 
             //            int aux = cor;
-				//
-				set_color(bcor);
+
+				set_color(bcor, &cor);
 
 				quadrado(xi,wh-yi,tamanho);
                        //  glFlush();
@@ -266,7 +264,7 @@ void mouse_passive_motion(int x, int y)
 				{
 
                //        int aux = cor;
-					set_color(bcor);
+					set_color(bcor,&cor);
 
 					glEnable(GL_COLOR_LOGIC_OP);
 
@@ -428,7 +426,7 @@ void mouse_motion(int x, int y)
                     // Aplica a cor de background
        //             int aux = cor;
 
-			set_color(bcor);
+			set_color(bcor,&cor);
 			quadrado(x,wh-y,tamanho);
 
 			glPopAttrib();
@@ -469,12 +467,12 @@ void mouse(int btn, int state, int x, int y)
 		{
 		//	puts("setei a cor");
 
-			set_color(pick_color(x,y,wh,ww));
+			set_color(pick_color(x,y,wh,ww),&cor);
 
 		//	printf("cor: %d\n", cor);
 
             // redesenha a paleta
-			colorpalete();
+			colorpalete(cor, bcor, wh, ww);
 		}
 
 
@@ -569,12 +567,12 @@ void mouse(int btn, int state, int x, int y)
 				    if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 				    //glColor3f(rb,gb,bb);
 					int aux = cor;
-					set_color(bcor);
+					set_color(bcor,&cor);
 
 					quadrado(x,wh-y,tamanho);
 
 
-					set_color(aux);
+					set_color(aux,&cor);
 				}
 				break;
 
@@ -727,55 +725,14 @@ cont=0;
 		{
 			puts("setei a cor de fundo");
 
-			set_bgcolor(pick_color(x,y,wh,ww));
+			set_bgcolor(pick_color(x,y,wh,ww),&bcor,&rb,&gb,&bb);
 
 	        // redesenha a paleta de cores
-			colorpalete();
+			colorpalete(cor,bcor,wh,ww);
 		}
         //retangulo(5,wh-5,30,wh-30);
 	}
 
-}
-
-
-void set_color(int color)
-{
-	switch (color)
-	{
-		case (RED): {glColor3f(1.0,0.0,0.0); cor=color;/*colorpalete();*/} break;
-		case (GREEN): {glColor3f(0.0,1.0,0.0); cor=color; /*colorpalete();*/} break;
-		case (BLUE): {glColor3f(0.0,0.0,1.0); cor=color; /*colorpalete();*/} break;
-		case (CYAN): {glColor3f(0.0,1.0,1.0); cor=color; /*colorpalete();*/} break;
-		case (MAGENTA): {glColor3f(1.0,0.0,1.0); cor=color; /*colorpalete();*/} break;
-		case (YELLOW): {glColor3f(1.0,1.0,0.0); cor=color; /*colorpalete();*/} break;
-		case (ORANGE): {glColor3f(1.0,0.5,0.0); cor=color; /*colorpalete();*/} break;
-		case (GRAY): {glColor3f(0.5,0.5,0.5); cor=color; /*colorpalete();*/} break;
-		case (WHITE): {glColor3f(1.0,1.0,1.0); cor=color; /*colorpalete();*/} break;
-		case (BLACK): {glColor3f(0.0,0.0,0.0); cor=color; /*colorpalete();*/} break;
-
-		default: break;
-	}
-
-	glFlush();
-}
-
-void set_bgcolor(int color)
-{
-	switch (color)
-	{
-		case (RED): {rb=1.0;gb=0.0;bb=0.0; bcor=color;/*colorpalete();*/} break;
-		case (GREEN): {rb=0.0;gb=1.0;bb=0.0; bcor=color; /*colorpalete();*/} break;
-		case (BLUE): {rb=0.0,gb=0.0,bb=1.0; bcor=color; /*colorpalete();*/} break;
-		case (CYAN): {rb=0.0,gb=1.0,bb=1.0; bcor=color; /*colorpalete();*/} break;
-		case (MAGENTA): {rb=1.0,gb=0.0,bb=1.0; bcor=color; /*colorpalete();*/} break;
-		case (YELLOW): {rb=1.0,gb=1.0,bb=0.0; bcor=color; /*colorpalete();*/} break;
-		case (ORANGE): {rb=1.0,gb=0.5,bb=0.0; bcor=color; /*colorpalete();*/} break;
-		case (GRAY): {rb=0.5,gb=0.5,bb=0.5; bcor=color; /*colorpalete();*/} break;
-		case (WHITE): {rb=1.0,gb=1.0,bb=1.0; bcor=color;/* colorpalete();*/} break;
-		case (BLACK): {rb=0.0,gb=0.0,bb=0.0; bcor=color; /*colorpalete();*/} break;
-
-		default: break;
-	}
 }
 
 
@@ -953,86 +910,12 @@ void drawButtons(int a, int b, int c, int d, int e, int f, int h){
 
 
 
-void colorpalete(void){
-//        int shift=0;
-	int aux = cor;
-
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-    // Draw a square painted with selected color
-	glColor3f(1.0,1.0,1.0);
-	screen_box(10,ww/10,ww/15);
-
-	set_color(cor);
-	screen_box(1+10,1+ww/10,ww/15-2);
-	set_color(aux);
-
-	// Draw a square painted with selected background color
-	glColor3f(1.0,1.0,1.0);
-	screen_box(10,ww/10-ww/15,ww/15);
-
-	set_color(bcor);
-	screen_box(1+10,1+ww/10-ww/15,ww/15-2);
-	set_color(aux);
-
-    // Draw a RED square
-	glColor3f(1.0,0.0,0.0);
-	screen_box(ww/10,ww/10,ww/15);
-
-    // Draw a GREEN square
-	glColor3f(0.0,1.0,0.0);
-	screen_box(ww/10,ww/10-ww/15,ww/15);
-
-    // Draw a BLUE square
-	glColor3f(0.0,0.0,1.0);
-	screen_box(ww/10+ww/15,ww/10,ww/15);
-
-    // Draw a CYAN square
-	glColor3f(0.0,1.0,1.0);
-	screen_box(ww/10+ww/15,ww/10-ww/15,ww/15);
-
-    // Draw a MAGENTA square
-	glColor3f(1.0,0.0,1.0);
-	screen_box(ww/10+ww/15+ww/15,ww/10,ww/15);
-
-    // Draw a YELLOW square
-	glColor3f(1.0,1.0,0.0);
-	screen_box(ww/10+ww/15+ww/15,ww/10-ww/15,ww/15);
-
-	// Draw a ORANGE square
-	glColor3f(1.0,0.5,0.0);
-	screen_box(ww/10+3*(ww/15),ww/10,ww/15);
-
-    // Draw a BLACK square
-	glColor3f(1.0,1.0,1.0);
-	screen_box(ww/10+3*(ww/15),ww/10-ww/15,ww/15);
-	glColor3f(0.0,0.0,0.0);
-	screen_box(1+ww/10+3*(ww/15),1+ww/10-ww/15,ww/16);
-
-    // Draw a GREY square
-	glColor3f(0.5,0.5,0.5);
-	screen_box(ww/10+4*(ww/15),ww/10,ww/15);
-
-    // Draw a white square
-	glColor3f(1.0,1.0,1.0);
-	screen_box(ww/10+4*(ww/15),ww/10-ww/15,ww/15);
-
-	glPopAttrib();
-
-    // desenhar a paleta
-	glFlush();
-
-}
-
-
-
 void display(void){
 	glClearColor (0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	drawButtons(1,1,1,1,1,1,1);
-	colorpalete();
+	colorpalete(cor,bcor, wh,ww);
 
 	glFlush();
 }
