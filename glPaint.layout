@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="figuras.h" open="1" top="0" tabpos="2">
 		<Cursor position="268" topLine="0" />
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-<<<<<<< .mine
-<<<<<<< .mine
-		<Cursor position="4051" topLine="191" />
-=======
-		<Cursor position="4051" topLine="229" />
-=======
-		<Cursor position="9397" topLine="145" />
->>>>>>> .r29
->>>>>>> .r28
+		<Cursor position="4051" topLine="100" />
 	</File>
 </CodeBlocks_layout_file>

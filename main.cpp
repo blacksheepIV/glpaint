@@ -18,6 +18,7 @@ interfacing with a window system */
 #define POINTS		4
 #define TEXT		5
 #define ERASER		6
+#define CIRCLE      7
 
 
 #define RED         10
@@ -58,7 +59,7 @@ void pixel_menu(int);
 void fill_menu(int);
 int  pick(int, int);
 int  pick_color(int, int);
-void drawButtons(int a, int b, int c, int d, int e, int f);
+void drawButtons(int a, int b, int c, int d, int e, int f, int h);
 void colorpalete(void);
 void set_color(int);
 void set_bgcolor(int);
@@ -178,7 +179,14 @@ void mouse_idle()
 
 //mpm =0;
 
+/*<<<<<<< .mine
+    if(area_de_desenho())
+    {
+
+	if ((idle==1) & (cont_idle==0) & (draw_mode == ERASER))
+=======*/
 	if (cont_idle==0 && idle!= 0)
+//>>>>>>> .r33
 	{
 
 		glFlush();
@@ -247,7 +255,15 @@ void mouse_passive_motion(int x, int y)
 
 //            cont_idle = 0;
 
+/*<<<<<<< .mine
+        where = pick(x,y);
+        wherec = pick_color(x,y);
+        // se não estiver sobre os menus
+        if((where == 0) & (wherec == 0))
+        {
+=======*/
             // na primeira vez que entrar nesta função
+//>>>>>>> .r33
 
 		cont_idle = 0;
 
@@ -338,9 +354,17 @@ void mouse_motion(int x, int y)
 	}
 
 
+/*<<<<<<< .mine
+        if((where != 0) & (wherec!=0))
+        {
+          //cont = 0;
+            draw_mode = where;
+        }
+=======*/
 	switch(draw_mode)
 	{
 		case(LINE):
+//>>>>>>> .r33
 
 			if(cont!=0)
 			{
@@ -593,8 +617,12 @@ void mouse(int btn, int state, int x, int y)
 		puts("mouse up");
 
 
+/*<<<<<<< .mine
+		if ((xp[0]!=0) & (yp[0]!=0) & (pick(x,y)==0))
+=======*/
 
 		if (xp[0]!=0 & yp[0]!=0 & pick(x,y)==0 & cont!=0)
+//>>>>>>> .r33
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
 			switch (draw_mode) {
@@ -634,7 +662,7 @@ void mouse(int btn, int state, int x, int y)
         // marcar com um X a opção escolhida
 		switch(draw_mode){
 			case(LINE):
-				drawButtons(0,1,1,1,1,1);
+				drawButtons(0,1,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(0.0,wh-ww/10);
@@ -644,7 +672,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(RECTANGLE):
-				drawButtons(1,0,1,1,1,1);
+				drawButtons(1,0,1,1,1,1,1);
 				glColor3f(1.0,1.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/10.0,wh-ww/10);
@@ -654,7 +682,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TRIANGLE):
-				drawButtons(1,1,0,1,1,1);
+				drawButtons(1,1,0,1,1,1,1);
 				glColor3f(0.0,0.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/5.0,wh-ww/10);
@@ -664,7 +692,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(POINTS):
-				drawButtons(1,1,1,0,1,1);
+				drawButtons(1,1,1,0,1,1,1);
 				glColor3f(1.0,1.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(3*ww/10.0,wh-ww/10);
@@ -674,7 +702,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TEXT):
-				drawButtons(1,1,1,1,0,1);
+				drawButtons(1,1,1,1,0,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(2*ww/5,wh-ww/10);
@@ -683,14 +711,24 @@ void mouse(int btn, int state, int x, int y)
 				glVertex2f(2*ww/5,wh);
 				glEnd();
 				break;
-			case(ERASER):
-				drawButtons(1,1,1,1,1,0);
+            case(CIRCLE):
+				drawButtons(1,1,1,1,1,0,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/2,wh-ww/10);
 				glVertex2f(3*ww/5,wh);
 				glVertex2f(3*ww/5,wh-ww/10);
 				glVertex2f(ww/2,wh);
+				glEnd();
+				break;
+            case(ERASER):
+                drawButtons(1,1,1,1,1,1,0);
+				glColor3f(1.0,0.0,0.0);
+				glBegin(GL_LINES);
+				glVertex2f(ww/2+ww/10,wh-ww/10);
+				glVertex2f(3*ww/5+ww/10,wh);
+				glVertex2f(3*ww/5+ww/10,wh-ww/10);
+				glVertex2f(ww/2+ww/10,wh);
 				glEnd();
 				break;
 		}
@@ -732,6 +770,16 @@ int pick(int x, int y)
 	// Verifica se y esta' na parte superior da tela
 	// onde estao os botões de selecao das ferramentas
 	if (y < wh-ww/10) return 0;
+//<<<<<<< .mine
+        else if(x < ww/10   ) return LINE;
+        else if(x < ww/5    ) return RECTANGLE;
+        else if(x < 3*ww/10 ) return TRIANGLE;
+        else if(x < 2*ww/5  ) return POINTS;
+        else if(x < ww/2    ) return TEXT;
+	    else if(x < 3*ww/5  ) return CIRCLE;
+	    else if(x < 7*ww/10 ) return ERASER;
+        else return 0;
+/*=======
 	else if(x < ww/10   ) return LINE;
 	else if(x < ww/5    ) return RECTANGLE;
 	else if(x < 3*ww/10 ) return TRIANGLE;
@@ -739,6 +787,7 @@ int pick(int x, int y)
 	else if(x < ww/2    ) return TEXT;
 	else if(x < 3*ww/5  ) return ERASER;
 	else return 0;
+>>>>>>> .r33*/
 
 }
 
@@ -794,17 +843,17 @@ int pick_color(int x, int y)
 	y = wh - y;
 
 	// Verifica se y esta na parte inferior onde estao as cores
-	if(y > ww/10 + ww/15) return 0;
+	if(y > ((ww/10 + ww/15))||(y < (ww/10)-ww/15)||(x < ww/10)) return 0;
 	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) return RED;
-	else if(x > ww/10 && x < (ww/10+ww/15) && y < ww/10) return GREEN;
-	else if(x < (ww/10+2*(ww/15)) && y> ww/10) return BLUE;
-	else if(x < (ww/10+2*(ww/15)) && y< ww/10) return CYAN;
-	else if(x < (ww/10+3*(ww/15)) && y> ww/10) return MAGENTA;
-	else if(x < (ww/10+3*(ww/15)) && y< ww/10) return YELLOW;
-	else if(x < (ww/10+4*(ww/15)) && y> ww/10) return ORANGE;
-	else if(x < (ww/10+4*(ww/15)) && y< ww/10) return BLACK;
-	else if(x < (ww/10+5*(ww/15)) && y> ww/10) return GRAY;
-	else if(x < (ww/10+5*(ww/15)) && y< ww/10) return WHITE;
+	else if((x > ww/10) && (x < (ww/10+ww/15)) & (y < ww/10)) return GREEN;
+	else if(x < (ww/10+2*(ww/15)) && (y> ww/10)) return BLUE;
+	else if(x < (ww/10+2*(ww/15)) && (y< ww/10)) return CYAN;
+	else if(x < (ww/10+3*(ww/15)) && (y> ww/10)) return MAGENTA;
+	else if(x < (ww/10+3*(ww/15)) && (y< ww/10)) return YELLOW;
+	else if(x < (ww/10+4*(ww/15)) && (y> ww/10)) return ORANGE;
+	else if(x < (ww/10+4*(ww/15)) && (y< ww/10)) return BLACK;
+	else if(x < (ww/10+5*(ww/15)) && (y> ww/10)) return GRAY;
+	else if(x < (ww/10+5*(ww/15)) && (y< ww/10)) return WHITE;
 
 }
 
@@ -867,7 +916,7 @@ void key(unsigned char k, int xx, int yy)
 }
 
 
-void drawButtons(int a, int b, int c, int d, int e, int f){
+void drawButtons(int a, int b, int c, int d, int e, int f, int h){
 	int shift=0;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -903,10 +952,17 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 	}
 
 	if(f==1){
-    // Draw a box for the eraser menu
-		glColor3f(0.0, 0.8, 1.0);
+    // Draw a box for the circle
+		glColor3f(1.0, 0.5, 0.0);
 		screen_box(ww/2,wh-ww/10,ww/10);
 	}
+
+	if(h==1){
+    // Draw a box for the eraser menu
+		glColor3f(0.0, 0.8, 1.0);
+		screen_box(ww/2+ww/10,wh-ww/10,ww/10);
+	}
+
 
 	if(a==1){
     // Draw a Black line on the line menu box
@@ -959,12 +1015,21 @@ void drawButtons(int a, int b, int c, int d, int e, int f){
 	}
 
 	if(f==1){
+	    // Draw a circle
+	    glPushAttrib(GL_LINE_WIDTH|GL_COLOR);
+	    glLineWidth(2);
+	    glColor3f(0.0,0.5,1.0);
+            circulo(5*ww/9,wh-ww/20,ww/30,15);
+	    glPopAttrib();
+	}
+
+	if(g==1){
     // Draw an eraser menu box
 		glColor3f(1.0,0.0,0.0);
-		screen_box(5*ww/10+ww/40,wh-ww/10+ww/40,3*ww/80);
+		screen_box(6*ww/10+ww/40,wh-ww/10+ww/40,3*ww/80);
 
 		glColor3f(1.0,1.0,1.0);
-		glRectf((5*ww/10+ww/40)+3*ww/80,(wh-ww/10+ww/40),(5*ww/10+ww/40)+ww/20,(wh-ww/10+ww/40)+3*ww/80);
+		glRectf((6*ww/10+ww/40)+3*ww/80,(wh-ww/10+ww/40),(6*ww/10+ww/40)+ww/20,(wh-ww/10+ww/40)+3*ww/80);
 
 	}
 	glFlush();
@@ -1051,7 +1116,7 @@ void display(void){
 	glClearColor (0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	drawButtons(1,1,1,1,1,1);
+	drawButtons(1,1,1,1,1,1,1);
 	colorpalete();
 
 	glFlush();

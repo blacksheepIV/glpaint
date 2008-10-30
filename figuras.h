@@ -1,6 +1,9 @@
 #ifndef FIGURAS_H_INCLUDED
 #define FIGURAS_H_INCLUDED
 
+#include <math.h>
+#define pi 3.141592
+
 void retangulo(int x1, int y1, int x2, int y2)
 {
     glBegin(GL_LINE_LOOP);
@@ -32,6 +35,28 @@ void screen_box(int x, int y, int s )
 }
 
 
+/*
+ * (xc,yc) -> coordenadas do centro do circulo
+ * r -> raio do circulo
+ * teta -> arco entre dois pontos consecutivos do polígono ("circulo")
+
+ */
+void circulo(double xc, double yc, double r, double teta)
+{
+
+    double i = (pi * teta/180);
+    double fi = 0;
+
+    glBegin(GL_LINE_LOOP);
+
+    while (fi <= 2*pi)
+    {
+        glVertex2f(xc + r*cos(fi), yc + r*sin(fi));
+        fi = fi + i;
+    }
+
+    glEnd();
+}
 
 
 #endif // FIGURAS_H_INCLUDED
