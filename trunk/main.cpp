@@ -176,6 +176,8 @@ bool area_de_desenho(int x, int y)
 void mouse_idle()
 {
 
+//mpm =0;
+
 	if (cont_idle==0 && idle!= 0)
 	{
 
@@ -455,6 +457,7 @@ void mouse(int btn, int state, int x, int y)
 {
 	//int opcao;
    // int cor;
+   printf("cont %d\n", cont);
 
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
@@ -466,11 +469,11 @@ void mouse(int btn, int state, int x, int y)
 		// define a cor de desenho
 		if (!area_de_desenho(x,y) & pick_color(x,y)!=0)
 		{
-			puts("setei a cor");
+		//	puts("setei a cor");
 
 			set_color(pick_color(x,y));
 
-			printf("cor: %d\n", cor);
+		//	printf("cor: %d\n", cor);
 
             // redesenha a paleta
 			colorpalete();
@@ -590,9 +593,9 @@ void mouse(int btn, int state, int x, int y)
 	{
 		puts("mouse up");
 
-		cont=0;
 
-		if (xp[0]!=0 & yp[0]!=0 & pick(x,y)==0)
+
+		if (xp[0]!=0 & yp[0]!=0 & pick(x,y)==0 & cont!=0)
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
 			switch (draw_mode) {
@@ -693,6 +696,8 @@ void mouse(int btn, int state, int x, int y)
 				break;
 		}
 
+
+cont=0;
 		glPopAttrib();
 		glFlush();
 	}
