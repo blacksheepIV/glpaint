@@ -10,29 +10,6 @@
 /* This program illustrates the use of the glut library for
 interfacing with a window system */
 
-
-#define NULL		0
-#define LINE		1
-#define RECTANGLE	2
-#define TRIANGLE	3
-#define POINTS		4
-#define TEXT		5
-#define ERASER		6
-#define CIRCLE      7
-
-
-#define RED         10
-#define GREEN       11
-#define BLUE        12
-#define CYAN        13
-#define MAGENTA     14
-#define YELLOW      15
-#define ORANGE      16
-#define GRAY        17
-#define WHITE       18
-#define BLACK       19
-
-
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -42,6 +19,8 @@ interfacing with a window system */
 #include <string.h>
 
 #include "figuras.h"
+#include "include/pick.h"
+#include "include/definicoes.h"
 
 void mouse(int, int, int, int);
 void key(unsigned char, int, int);
@@ -51,14 +30,11 @@ void myReshape(GLsizei, GLsizei);
 
 void myinit(void);
 
-void screen_box(int, int, int);
 void right_menu(int);
 void middle_menu(int);
 void color_menu(int);
 void pixel_menu(int);
 void fill_menu(int);
-int  pick(int, int);
-int  pick_color(int, int);
 void drawButtons(int a, int b, int c, int d, int e, int f, int h);
 void colorpalete(void);
 void set_color(int);
@@ -165,10 +141,10 @@ void myinit(void)
 // essa função no diz se o mouse está sobre os menus (opções ou paleta)
 bool area_de_desenho(int x, int y)
 {
-	int opcoes = pick(x,y);
-	int cores = pick_color(x,y);
+	int opcoes = pick(x,y,wh,ww);
+	int cores = pick_color(x,y,wh,ww);
 
-	if (!opcoes & !cores) return true;
+	if ((!opcoes) && (!cores)) return true;
 	else return false;
 }
 
@@ -268,7 +244,7 @@ void mouse_passive_motion(int x, int y)
 		cont_idle = 0;
 
 
-		if (mpm=0)
+		if (mpm==0)
 		{
 			xi=x;
 			yi=y;
@@ -486,14 +462,14 @@ void mouse(int btn, int state, int x, int y)
 	{
 		puts("mouse down");
 
-		printf("%d",pick_color(x,y));
+		printf("%d",pick_color(x,y,wh,ww));
 
 		// define a cor de desenho
-		if (!area_de_desenho(x,y) & pick_color(x,y)!=0)
+		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww)!=0))
 		{
 		//	puts("setei a cor");
 
-			set_color(pick_color(x,y));
+			set_color(pick_color(x,y,wh,ww));
 
 		//	printf("cor: %d\n", cor);
 
@@ -503,9 +479,9 @@ void mouse(int btn, int state, int x, int y)
 
 
         // define o modo de desenho
-		if(!area_de_desenho(x,y) & pick(x,y)!=0)
+		if((!area_de_desenho(x,y)) && (pick(x,y,wh,ww)!=0))
 		{
-			draw_mode = pick(x,y);
+			draw_mode = pick(x,y,wh,ww);
 		}
 
 
@@ -621,7 +597,7 @@ void mouse(int btn, int state, int x, int y)
 		if ((xp[0]!=0) & (yp[0]!=0) & (pick(x,y)==0))
 =======*/
 
-		if (xp[0]!=0 & yp[0]!=0 & pick(x,y)==0 & cont!=0)
+		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont!=0))
 //>>>>>>> .r33
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
@@ -747,47 +723,17 @@ cont=0;
 
 	if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN)
 	{
-		if (!area_de_desenho(x,y) & pick_color(x,y)!=0)
+		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww)!=0))
 		{
 			puts("setei a cor de fundo");
 
-			set_bgcolor(pick_color(x,y));
+			set_bgcolor(pick_color(x,y,wh,ww));
 
 	        // redesenha a paleta de cores
 			colorpalete();
 		}
         //retangulo(5,wh-5,30,wh-30);
 	}
-
-}
-
-
-int pick(int x, int y)
-{
-	y = wh - y;
-
-    //printf("x=%d, y=%d.\n",x,y);
-	// Verifica se y esta' na parte superior da tela
-	// onde estao os botões de selecao das ferramentas
-	if (y < wh-ww/10) return 0;
-//<<<<<<< .mine
-        else if(x < ww/10   ) return LINE;
-        else if(x < ww/5    ) return RECTANGLE;
-        else if(x < 3*ww/10 ) return TRIANGLE;
-        else if(x < 2*ww/5  ) return POINTS;
-        else if(x < ww/2    ) return TEXT;
-	    else if(x < 3*ww/5  ) return CIRCLE;
-	    else if(x < 7*ww/10 ) return ERASER;
-        else return 0;
-/*=======
-	else if(x < ww/10   ) return LINE;
-	else if(x < ww/5    ) return RECTANGLE;
-	else if(x < 3*ww/10 ) return TRIANGLE;
-	else if(x < 2*ww/5  ) return POINTS;
-	else if(x < ww/2    ) return TEXT;
-	else if(x < 3*ww/5  ) return ERASER;
-	else return 0;
->>>>>>> .r33*/
 
 }
 
@@ -832,37 +778,6 @@ void set_bgcolor(int color)
 	}
 }
 
-
-// tem q ajeitar -> ta "pickando" no inicio da paleta!
-
-
-// as mudanças de cores devem ser feitas só quando o cara clicar
-// do jeito que tava sempre q passasse o mouse em cima ele mudava
-int pick_color(int x, int y)
-{
-	y = wh - y;
-
-	// Verifica se y esta na parte inferior onde estao as cores
-	if(y > ((ww/10 + ww/15))||(y < (ww/10)-ww/15)||(x < ww/10)) return 0;
-	else if((x >= ww/10) && (x <= (ww/10+ww/15)) && (y > ww/10)) return RED;
-	else if((x > ww/10) && (x < (ww/10+ww/15)) & (y < ww/10)) return GREEN;
-	else if(x < (ww/10+2*(ww/15)) && (y> ww/10)) return BLUE;
-	else if(x < (ww/10+2*(ww/15)) && (y< ww/10)) return CYAN;
-	else if(x < (ww/10+3*(ww/15)) && (y> ww/10)) return MAGENTA;
-	else if(x < (ww/10+3*(ww/15)) && (y< ww/10)) return YELLOW;
-	else if(x < (ww/10+4*(ww/15)) && (y> ww/10)) return ORANGE;
-	else if(x < (ww/10+4*(ww/15)) && (y< ww/10)) return BLACK;
-	else if(x < (ww/10+5*(ww/15)) && (y> ww/10)) return GRAY;
-	else if(x < (ww/10+5*(ww/15)) && (y< ww/10)) return WHITE;
-
-}
-
-
-/*void right_menu(int id)
-{
-	if(id == 1) exit(0);
-	else display();
-}*/
 
 void middle_menu(int id)
 {
