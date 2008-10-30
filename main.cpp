@@ -315,13 +315,10 @@ void mouse_passive_motion(int x, int y)
 void mouse_motion(int x, int y)
 {
 
-
-
-	glFlush();
 //    printf("cor: %d",cor);
 
-  //  if (area_de_desenho(x,y))
-  //  {
+    if (area_de_desenho(x,y))
+    {
 
 	puts("mouse_motion");
 
@@ -331,7 +328,7 @@ void mouse_motion(int x, int y)
 
 	glLogicOp(GL_XOR);
 
-        // primeiro movimento após clicar com o mouse (segurando o botão)
+    // primeiro movimento após clicar com o mouse (segurando o botão)
 	if (cont == 0)
 	{
 		xi=xp[0];
@@ -423,6 +420,7 @@ void mouse_motion(int x, int y)
 
 		case (ERASER):
 		{
+		    if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			glDisable(GL_COLOR_LOGIC_OP);
@@ -449,7 +447,7 @@ void mouse_motion(int x, int y)
 	glFlush();
           // printf("%s\n","estou na motion");
         //glDisable(GL_COLOR_LOGIC_OP);
-   //}
+   }
 }
 
 
@@ -568,6 +566,7 @@ void mouse(int btn, int state, int x, int y)
 
 				case (ERASER):
 				{
+				    if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 				    //glColor3f(rb,gb,bb);
 					int aux = cor;
 					set_color(bcor);
