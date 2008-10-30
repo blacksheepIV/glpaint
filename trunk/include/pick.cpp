@@ -4,7 +4,6 @@ int pick(int x, int y, int wh, int ww)
 {
 	y = wh - y;
 
-    //printf("x=%d, y=%d.\n",x,y);
 	// Verifica se y esta' na parte superior da tela
 	// onde estao os botões de selecao das ferramentas
 	if (y < wh-ww/10) return 0;
@@ -51,6 +50,8 @@ int pick_color(int x, int y, int wh, int ww)
 	else if(x < (ww/10+4*(ww/15)) && (y< ww/10)) return BLACK;
 	else if(x < (ww/10+5*(ww/15)) && (y> ww/10)) return GRAY;
 	else if(x < (ww/10+5*(ww/15)) && (y< ww/10)) return WHITE;
+
+	return 0;
 
 }
 
