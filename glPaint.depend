@@ -5,24 +5,24 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1197315625 /usr/include/GL/glut.h
+1174250497 /usr/include/GL/glut.h
 	"freeglut_std.h"
 
-1197315625 /usr/include/GL/freeglut_std.h
+1174250497 /usr/include/GL/freeglut_std.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
 
-1207432987 /usr/include/GL/gl.h
+1184007968 /usr/include/GL/gl.h
 	"gl_mangle.h"
 	<stdlib.h>
 	<windows.h>
 	<GL/mesa_wgl.h>
 	<GL/glext.h>
 
-1207432987 /usr/include/GL/gl_mangle.h
+1184007968 /usr/include/GL/gl_mangle.h
 
-1207352237 /usr/include/stdlib.h
+1183894915 /usr/include/stdlib.h
 	<features.h>
 	<stddef.h>
 	<bits/waitflags.h>
@@ -33,37 +33,37 @@
 	<bits/stdlib.h>
 	<bits/stdlib-ldbl.h>
 
-1207352211 /usr/include/features.h
+1183894884 /usr/include/features.h
 	<sys/cdefs.h>
 	<gnu/stubs.h>
 
-1207352250 /usr/include/sys/cdefs.h
+1183894928 /usr/include/sys/cdefs.h
 	<features.h>
 	<bits/wordsize.h>
 
-1207352237 /usr/include/bits/wordsize.h
+1183894915 /usr/include/bits/wordsize.h
 
-1207352211 /usr/include/gnu/stubs.h
+1183894884 /usr/include/gnu/stubs.h
 	<bits/wordsize.h>
 	<gnu/stubs-32.h>
 	<gnu/stubs-64.h>
 
-1207351701 /usr/include/gnu/stubs-32.h
+1183894963 /usr/include/gnu/stubs-32.h
 
-1207352247 /usr/include/bits/waitflags.h
+1183894925 /usr/include/bits/waitflags.h
 
-1207352247 /usr/include/bits/waitstatus.h
+1183894925 /usr/include/bits/waitstatus.h
 	<endian.h>
 
-1207352242 /usr/include/endian.h
+1183894920 /usr/include/endian.h
 	<features.h>
 	<bits/endian.h>
 
-1207352242 /usr/include/bits/endian.h
+1183894920 /usr/include/bits/endian.h
 
-1207352217 /usr/include/xlocale.h
+1183894897 /usr/include/xlocale.h
 
-1207352247 /usr/include/sys/types.h
+1183894925 /usr/include/sys/types.h
 	<features.h>
 	<bits/types.h>
 	<time.h>
@@ -73,14 +73,15 @@
 	<sys/sysmacros.h>
 	<bits/pthreadtypes.h>
 
-1207352247 /usr/include/bits/types.h
+1183894925 /usr/include/bits/types.h
 	<features.h>
 	<bits/wordsize.h>
+	<stddef.h>
 	<bits/typesizes.h>
 
-1207352247 /usr/include/bits/typesizes.h
+1183894925 /usr/include/bits/typesizes.h
 
-1207352244 /usr/include/time.h
+1183894923 /usr/include/time.h
 	<features.h>
 	<stddef.h>
 	<bits/time.h>
@@ -91,11 +92,11 @@
 	<bits/types.h>
 	<xlocale.h>
 
-1207352244 /usr/include/bits/time.h
+1183894923 /usr/include/bits/time.h
 	<bits/types.h>
 	<bits/types.h>
 
-1207352250 /usr/include/sys/select.h
+1183894928 /usr/include/sys/select.h
 	<features.h>
 	<bits/types.h>
 	<bits/select.h>
@@ -103,25 +104,24 @@
 	<time.h>
 	<bits/time.h>
 
-1207352250 /usr/include/bits/select.h
+1183894928 /usr/include/bits/select.h
 
-1207352236 /usr/include/bits/sigset.h
+1183894914 /usr/include/bits/sigset.h
 
-1207352247 /usr/include/sys/sysmacros.h
+1183894925 /usr/include/sys/sysmacros.h
 	<features.h>
 
-1207352247 /usr/include/bits/pthreadtypes.h
-	<bits/wordsize.h>
+1183894925 /usr/include/bits/pthreadtypes.h
 
-1207352237 /usr/include/alloca.h
+1183894915 /usr/include/alloca.h
 	<features.h>
 	<stddef.h>
 
-1207352237 /usr/include/bits/stdlib.h
+1183894915 /usr/include/bits/stdlib.h
 
-1207352237 /usr/include/bits/stdlib-ldbl.h
+1183894915 /usr/include/bits/stdlib-ldbl.h
 
-1207432987 /usr/include/GL/glext.h
+1184007968 /usr/include/GL/glext.h
 	<windows.h>
 	<stddef.h>
 	<inttypes.h>
@@ -131,23 +131,23 @@
 	<stdint.h>
 	<inttypes.h>
 
-1207352237 /usr/include/inttypes.h
+1183894915 /usr/include/inttypes.h
 	<features.h>
 	<stdint.h>
 	<stddef.h>
 
-1207352237 /usr/include/stdint.h
+1183894915 /usr/include/stdint.h
 	<features.h>
 	<bits/wchar.h>
 	<bits/wordsize.h>
 
-1207352243 /usr/include/bits/wchar.h
+1183894920 /usr/include/bits/wchar.h
 
-1207432987 /usr/include/GL/glu.h
+1184007968 /usr/include/GL/glu.h
 	"glu_mangle.h"
 	<GL/gl.h>
 
-1207432987 /usr/include/GL/glu_mangle.h
+1184007968 /usr/include/GL/glu_mangle.h
 
 1225149342 source:/home/danielm/Projetos/glpaint/main.cpp
 	<stdlib.h>
@@ -164,7 +164,7 @@
 	<string.h>
 	"figuras.h"
 
-1207352239 /usr/include/stdio.h
+1183894917 /usr/include/stdio.h
 	<features.h>
 	<stddef.h>
 	<bits/types.h>
@@ -177,7 +177,7 @@
 	<bits/stdio2.h>
 	<bits/stdio-ldbl.h>
 
-1207352239 /usr/include/libio.h
+1183894917 /usr/include/libio.h
 	<_G_config.h>
 	<stdarg.h>
 	<sys/cdefs.h>
@@ -185,18 +185,18 @@
 	<shlib-compat.h>
 	<bits/libio-ldbl.h>
 
-1207352239 /usr/include/_G_config.h
+1183894917 /usr/include/_G_config.h
 	<bits/types.h>
 	<stddef.h>
 	<wchar.h>
 	<gconv.h>
 
-1207352243 /usr/include/wchar.h
+1183894920 /usr/include/wchar.h
 	<features.h>
 	<stdio.h>
 	<stdarg.h>
-	<bits/wchar.h>
 	<stddef.h>
+	<bits/wchar.h>
 	<wctype.h>
 	<xlocale.h>
 	<xlocale.h>
@@ -205,37 +205,30 @@
 	<bits/wchar2.h>
 	<bits/wchar-ldbl.h>
 
-1207352253 /usr/include/wctype.h
+1183894931 /usr/include/wctype.h
 	<features.h>
 	<bits/types.h>
-	<wchar.h>
+	<stddef.h>
 	<endian.h>
 	<xlocale.h>
 
-1207352243 /usr/include/bits/wchar2.h
+1183894920 /usr/include/bits/wchar2.h
 
-1207352243 /usr/include/bits/wchar-ldbl.h
+1183894920 /usr/include/bits/wchar-ldbl.h
 
-1207352212 /usr/include/gconv.h
+1183894885 /usr/include/gconv.h
 	<features.h>
 	<wchar.h>
 	<stddef.h>
 
-1207352239 /usr/include/bits/stdio-lock.h
+1062186971 /usr/include/bits/stdio-lock.h
 	<bits/libc-lock.h>
-	<lowlevellock.h>
 
-1207352211 /usr/include/bits/libc-lock.h
+1136237288 /usr/include/bits/libc-lock.h
 	<pthread.h>
-	<stddef.h>
-	<lowlevellock.h>
-	<tls.h>
-	<pthread-functions.h>
-	<bp-sym.h>
 
-1207352258 /usr/include/pthread.h
+1183894938 /usr/include/pthread.h
 	<features.h>
-	<endian.h>
 	<sched.h>
 	<time.h>
 	<signal.h>
@@ -243,16 +236,15 @@
 	<bits/setjmp.h>
 	<bits/wordsize.h>
 
-1207352247 /usr/include/sched.h
+1183894925 /usr/include/sched.h
 	<features.h>
 	<bits/types.h>
-	<stddef.h>
 	<time.h>
 	<bits/sched.h>
 
-1207352247 /usr/include/bits/sched.h
+1183894925 /usr/include/bits/sched.h
 
-1207352236 /usr/include/signal.h
+1183894914 /usr/include/signal.h
 	<features.h>
 	<bits/sigset.h>
 	<bits/types.h>
@@ -261,57 +253,54 @@
 	<bits/siginfo.h>
 	<bits/sigaction.h>
 	<bits/sigcontext.h>
-	<stddef.h>
 	<bits/sigstack.h>
 	<sys/ucontext.h>
 	<bits/pthreadtypes.h>
 	<bits/sigthread.h>
 
-1207352236 /usr/include/bits/signum.h
+1183894914 /usr/include/bits/signum.h
 
-1207352236 /usr/include/bits/siginfo.h
+1183894914 /usr/include/bits/siginfo.h
 	<bits/wordsize.h>
 
-1207352236 /usr/include/bits/sigaction.h
+1183894914 /usr/include/bits/sigaction.h
 
-1207352236 /usr/include/bits/sigcontext.h
-	<bits/wordsize.h>
+1183894914 /usr/include/bits/sigcontext.h
+	<asm/sigcontext.h>
 
-1207352236 /usr/include/bits/sigstack.h
+1183894914 /usr/include/bits/sigstack.h
 
-1207352237 /usr/include/sys/ucontext.h
+1183894915 /usr/include/sys/ucontext.h
 	<features.h>
 	<signal.h>
-	<bits/wordsize.h>
 	<bits/sigcontext.h>
 
-1207352236 /usr/include/bits/sigthread.h
+1183894914 /usr/include/bits/sigthread.h
 
-1207352235 /usr/include/bits/setjmp.h
-	<bits/wordsize.h>
+1183894914 /usr/include/bits/setjmp.h
 
-1207352239 /usr/include/bits/libio-ldbl.h
+1183894917 /usr/include/bits/libio-ldbl.h
 
-1207352238 /usr/include/bits/stdio_lim.h
+1183894916 /usr/include/bits/stdio_lim.h
 
-1207352239 /usr/include/bits/sys_errlist.h
+1183894917 /usr/include/bits/sys_errlist.h
 
-1207352247 /usr/include/getopt.h
+1183894925 /usr/include/getopt.h
 	<ctype.h>
 
-1207352230 /usr/include/ctype.h
+1183894909 /usr/include/ctype.h
 	<features.h>
 	<bits/types.h>
 	<endian.h>
 	<xlocale.h>
 
-1207352239 /usr/include/bits/stdio.h
+1183894917 /usr/include/bits/stdio.h
 
-1207352239 /usr/include/bits/stdio2.h
+1183894917 /usr/include/bits/stdio2.h
 
-1207352239 /usr/include/bits/stdio-ldbl.h
+1183894917 /usr/include/bits/stdio-ldbl.h
 
-1207352242 /usr/include/string.h
+1183894920 /usr/include/string.h
 	<features.h>
 	<stddef.h>
 	<xlocale.h>
@@ -319,14 +308,14 @@
 	<bits/string2.h>
 	<bits/string3.h>
 
-1207352242 /usr/include/bits/string.h
+1183894920 /usr/include/bits/string.h
 
-1207352242 /usr/include/bits/string2.h
+1183894920 /usr/include/bits/string2.h
 	<endian.h>
 	<bits/types.h>
 	<stdlib.h>
 
-1207352242 /usr/include/bits/string3.h
+1183894920 /usr/include/bits/string3.h
 
 1225289675 source:/arquivos/cg/paint/glpaint/main.cpp
 	<stdlib.h>
@@ -343,7 +332,7 @@
 
 1225308091 /home/danielm/projetos/glpaint/figuras.h
 
-1225310353 source:/arquivos/cg/paint/trab2/glpaint/main.cpp
+1225372775 source:/arquivos/cg/paint/trab2/glpaint/main.cpp
 	<stdlib.h>
 	<GL/glut.h>
 	<GL/gl.h>
@@ -352,7 +341,7 @@
 	<string.h>
 	"figuras.h"
 
-1225306899 /arquivos/cg/paint/trab2/glpaint/figuras.h
+1225359800 /arquivos/cg/paint/trab2/glpaint/figuras.h
 
 1177901316 /usr/include/tls.h
 	<tcl.h>
