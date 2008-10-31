@@ -10,6 +10,9 @@
 	<File name="include/definicoes.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
+	<File name="include/figuras.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="include/pick.cpp" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
