@@ -664,8 +664,10 @@ void mouse(int btn, int state, int x, int y)
 
 					// Desenha o botão selecionado novamente,
 					// Pois o círculo pode sobrescrever o botão.
+					glPushAttrib(GL_ALL_ATTRIB_BITS);
+					glColor3i(1,1,1);
+                    glRectf(0,wh-ww/10,ww,wh);
                     drawButtons(0,0,0,0,0,1,0);
-                    glPushAttrib(GL_ALL_ATTRIB_BITS);
                     glColor3f(1.0,0.0,0.0);
                     glBegin(GL_LINES);
                     glVertex2f(ww/2,wh-ww/10);
@@ -685,6 +687,7 @@ void mouse(int btn, int state, int x, int y)
 		colorpalete(cor, bcor, wh, ww);
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 
 		glLineWidth(3);
 
