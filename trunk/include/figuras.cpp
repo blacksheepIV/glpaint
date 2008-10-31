@@ -56,7 +56,7 @@ void screen_box(int x, int y, int s)
 void circulo_cheio(int xc, int yc, double r)
 {
 
-    double i = (pi * 1/180);
+    double i = (pi * 0.1/180);
     double fi = 0;
 
     glBegin(GL_POLYGON);
@@ -73,7 +73,7 @@ void circulo_cheio(int xc, int yc, double r)
 void circulo(int xc, int yc, double r)
 {
 
-    double i = (pi * 1/180);
+    double i = (pi * 0.1/180);
     double fi = 0;
 
     glBegin(GL_LINE_LOOP);
