@@ -92,7 +92,7 @@ void set_color(int color, int* cor)
 		default: break;
 	}
 
-	glFlush();
+	//glFlush();
 }
 
 void set_bgcolor(int color, int* bcor, GLfloat* rb, GLfloat* gb, GLfloat* bb)

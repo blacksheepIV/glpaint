@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include/color.cpp" open="1" top="0" tabpos="4">
+	<File name="include/color.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="3438" topLine="85" />
 	</File>
-	<File name="include/color.h" open="1" top="0" tabpos="3">
+	<File name="include/color.h" open="0" top="0" tabpos="4">
 		<Cursor position="168" topLine="0" />
 	</File>
-	<File name="include/definicoes.h" open="1" top="0" tabpos="0">
+	<File name="include/definicoes.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="include/figuras.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="0" topLine="34" />
+	<File name="include/figuras.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="include/pick.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="338" topLine="21" />
+	<File name="include/pick.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="2307" topLine="50" />
 	</File>
-	<File name="include/pick.h" open="0" top="0" tabpos="5">
-		<Cursor position="75" topLine="0" />
+	<File name="include/pick.h" open="0" top="0" tabpos="6">
+		<Cursor position="189" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="16084" topLine="783" />
+	<File name="main.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="4564" topLine="149" />
 	</File>
 </CodeBlocks_layout_file>
