@@ -141,8 +141,9 @@ bool area_de_desenho(int x, int y)
 {
 	int opcoes = pick(x,y,wh,ww);
 	int cores = pick_color(x,y,wh,ww);
+	int sizes = pick_size(x,y,wh,ww);
 
-	if ((!opcoes) && (!cores)) return true;
+	if ((!opcoes) && (!cores) && (!sizes)) return true;
 	else return false;
 }
 
@@ -165,7 +166,7 @@ void mouse_idle()
 		{
   //         puts("desenho");
 
-		    if (draw_mode == ERASER & idle==1)
+		    if ((draw_mode == ERASER) && (idle==1))
 			{
 
 			    int aux = cor;
@@ -460,6 +461,7 @@ void mouse(int btn, int state, int x, int y)
         // define o modo de desenho
 		if((!area_de_desenho(x,y)) && (pick(x,y,wh,ww)!=0))
 		{
+		    pick_size(x,y,wh,ww);
 			draw_mode = pick(x,y,wh,ww);
 		}
 
@@ -831,6 +833,23 @@ void drawButtons(int a, int b, int c, int d, int e, int f, int h){
 		glColor3f(0.0, 0.8, 1.0);
 		screen_box(ww/2+ww/10,wh-ww/10,ww/10);
 	}
+
+	// Draw the plus menu
+	glColor3f(1.0,0.8,0.8);
+		screen_box(ww/2+ww/5,wh-ww/20,ww/20);
+	glColor3f(1.0,1.0,1.0);
+		screen_box(ww/2+ww/5,wh-ww/10,ww/20);
+    glColor3f(0.0,0.0,0.0);
+        glLineWidth(2);
+        glBegin(GL_LINES);
+            glVertex2f(ww/2+ww/5+ww/60,wh-ww/40);
+            glVertex2f(ww/2+ww/5+ww/30,wh-ww/40);
+            glVertex2f((ww/2+ww/5+ww/40),wh-ww/65);
+            glVertex2f((ww/2+ww/5+ww/40),wh-ww/28);
+
+            glVertex2f(ww/2+ww/5+ww/60,wh-ww/13);
+            glVertex2f(ww/2+ww/5+ww/30,wh-ww/13);
+        glEnd();
 
 
 	if(a==1){
