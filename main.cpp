@@ -14,6 +14,7 @@ interfacing with a window system */
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <math.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -152,40 +153,35 @@ bool area_de_desenho(int x, int y)
 void mouse_idle()
 {
 
-/*<<<<<<< .mine
-    if(area_de_desenho())
-    {
-
-	if ((idle==1) & (cont_idle==0) & (draw_mode == ERASER))
-=======*/
 	if (cont_idle==0 && idle!= 0)
-//>>>>>>> .r33
+
+puts("idle");
 	{
 
 		if(area_de_desenho(xi, yi))
 		{
-  //         puts("desenho");
+           //puts("desenho");
 
 		    if ((draw_mode == ERASER) && (idle==1))
 			{
 
-			    int aux = cor;
-				glPushAttrib(GL_ALL_ATTRIB_BITS);
+			   // int aux = cor;
+				//glPushAttrib(GL_ALL_ATTRIB_BITS);
                         //puts("idlefunc");
 
 				glEnable(GL_COLOR_LOGIC_OP);
 
 				glLogicOp(GL_XOR);
 
-				set_color(bcor,&cor);
+				//set_color(bcor,&cor);
 
 				quadrado(xi,wh-yi,tamanho);
 
-				set_color(aux,&cor);
+				//set_color(aux,&cor);
 
 				glDisable(GL_XOR);
 
-				glPopAttrib();
+				//glPopAttrib();
 			}
             // evitar um loop desnecessario (quando o mouse estiver parado)
 			cont_idle = 1;
@@ -202,9 +198,57 @@ void mouse_idle()
 
 void mouse_passive_motion(int x, int y)
 {
-	glFlush();
-   //puts("passive_motion");
+    cont_idle=0;
 
+	if (mpm==0)
+		{
+			xi=x;
+			yi=y;
+
+			//
+			mpm=1;
+
+			idle = 0;
+			// VERBOSE
+			//puts("idle1");
+		}
+
+		else
+		{
+
+                   //  int aux = cor;
+//					set_color(bcor,&cor);
+
+					glEnable(GL_COLOR_LOGIC_OP);
+
+					glLogicOp(GL_XOR);
+
+                        // desenha borracha temporaria
+					quadrado(xi,wh-yi,tamanho);
+                      //   glFlush();
+
+                        glDisable(GL_COLOR_LOGIC_OP);
+
+//                       set_color(aux,&cor);
+
+                        // guarda a posição da borracha
+					xi=x;
+					yi=y;
+
+				}
+
+
+
+
+
+			glFlush();
+
+			// VERBOSE
+			//puts("idle1");
+
+	//glFlush();
+   //puts("passive_motion");
+/*
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -214,19 +258,6 @@ void mouse_passive_motion(int x, int y)
 
         // na primeira vez que entrar nesta função
 
-//<<<<<<< .mine
-//=======
-/*<<<<<<< .mine
-        where = pick(x,y);
-        wherec = pick_color(x,y);
-        // se não estiver sobre os menus
-        if((where == 0) & (wherec == 0))
-        {
-=======*/
-            // na primeira vez que entrar nesta função
-//>>>>>>> .r33
-
-//>>>>>>> .r34
 		cont_idle = 0;
 
 
@@ -286,7 +317,7 @@ void mouse_passive_motion(int x, int y)
 		}
 	}
 
-//    }
+//    }*/
 
 }
 
@@ -318,13 +349,7 @@ void mouse_motion(int x, int y)
 	}
 
 
-/*<<<<<<< .mine
-        if((where != 0) & (wherec!=0))
-        {
-          //cont = 0;
-            draw_mode = where;
-        }
-=======*/
+
 	switch(draw_mode)
 	{
 		case(LINE):
@@ -420,6 +445,31 @@ void mouse_motion(int x, int y)
 
 		} break;
 
+		case (CIRCLE):
+		{
+            // desenha (apaga) por cima do circulo anterior
+
+            double d = sqrt(pow((xi-xp[0]),2)+pow((yi-yp[0]),2));
+
+			//if (fill) glRecti(xi,wh-yi,xp[0],wh-yp[0]);
+			/*else*/ circulo(xp[0],wh-yp[0],d);
+
+			if(cont_motion!=0)
+			{
+                // guarda o ponto final da linha atual
+				xi=x;
+				yi=y;
+
+				double d2 = sqrt(pow((x-xp[0]),2)+pow((y-yp[0]),2));
+
+                // desenha circulo temporário
+//				if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
+				/*else*/ circulo(xp[0],wh-yp[0],d2);
+			}
+
+
+		} break;
+
 		default: break;
 	}
 
@@ -436,12 +486,6 @@ void mouse_motion(int x, int y)
 
 void mouse(int btn, int state, int x, int y)
 {
-	//int opcao;
-   // int cor;
-
-   // VERBOSE
-   //printf("cont %d\n", cont);
-
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
@@ -509,12 +553,7 @@ void mouse(int btn, int state, int x, int y)
                     }
                     else
                     {
-                        // VERBOSE
-                        //printf("x =%d e y=%d\n",x,y);
-                        //printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
-                        //printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
 
-                        //VERBOSE
                         //puts("jeghrjagjh");
                         glBegin(GL_LINES);
                             glVertex2i(x,wh-y);
@@ -570,6 +609,15 @@ void mouse(int btn, int state, int x, int y)
                     set_color(aux,&cor);
 				} break;
 
+                case (CIRCLE):
+				{
+				    puts("centro");
+				    // defino o centro do circulo
+
+					xp[0] = x;
+					yp[0] = y;
+				} break;
+
 				default : break;
 			}
 		}
@@ -578,16 +626,10 @@ void mouse(int btn, int state, int x, int y)
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP)
 	{
-	    // VERBOSE
-		//puts("mouse up");
+//puts("up");
 
+		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont_motion!=0))
 
-/*<<<<<<< .mine
-		if ((xp[0]!=0) & (yp[0]!=0) & (pick(x,y)==0))
-=======*/
-
-		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont!=0))
-//>>>>>>> .r33
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
 			switch (draw_mode) {
@@ -633,6 +675,19 @@ void mouse(int btn, int state, int x, int y)
                         glVertex2i(xp[0],wh-yp[0]);
                         glEnd();
                     }
+
+
+				} break;
+
+                case(CIRCLE):
+
+				{
+				    puts("aqui");
+				    double d = sqrt(pow((x-xp[0]),2)+pow((y-yp[0]),2));
+
+					circulo(xp[0],wh-yp[0],d);
+
+					cont=0;
 
 
 				} break;
@@ -722,7 +777,7 @@ void mouse(int btn, int state, int x, int y)
 
 
 
-cont_motion=0;
+        cont_motion=0;
 		glPopAttrib();
 		glFlush();
 	}
@@ -926,7 +981,7 @@ void drawButtons(int a, int b, int c, int d, int e, int f, int h){
 	    glPushAttrib(GL_LINE_WIDTH|GL_COLOR);
 	    glLineWidth(2);
 	    glColor3f(0.0,0.5,1.0);
-            circulo(5*ww/9,wh-ww/20,ww/30,15);
+            circulo(5*ww/9,wh-ww/20,ww/30);
 	    glPopAttrib();
 	}
 
@@ -1029,9 +1084,9 @@ int main(int argc, char** argv)
 
 	glutMotionFunc (mouse_motion);
 
-	glutPassiveMotionFunc(mouse_passive_motion);
+//	glutPassiveMotionFunc(mouse_passive_motion);
 
-	glutIdleFunc(mouse_idle);
+	//glutIdleFunc(mouse_idle);
 
 	// Enter the event loop
 	glutMainLoop();

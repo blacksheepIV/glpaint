@@ -21,7 +21,7 @@ void quadrado(int xc, int yc, int lado)
     glEnd();
 }
 
-void screen_box(int x, int y, int s )
+void screen_box(int x, int y, int s)
 {
 	glBegin(GL_QUADS);
 	glVertex2i(x,   y  );
@@ -38,10 +38,10 @@ void screen_box(int x, int y, int s )
  * teta -> arco entre dois pontos consecutivos do polígono ("circulo")
 
  */
-void circulo(double xc, double yc, double r, double teta)
+void circulo(int xc, int yc, double r)
 {
 
-    double i = (pi * teta/180);
+    double i = (pi * 1/180);
     double fi = 0;
 
     glBegin(GL_LINE_LOOP);
