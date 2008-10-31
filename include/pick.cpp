@@ -1,4 +1,11 @@
 #include "pick.h"
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <stdio.h>
+
+#define PLUS 20
+#define MINUS 21
 
 int pick(int x, int y, int wh, int ww)
 {
@@ -55,3 +62,16 @@ int pick_color(int x, int y, int wh, int ww)
 
 }
 
+int pick_size(int x, int y, int wh, int ww){
+    GLint tmp;
+
+	// Verifica se y esta na parte inferior onde estao as cores
+	if(y > (ww/10) || (x > (ww/2+ww/5+ww/20)) || ( x <(ww/2+ww/5))) return 0;
+    else if(y<ww/20) {
+                glGetIntegerv(GL_LINE_WIDTH,&tmp);
+                glLineWidth(tmp+1);
+                return 1;
+            }
+	    //else if((x < 8*ww/10)&&y>ww/20) {glLineWidth(glLineWidth-1); glPointSize(glPointSize-1)}return MINUS;
+    return 0;
+}
