@@ -32,11 +32,11 @@ void myReshape(GLsizei, GLsizei);
 
 void myinit(void);
 
-void right_menu(int);
-void middle_menu(int);
-void color_menu(int);
-void pixel_menu(int);
-void fill_menu(int);
+//void right_menu(int);
+//void middle_menu(int);
+//void color_menu(int);
+//void pixel_menu(int);
+//void fill_menu(int);
 void drawButtons(int a, int b, int c, int d, int e, int f, int h);
 bool area_de_desenho(void);
 
@@ -353,8 +353,6 @@ void mouse_motion(int x, int y)
 	switch(draw_mode)
 	{
 		case(LINE):
-//>>>>>>> .r33
-
 			if(cont_motion!=0)
 			{
 			    // VERBOSE
@@ -550,12 +548,20 @@ void mouse(int btn, int state, int x, int y)
                         xp[0] = x;
                         yp[0] = y;
                         cont++;
+
                     }
                     else
                     {
+/*<<<<<<< .mine
+                        // VERBOSE
+                        printf("x =%d e y=%d\n",x,y);
+                        printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
+                        printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
+=======
+>>>>>>> .r43*/
 
                         //puts("jeghrjagjh");
-                        glBegin(GL_LINES);
+                        if(!fill){glBegin(GL_LINES);
                             glVertex2i(x,wh-y);
                             glVertex2i(xp[0],wh-yp[0]);
                         glEnd();
@@ -564,6 +570,13 @@ void mouse(int btn, int state, int x, int y)
                             glVertex2i(x,wh-y);
                             glVertex2i(xp[1],wh-yp[1]);
                         glEnd();
+                        } else {
+                            glBegin(GL_TRIANGLES);
+                            glVertex2f(xp[0], wh-yp[0]);
+                            glVertex2f(xp[1],wh-yp[1]);
+                            glVertex2f(x,wh- y);
+                            glEnd();
+                        }
 
                         cont = 0;
                     }
@@ -630,6 +643,11 @@ void mouse(int btn, int state, int x, int y)
 
 		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont_motion!=0))
 
+/*<<<<<<< .mine
+
+		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont!=0))
+=======
+>>>>>>> .r43*/
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
 			switch (draw_mode) {
@@ -669,11 +687,16 @@ void mouse(int btn, int state, int x, int y)
 				    {
                         xp[1]=x;
                         yp[1]=y;
-
+                        if(!fill){
                         glBegin(GL_LINES);
                         glVertex2i(x,wh-y);
                         glVertex2i(xp[0],wh-yp[0]);
                         glEnd();
+                        } else {
+                            glVertex2f(xp[1],wh-yp[1]);
+                            glEnd();
+                        }
+
                     }
 
 
@@ -783,11 +806,6 @@ void mouse(int btn, int state, int x, int y)
 		glFlush();
 	}
 
-    /*if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN){
-	bcor = pick_color(x,y);
-	if (bcor!=0)
-	set_bgcolor(cor);
-}*/
 
 	if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN)
 	{
@@ -807,38 +825,6 @@ void mouse(int btn, int state, int x, int y)
 }
 
 
-/*void middle_menu(int id)
-{
-
-}*/
-
-/*void color_menu(int id)
-{
-	if     (id == 1) {r = 1.0; g = 0.0; b = 0.0;}  // red
-	else if(id == 2) {r = 0.0; g = 1.0; b = 0.0;}  // green
-	else if(id == 3) {r = 0.0; g = 0.0; b = 1.0;}  // blue
-	else if(id == 4) {r = 0.0; g = 1.0; b = 1.0;}  // cyan
-	else if(id == 5) {r = 1.0; g = 0.0; b = 1.0;}  // magenta
-	else if(id == 6) {r = 1.0; g = 1.0; b = 0.0;}  // yellow
-	else if(id == 7) {r = 1.0; g = 1.0; b = 1.0;}  // white
-	else if(id == 8) {r = 0.0; g = 0.0; b = 0.0;}  // black
-	else if(id == 9) {r = 1.0; g = 0.5; b = 0.0;}  // orange
-	else if(id == 10){r = 0.5; g = 0.5; b = 0.5;}  // gray
-	//display();
-}
-*/
-
-/*void pixel_menu(int id)
-{
-	if      (id  == 1) size = 2 * size;
-	else if (size > 1) size = size/2;
-}*/
-
-/*void fill_menu(int id)
-{
-	if (id == 1) fill = 1;
-	else         fill = 0;
-}*/
 
 void key(unsigned char k, int xx, int yy)
 {
@@ -1006,7 +992,8 @@ void display(void){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	drawButtons(1,1,1,1,1,1,1);
-	colorpalete(cor,bcor, wh,ww);
+	colorpalete(cor,bcor,wh,ww);
+
 
 	glFlush();
 }
@@ -1031,46 +1018,6 @@ int main(int argc, char** argv)
 	// Register the Display callback function (display)
 	glutDisplayFunc(display);
 
-	// Create a color selection pop-up menu and a function associated with it
-/*	c_menu = glutCreateMenu(color_menu);
-	glutAddMenuEntry("Red",    1);
-	glutAddMenuEntry("Green",  2);
-	glutAddMenuEntry("Blue",   3);
-	glutAddMenuEntry("Cyan",   4);
-	glutAddMenuEntry("Magenta",5);
-	glutAddMenuEntry("Yellow", 6);
-	glutAddMenuEntry("White",  7);
-	glutAddMenuEntry("Black",  8);
-	glutAddMenuEntry("Orange",  9);
-	glutAddMenuEntry("Gray",  10);
-	*/
-
-	// Create a pixel resize pop-up menu and a function associated with it
-	/*p_menu = glutCreateMenu(pixel_menu);
-	glutAddMenuEntry("increase pixel size", 1);
-	glutAddMenuEntry("decrease pixel size", 2);*/
-
-	// Create a fill selection mode pop-up menu	and function associated with it
-	/*f_menu = glutCreateMenu(fill_menu);
-	glutAddMenuEntry("fill on",  1);
-	glutAddMenuEntry("fill off", 2);*/
-
-	// Create a pop-up menu for clearing or quitting and function associated with it
-	/*glutCreateMenu(right_menu);
-	glutAddMenuEntry("quit", 1);
-	glutAddMenuEntry("clear",2);
-	// Attach the menu just created to the right mouse button
-	glutAttachMenu(GLUT_RIGHT_BUTTON);*/
-
-	// Create a pop-up menu for selecting color, pixel resize or fill mode
-	/*glutCreateMenu(middle_menu);
-	glutAddSubMenu("Colors",     c_menu);
-	glutAddSubMenu("Pixel Size", p_menu);
-	glutAddSubMenu("Fill",       f_menu);
-	// Attach the menu just created to the middle mouse button
-	glutAttachMenu(GLUT_MIDDLE_BUTTON);
-    */
-
 	// Initialization OpenGL commands
 	myinit ();
 
@@ -1085,7 +1032,7 @@ int main(int argc, char** argv)
 
 	glutMotionFunc (mouse_motion);
 
-//	glutPassiveMotionFunc(mouse_passive_motion);
+	//glutPassiveMotionFunc(mouse_passive_motion);
 
 	//glutIdleFunc(mouse_idle);
 
