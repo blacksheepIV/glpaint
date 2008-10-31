@@ -122,11 +122,11 @@ void myinit(void)
 // essa função no diz se o mouse está sobre os menus (opções ou paleta)
 bool area_de_desenho(int x, int y)
 {
-	int opcoes = pick(x,y,wh,ww);
+/*	int opcoes = pick(x,y,wh,ww);
 	int cores = pick_color(x,y,wh,ww);
 	int sizes = pick_size(x,y,wh,ww);
-
-	if ((!opcoes) && (!cores) && (!sizes)) return true;
+*/
+	if (/*(!opcoes) && (!cores) && (!sizes) && */y > 1+ww/10 && y < wh-1-ww/6) return true;
 	else return false;
 }
 
@@ -141,6 +141,7 @@ void mouse_idle()
 
 	if (idle==1 && cont_idle==0 && draw_mode==ERASER)
 	{
+	    //if (!area_de_desenho(xi-tamanho/2,yi) || !area_de_desenho(xi+tamanho/2,yi) || !area_de_desenho(xi,yi-tamanho/2) || !area_de_desenho(xi,yi+tamanho/2)) return;
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -200,7 +201,7 @@ void mouse_passive_motion(int x, int y)
 
 			case (ERASER):
 			{
-
+//if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 			    glPushAttrib(GL_ALL_ATTRIB_BITS);//
 
                     glLineWidth(1);
@@ -360,7 +361,7 @@ void mouse_motion(int x, int y)
 
 			case (ERASER):
 			{
-				if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
+				if (!area_de_desenho(x,y+tamanho/2) || !area_de_desenho(x,y-tamanho/2)/* || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)*/) break;
 
 				glPushAttrib(GL_ALL_ATTRIB_BITS);
                 //glDisable(GL_COLOR_LOGIC_OP);
@@ -557,6 +558,7 @@ void mouse(int btn, int state, int x, int y)
 
 				case (ERASER):
 				{
+				    if (!area_de_desenho(x,y+tamanho/2) || !area_de_desenho(x,y-tamanho/2)) break;
 				   // if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
 				    //glColor3f(rb,gb,bb);
 
