@@ -72,14 +72,12 @@ int pick_size(int x, int y, int wh, int ww){
             glGetIntegerv(GL_POINT_SIZE,&psize);
             glLineWidth(lwidth+1);
             glPointSize(psize+1);
-            printf("------>  %d   <-------\n",psize+1);
             return 1;
     } else {
         glGetIntegerv(GL_LINE_WIDTH,&lwidth);
         glGetIntegerv(GL_POINT_SIZE,&psize);
         glLineWidth(lwidth-1);
         glPointSize(psize-1);
-        printf("------>  %d   <-------\n",psize-1);
         return 1;
     }
 	    //else if((x < 8*ww/10)&&y>ww/20) {glLineWidth(glLineWidth-1); glPointSize(glPointSize-1)}return MINUS;

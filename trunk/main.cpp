@@ -239,7 +239,8 @@ void mouse_passive_motion(int x, int y)
 			mpm=1;
 
 			idle = 0;
-			puts("idle1");
+			// VERBOSE
+			//puts("idle1");
 		}
 
 
@@ -298,7 +299,8 @@ void mouse_motion(int x, int y)
     if (area_de_desenho(x,y))
     {
 
-	puts("mouse_motion");
+    // VERBOSE
+	//puts("mouse_motion");
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -330,7 +332,8 @@ void mouse_motion(int x, int y)
 
 			if(cont_motion!=0)
 			{
-				printf("cor: %d",cor);
+			    // VERBOSE
+				//printf("cor: %d",cor);
 
 
                 // desenha (apaga) por cima da linha anterior
@@ -350,7 +353,7 @@ void mouse_motion(int x, int y)
 				glEnd();
 
 
-//                        glFlush();
+                        //glFlush();
 
 			} break;
 
@@ -435,12 +438,15 @@ void mouse(int btn, int state, int x, int y)
 {
 	//int opcao;
    // int cor;
-   printf("cont %d\n", cont);
+
+   // VERBOSE
+   //printf("cont %d\n", cont);
 
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
-		puts("mouse down");
+	    // VERBOSE
+		//puts("mouse down");
 
 		//printf("%d",pick_color(x,y));
 
@@ -503,11 +509,13 @@ void mouse(int btn, int state, int x, int y)
                     }
                     else
                     {
-                        printf("x =%d e y=%d\n",x,y);
-                        printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
-                        printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
+                        // VERBOSE
+                        //printf("x =%d e y=%d\n",x,y);
+                        //printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
+                        //printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
 
-                        puts("jeghrjagjh");
+                        //VERBOSE
+                        //puts("jeghrjagjh");
                         glBegin(GL_LINES);
                             glVertex2i(x,wh-y);
                             glVertex2i(xp[0],wh-yp[0]);
@@ -570,7 +578,8 @@ void mouse(int btn, int state, int x, int y)
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP)
 	{
-		puts("mouse up");
+	    // VERBOSE
+		//puts("mouse up");
 
 
 /*<<<<<<< .mine
@@ -728,7 +737,8 @@ cont_motion=0;
 	{
 		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww)!=0))
 		{
-			puts("setei a cor de fundo");
+		    // VERBOSE
+			// puts("setei a cor de fundo");
 
 			set_bgcolor(pick_color(x,y,wh,ww),&bcor, &rb, &gb, &bb);
 
