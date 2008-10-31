@@ -670,6 +670,8 @@ void mouse(int btn, int state, int x, int y)
 			} // fim do swicth
 		}
 
+		colorpalete(cor, bcor, wh, ww);
+
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 		glLineWidth(3);
