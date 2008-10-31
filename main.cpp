@@ -448,7 +448,7 @@ void mouse(int btn, int state, int x, int y)
 		}
 
         // Define o tamanho
-		if(!area_de_desenho(x,y)&&(pick_size!=0))
+		if(!area_de_desenho(x,y)&&(pick_size(x,y,wh,ww)!=0))
 		{
 			set_size(pick_size(x,y,wh,ww),&sizei);
 		}
