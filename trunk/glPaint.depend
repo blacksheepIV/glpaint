@@ -399,7 +399,7 @@
 1225397531 source:/home/danielm/projetos/glpaint/figuras.cpp
 	"figuras.h"
 
-1225412710 source:/home/danielm/projetos/glpaint/include/pick.cpp
+1225413621 source:/home/danielm/projetos/glpaint/include/pick.cpp
 	"pick.h"
 	<GL/glut.h>
 	<GL/gl.h>

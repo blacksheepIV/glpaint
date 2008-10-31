@@ -751,12 +751,12 @@ cont_motion=0;
 }
 
 
-void middle_menu(int id)
+/*void middle_menu(int id)
 {
 
-}
+}*/
 
-void color_menu(int id)
+/*void color_menu(int id)
 {
 	if     (id == 1) {r = 1.0; g = 0.0; b = 0.0;}  // red
 	else if(id == 2) {r = 0.0; g = 1.0; b = 0.0;}  // green
@@ -770,25 +770,28 @@ void color_menu(int id)
 	else if(id == 10){r = 0.5; g = 0.5; b = 0.5;}  // gray
 	//display();
 }
+*/
 
-
-void pixel_menu(int id)
+/*void pixel_menu(int id)
 {
 	if      (id  == 1) size = 2 * size;
 	else if (size > 1) size = size/2;
-}
+}*/
 
-void fill_menu(int id)
+/*void fill_menu(int id)
 {
 	if (id == 1) fill = 1;
 	else         fill = 0;
-}
+}*/
 
 void key(unsigned char k, int xx, int yy)
 {
 	if(draw_mode!=TEXT)
 	{
-		return;
+	    if((k=='f')||(k='F')) {
+	        if (fill==0) fill = 1;
+	        else fill = 0;
+	    } else return;
 	}
 	else
 	{
@@ -955,7 +958,7 @@ void display(void){
 
 int main(int argc, char** argv)
 {
-	int c_menu, p_menu, f_menu;
+    //int c_menu, p_menu, f_menu;
 
 	// Negotiate window session
 	glutInit(&argc,argv);
@@ -973,7 +976,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 
 	// Create a color selection pop-up menu and a function associated with it
-	c_menu = glutCreateMenu(color_menu);
+/*	c_menu = glutCreateMenu(color_menu);
 	glutAddMenuEntry("Red",    1);
 	glutAddMenuEntry("Green",  2);
 	glutAddMenuEntry("Blue",   3);
@@ -984,16 +987,17 @@ int main(int argc, char** argv)
 	glutAddMenuEntry("Black",  8);
 	glutAddMenuEntry("Orange",  9);
 	glutAddMenuEntry("Gray",  10);
+	*/
 
 	// Create a pixel resize pop-up menu and a function associated with it
-	p_menu = glutCreateMenu(pixel_menu);
+	/*p_menu = glutCreateMenu(pixel_menu);
 	glutAddMenuEntry("increase pixel size", 1);
-	glutAddMenuEntry("decrease pixel size", 2);
+	glutAddMenuEntry("decrease pixel size", 2);*/
 
 	// Create a fill selection mode pop-up menu	and function associated with it
-	f_menu = glutCreateMenu(fill_menu);
+	/*f_menu = glutCreateMenu(fill_menu);
 	glutAddMenuEntry("fill on",  1);
-	glutAddMenuEntry("fill off", 2);
+	glutAddMenuEntry("fill off", 2);*/
 
 	// Create a pop-up menu for clearing or quitting and function associated with it
 	/*glutCreateMenu(right_menu);
@@ -1003,13 +1007,13 @@ int main(int argc, char** argv)
 	glutAttachMenu(GLUT_RIGHT_BUTTON);*/
 
 	// Create a pop-up menu for selecting color, pixel resize or fill mode
-	glutCreateMenu(middle_menu);
+	/*glutCreateMenu(middle_menu);
 	glutAddSubMenu("Colors",     c_menu);
 	glutAddSubMenu("Pixel Size", p_menu);
 	glutAddSubMenu("Fill",       f_menu);
 	// Attach the menu just created to the middle mouse button
 	glutAttachMenu(GLUT_MIDDLE_BUTTON);
-
+    */
 
 	// Initialization OpenGL commands
 	myinit ();
