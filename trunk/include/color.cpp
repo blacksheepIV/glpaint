@@ -9,6 +9,9 @@ void colorpalete(int cor, int bcor, int wh, int ww){
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	glColor3i(0,0,0);
+	glRectf(0,0,ww,1+ww/6);
+
     // Draw a square painted with selected color
 	glColor3f(1.0,1.0,1.0);
 	screen_box(10,ww/10,ww/15);

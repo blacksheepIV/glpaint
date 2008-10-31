@@ -340,7 +340,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1225480584 source:/arquivos/cg/paint/trab2/glpaint/main.cpp
+1225481053 source:/arquivos/cg/paint/trab2/glpaint/main.cpp
 	<stdlib.h>
 	<GL/glut.h>
 	<GL/gl.h>
@@ -423,7 +423,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1225462644 source:/arquivos/cg/paint/trab2/glpaint/include/color.cpp
+1225481592 source:/arquivos/cg/paint/trab2/glpaint/include/color.cpp
 	"color.h"
 	"figuras.h"
 	"definicoes.h"
