@@ -49,33 +49,34 @@ int pick_color(int x, int y, int wh, int ww)
 }
 
 
-int pick_size(int x, int y, int wh, int ww){
+int set_size(int direcao,int* size){
     GLint lwidth,psize;
-	// Verifica se y esta na parte onde estao os botões + e -
+
 	// Então verifica se esta sob o botão de + ou de - e faz o incremento
 	// ou decremento
-	if(y > (ww/10) || (x > (ww/2+ww/5+ww/20)) || ( x <(ww/2+ww/5))) return 0;
-    else if(y<ww/20) {
+    if(direcao==1) {
             glGetIntegerv(GL_LINE_WIDTH,&lwidth);
             glGetIntegerv(GL_POINT_SIZE,&psize);
             glLineWidth(lwidth+1);
             glPointSize(psize+1);
             return 1;
-        } else {
+    } else if (direcao==2){
             glGetIntegerv(GL_LINE_WIDTH,&lwidth);
             glGetIntegerv(GL_POINT_SIZE,&psize);
             glLineWidth(lwidth-1);
             glPointSize(psize-1);
             return 1;
-        }
+    }
+
     return 0;
 }
 
-int pick_size2(int x, int y, int wh, int ww){
+int pick_size(int x, int y, int wh, int ww){
 	// Verifica se y esta na parte onde estao os botões + e -
 	// Então verifica se esta sob o botão de + ou de - e faz o incremento
 	// ou decremento
 	if(y > (ww/10) || (x > (ww/2+ww/5+ww/20)) || ( x <(ww/2+ww/5))) return 0;
-    else return 1;
+    else if (y<ww/20) return 1;
+        else return 2;
 
 }

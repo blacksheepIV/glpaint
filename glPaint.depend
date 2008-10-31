@@ -394,14 +394,14 @@
 1225397531 source:/home/danielm/projetos/glpaint/figuras.cpp
 	"figuras.h"
 
-1225471232 source:/home/danielm/projetos/glpaint/include/pick.cpp
+1225473791 source:/home/danielm/projetos/glpaint/include/pick.cpp
 	"pick.h"
 	<GL/glut.h>
 	<GL/gl.h>
 	<GL/glu.h>
 	<stdio.h>
 
-1225470503 /home/danielm/projetos/glpaint/include/pick.h
+1225473627 /home/danielm/projetos/glpaint/include/pick.h
 	"definicoes.h"
 
 1225466114 /home/danielm/projetos/glpaint/include/definicoes.h

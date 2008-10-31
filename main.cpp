@@ -34,6 +34,7 @@ GLfloat r = 1.0, g = 1.0, b = 1.0;	/* drawing color */
 GLfloat rb = 0.0, gb = 0.0, bb = 0.0; /* background color */
 
 int cor=WHITE,bcor=BLACK;
+int sizei=1;
 
 int fill = 0;						/* fill flag	 */
 
@@ -123,7 +124,7 @@ bool area_de_desenho(int x, int y)
 {
 	int opcoes = pick(x,y,wh,ww);
 	int cores = pick_color(x,y,wh,ww);
-	int sizes = pick_size2(x,y,wh,ww);
+	int sizes = pick_size(x,y,wh,ww);
 
 	if ((!opcoes) && (!cores) && (!sizes)) return true;
 	else return false;
@@ -417,11 +418,16 @@ void mouse(int btn, int state, int x, int y)
 
 
         // define o modo de desenho
-		// Problema: if(!area_de_desenho(x,y)&& (pick(x,y,wh,ww)!=0))
-		if(!area_de_desenho(x,y))
+		if(!area_de_desenho(x,y)&& (pick(x,y,wh,ww)!=0))
 		{
 			draw_mode = pick(x,y,wh,ww);
-			if(pick_size(x,y,wh,ww)!=0) drawButtons(1,1,1,1,1,1,1);
+		//	if(pick_size(x,y,wh,ww)!=0) drawButtons(1,1,1,1,1,1,1);
+		}
+
+        // Define o tamanho
+		if(!area_de_desenho(x,y)&&(pick_size!=0))
+		{
+			set_size(pick_size(x,y,wh,ww),&sizei);
 		}
 
 
