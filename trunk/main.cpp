@@ -144,13 +144,23 @@ void mouse_idle()
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-		set_color(bcor,&cor);
-
 		glEnable(GL_COLOR_LOGIC_OP);
 
 		glLogicOp(GL_XOR);
 
-		quadrado(xi,wh-yi,tamanho);
+            glPushAttrib(GL_ALL_ATTRIB_BITS);//
+
+            glLineWidth(1);
+
+            set_color(WHITE,&cor);//
+
+            quadrado(xi,wh-yi,tamanho-1);
+
+            glPopAttrib();//
+
+		set_color(bcor,&cor);
+
+		borracha(xi,wh-yi,tamanho-2);
 
 		glPopAttrib();
 
@@ -168,6 +178,11 @@ void mouse_passive_motion(int x, int y)
 	{
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+		glEnable(GL_COLOR_LOGIC_OP);
+
+        glLogicOp(GL_XOR);
+
 		cont_idle = 0;
 
 
@@ -186,13 +201,21 @@ void mouse_passive_motion(int x, int y)
 			case (ERASER):
 			{
 
+			    glPushAttrib(GL_ALL_ATTRIB_BITS);//
+
+                    glLineWidth(1);
+
+                    set_color(WHITE,&cor);//
+
+                    quadrado(x,wh-y,tamanho-1);
+
+                glPopAttrib();//
+
+
 				set_color(bcor,&cor);
-				glEnable(GL_COLOR_LOGIC_OP);
 
-				glLogicOp(GL_XOR);
-
-                    // desenha borracha temporária
-				quadrado(x,wh-y,tamanho);
+                // desenha borracha temporária
+				borracha(x,wh-y,tamanho-2);
 
 
                     // guarda a posição da borracha
@@ -346,7 +369,7 @@ void mouse_motion(int x, int y)
            //             int aux = cor;
 
 				set_color(bcor,&cor);
-				quadrado(x,wh-y,tamanho);
+				borracha(x,wh-y,tamanho);
 
 				glPopAttrib();
                       //  glFlush();
@@ -530,7 +553,7 @@ void mouse(int btn, int state, int x, int y)
 					glPushAttrib(GL_ALL_ATTRIB_BITS);
 					set_color(bcor,&cor);
 
-					quadrado(x,wh-y,tamanho);
+					borracha(x,wh-y,tamanho);
 					//puts("eraser");
 					glPopAttrib();
 

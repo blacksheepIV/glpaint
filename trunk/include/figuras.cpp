@@ -11,14 +11,28 @@ void retangulo(int x1, int y1, int x2, int y2)
     glEnd();
 }
 
-void quadrado(int xc, int yc, int lado)
+void borracha(int xc, int yc, float lado)
 {
     glBegin(GL_POLYGON);
-        glVertex2i(xc-lado/2,yc-lado/2);
-        glVertex2i(xc+lado/2,yc-lado/2);
-        glVertex2i(xc+lado/2,yc+lado/2);
-        glVertex2i(xc-lado/2,yc+lado/2);
+        glVertex2f(xc-lado/2,yc-lado/2);
+        glVertex2f(xc+lado/2,yc-lado/2);
+        glVertex2f(xc+lado/2,yc+lado/2);
+        glVertex2f(xc-lado/2,yc+lado/2);
     glEnd();
+}
+
+void quadrado(int xc, int yc, float lado)
+{
+    //glPushClientAttrib(GL_ALL_ATTRIB_BITS);
+    //glLineWidth(1);
+
+    glBegin(GL_LINE_LOOP);
+        glVertex2f(xc-lado/2,yc-lado/2);
+        glVertex2f(xc+lado/2,yc-lado/2);
+        glVertex2f(xc+lado/2,yc+lado/2);
+        glVertex2f(xc-lado/2,yc+lado/2);
+    glEnd();
+    //glPopAttrib();
 }
 
 void screen_box(int x, int y, int s)
