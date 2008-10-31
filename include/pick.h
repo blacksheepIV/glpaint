@@ -6,5 +6,6 @@
 int  pick(int, int, int, int);
 int  pick_color(int, int, int, int);
 int pick_size(int x, int y, int wh, int ww);
+int pick_size2(int x, int y, int wh, int ww);
 
 #endif // PICK_H_INCLUDED
