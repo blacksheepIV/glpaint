@@ -591,9 +591,10 @@ void mouse(int btn, int state, int x, int y)
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP)
 	{
+	    if (!area_de_desenho(x,y)) { cont=0; cont_motion=0; }
 //puts("up");
 
-		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont_motion!=0))
+		else if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont_motion!=0))
 
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
