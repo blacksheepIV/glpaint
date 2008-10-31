@@ -662,6 +662,16 @@ void mouse(int btn, int state, int x, int y)
 
 					cont=0;
 
+					// Desenha o botão selecionado novamente,
+					// Pois o círculo pode sobrescrever o botão.
+                    drawButtons(0,0,0,0,0,1,0);
+                    glColor3f(1.0,0.0,0.0);
+                    glBegin(GL_LINES);
+                    glVertex2f(ww/2,wh-ww/10);
+                    glVertex2f(3*ww/5,wh);
+                    glVertex2f(3*ww/5,wh-ww/10);
+                    glVertex2f(ww/2,wh);
+                    glEnd();
 
 				} break;
 
