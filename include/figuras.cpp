@@ -38,6 +38,24 @@ void screen_box(int x, int y, int s)
  * teta -> arco entre dois pontos consecutivos do polígono ("circulo")
 
  */
+
+void circulo_cheio(int xc, int yc, double r)
+{
+
+    double i = (pi * 1/180);
+    double fi = 0;
+
+    glBegin(GL_POLYGON);
+
+    while (fi <= 2*pi)
+    {
+        glVertex2f(xc + r*cos(fi), yc + r*sin(fi));
+        fi = fi + i;
+    }
+
+    glEnd();
+}
+
 void circulo(int xc, int yc, double r)
 {
 

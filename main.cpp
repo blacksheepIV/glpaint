@@ -451,8 +451,8 @@ void mouse_motion(int x, int y)
 
             double d = sqrt(pow((xi-xp[0]),2)+pow((yi-yp[0]),2));
 
-			//if (fill) glRecti(xi,wh-yi,xp[0],wh-yp[0]);
-			/*else*/ circulo(xp[0],wh-yp[0],d);
+			if (fill) circulo_cheio(xp[0],wh-yp[0],d);
+			else circulo(xp[0],wh-yp[0],d);
 
 			if(cont_motion!=0)
 			{
@@ -463,8 +463,8 @@ void mouse_motion(int x, int y)
 				double d2 = sqrt(pow((x-xp[0]),2)+pow((y-yp[0]),2));
 
                 // desenha circulo temporário
-//				if (fill) glRecti(x,wh-y,xp[0],wh-yp[0]);
-				/*else*/ circulo(xp[0],wh-yp[0],d2);
+				if (fill) circulo_cheio(xp[0],wh-yp[0],d2);
+				else circulo(xp[0],wh-yp[0],d2);
 			}
 
 
@@ -685,7 +685,8 @@ void mouse(int btn, int state, int x, int y)
 				    puts("aqui");
 				    double d = sqrt(pow((x-xp[0]),2)+pow((y-yp[0]),2));
 
-					circulo(xp[0],wh-yp[0],d);
+					if (fill) circulo_cheio(xp[0],wh-yp[0],d);
+					else circulo(xp[0],wh-yp[0],d);
 
 					cont=0;
 

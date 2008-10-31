@@ -11,6 +11,7 @@ void screen_box(int, int, int);
 void retangulo(int x1, int y1, int x2, int y2);
 void quadrado(int xc, int yc, int lado);
 void circulo(int xc, int yc, double r);
+void circulo_cheio(int xc, int yc, double r);
 
 
 #endif // FIGURAS_H_INCLUDED

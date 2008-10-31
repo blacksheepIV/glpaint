@@ -432,7 +432,7 @@
 	<GL/gl.h>
 	<GL/glu.h>
 
-1225419927 /arquivos/cg/paint/trab2/glpaint/include/figuras.h
+1225421561 /arquivos/cg/paint/trab2/glpaint/include/figuras.h
 	<math.h>
 	<GL/glut.h>
 	<GL/gl.h>
@@ -440,7 +440,7 @@
 
 1225416849 /arquivos/cg/paint/trab2/glpaint/include/definicoes.h
 
-1225419918 source:/arquivos/cg/paint/trab2/glpaint/include/figuras.cpp
+1225421429 source:/arquivos/cg/paint/trab2/glpaint/include/figuras.cpp
 	"figuras.h"
 
 1225416849 source:/arquivos/cg/paint/trab2/glpaint/include/pick.cpp
