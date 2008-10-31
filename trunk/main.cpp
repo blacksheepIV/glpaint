@@ -662,39 +662,36 @@ void mouse(int btn, int state, int x, int y)
 
 					cont=0;
 
-					// Desenha o botão selecionado novamente,
-					// Pois o círculo pode sobrescrever o botão.
-					glPushAttrib(GL_ALL_ATTRIB_BITS);
-					glColor3i(1,1,1);
-                    glRectf(0,wh-ww/10,ww,wh);
-                    drawButtons(0,0,0,0,0,1,0);
-                    glColor3f(1.0,0.0,0.0);
-                    glBegin(GL_LINES);
-                    glVertex2f(ww/2,wh-ww/10);
-                    glVertex2f(3*ww/5,wh);
-                    glVertex2f(3*ww/5,wh-ww/10);
-                    glVertex2f(ww/2,wh);
-                    glEnd();
-                    glPopAttrib();
-
 				} break;
 
-				default: break;
+				default: {cont =0;} break;
 
 			} // fim do swicth
 		}
 
-		colorpalete(cor, bcor, wh, ww);
 
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+    if (draw_mode!=0)
+    {
+        // repinta a paleta
+		//colorpalete(cor, bcor, wh, ww);
+
+		glPushAttrib(GL_ALL_ATTRIB_BITS); // push 1
+
+		if (draw_mode!=ERASER) colorpalete(cor, bcor, wh, ww);
+
+
+        glColor3i(1,1,1);
+        glRectf(0,wh-ww/10,ww,wh);
+
+            //glPopAttrib(); // pop 2
 
 		glLineWidth(3);
 
         // marcar com um X a opção escolhida
 		switch(draw_mode){
 			case(LINE):
-				drawButtons(0,1,1,1,1,1,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(0.0,wh-ww/10);
@@ -704,7 +701,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(RECTANGLE):
-				drawButtons(1,0,1,1,1,1,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,1.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/10.0,wh-ww/10);
@@ -714,7 +711,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TRIANGLE):
-				drawButtons(1,1,0,1,1,1,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(0.0,0.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/5.0,wh-ww/10);
@@ -724,7 +721,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(POINTS):
-				drawButtons(1,1,1,0,1,1,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,1.0,1.0);
 				glBegin(GL_LINES);
 				glVertex2f(3*ww/10.0,wh-ww/10);
@@ -734,7 +731,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(TEXT):
-				drawButtons(1,1,1,1,0,1,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(2*ww/5,wh-ww/10);
@@ -744,7 +741,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(CIRCLE):
-				drawButtons(1,1,1,1,1,0,1);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/2,wh-ww/10);
@@ -754,7 +751,7 @@ void mouse(int btn, int state, int x, int y)
 				glEnd();
 				break;
 			case(ERASER):
-				drawButtons(1,1,1,1,1,1,0);
+				drawButtons(1,1,1,1,1,1,1);
 				glColor3f(1.0,0.0,0.0);
 				glBegin(GL_LINES);
 				glVertex2f(ww/2+ww/10,wh-ww/10);
@@ -768,8 +765,11 @@ void mouse(int btn, int state, int x, int y)
 
 
 		cont_motion=0;
-		glPopAttrib();
+
+		glPopAttrib(); // pop 1
+    }
 		glFlush();
+
 	}
 
 
