@@ -678,7 +678,7 @@ void mouse(int btn, int state, int x, int y)
 
 		glPushAttrib(GL_ALL_ATTRIB_BITS); // push 1
 
-		if (draw_mode!=ERASER) colorpalete(cor, bcor, wh, ww);
+		colorpalete(cor, bcor, wh, ww);
 
 
         glColor3i(1,1,1);
