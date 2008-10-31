@@ -1,15 +1,3 @@
-/* newpaint.c   */
-
-/* E. Angel, Interactive Computer Graphics			*/
-/* A Top-Down Approach with OpenGL, Third Edition	*/
-/* Addison-Wesley Longman, 2003						*/
-
-
-/* paint program from chapter 3  */
-
-/* This program illustrates the use of the glut library for
-interfacing with a window system */
-
 #include <stdlib.h>
 #include <GL/glut.h>
 #include <GL/gl.h>
@@ -32,11 +20,6 @@ void myReshape(GLsizei, GLsizei);
 
 void myinit(void);
 
-//void right_menu(int);
-//void middle_menu(int);
-//void color_menu(int);
-//void pixel_menu(int);
-//void fill_menu(int);
 void drawButtons(int a, int b, int c, int d, int e, int f, int h);
 bool area_de_desenho(void);
 
@@ -77,7 +60,6 @@ int cont_idle = 0; // flag para evitar um loop na função mouse_idle
 void drawSquare(int x, int y)
 {
 	y=wh-y;
-        //glColor3ub( (char) rand()%256, (char) rand()%256, (char) rand()%256);
 	glBegin(GL_POLYGON);
 	glVertex2f(x+size, y+size);
 	glVertex2f(x-size, y+size);
@@ -106,7 +88,7 @@ void myReshape(GLsizei w, GLsizei h)
 	glViewport(0,0,w,h);
 	glClearColor (0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	//display();
+
 	glFlush();
 
 	/* set global size for use by drawing routine */
@@ -154,20 +136,18 @@ void mouse_idle()
 {
 
 	if (cont_idle==0 && idle!= 0)
-
-puts("idle");
+    //puts("idle");
 	{
 
 		if(area_de_desenho(xi, yi))
 		{
            //puts("desenho");
-
 		    if ((draw_mode == ERASER) && (idle==1))
 			{
 
-			   // int aux = cor;
+                // int aux = cor;
 				//glPushAttrib(GL_ALL_ATTRIB_BITS);
-                        //puts("idlefunc");
+                //puts("idlefunc");
 
 				glEnable(GL_COLOR_LOGIC_OP);
 
@@ -209,33 +189,32 @@ void mouse_passive_motion(int x, int y)
 			mpm=1;
 
 			idle = 0;
-			// VERBOSE
+
 			//puts("idle1");
 		}
 
 		else
 		{
 
-                   //  int aux = cor;
-//					set_color(bcor,&cor);
+                    // int aux = cor;
+                    // set_color(bcor,&cor);
 
 					glEnable(GL_COLOR_LOGIC_OP);
 
 					glLogicOp(GL_XOR);
 
-                        // desenha borracha temporaria
+                    // desenha borracha temporaria
 					quadrado(xi,wh-yi,tamanho);
-                      //   glFlush();
 
-                        glDisable(GL_COLOR_LOGIC_OP);
+                    glDisable(GL_COLOR_LOGIC_OP);
 
-//                       set_color(aux,&cor);
+                    // set_color(aux,&cor);
 
-                        // guarda a posição da borracha
+                    // guarda a posição da borracha
 					xi=x;
 					yi=y;
 
-				}
+            }
 
 
 
@@ -243,11 +222,8 @@ void mouse_passive_motion(int x, int y)
 
 			glFlush();
 
-			// VERBOSE
 			//puts("idle1");
-
-	//glFlush();
-   //puts("passive_motion");
+            //puts("passive_motion");
 /*
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -270,7 +246,6 @@ void mouse_passive_motion(int x, int y)
 			mpm=1;
 
 			idle = 0;
-			// VERBOSE
 			//puts("idle1");
 		}
 
@@ -290,7 +265,7 @@ void mouse_passive_motion(int x, int y)
 
 					glLogicOp(GL_XOR);
 
-                        // desenha borracha temporaria
+                    // desenha borracha temporaria
 					quadrado(x,wh-y,tamanho);
                       //   glFlush();
 
@@ -325,12 +300,8 @@ void mouse_passive_motion(int x, int y)
 void mouse_motion(int x, int y)
 {
 
-//    printf("cor: %d",cor);
-
     if (area_de_desenho(x,y))
     {
-
-    // VERBOSE
 	//puts("mouse_motion");
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -355,10 +326,6 @@ void mouse_motion(int x, int y)
 		case(LINE):
 			if(cont_motion!=0)
 			{
-			    // VERBOSE
-				//printf("cor: %d",cor);
-
-
                 // desenha (apaga) por cima da linha anterior
 				glBegin(GL_LINES);
 				glVertex2i(xi,wh-yi);
@@ -374,9 +341,6 @@ void mouse_motion(int x, int y)
 				glVertex2i(x,wh-y);
 				glVertex2i(xp[0],wh-yp[0]);
 				glEnd();
-
-
-                        //glFlush();
 
 			} break;
 
@@ -431,15 +395,12 @@ void mouse_motion(int x, int y)
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			glDisable(GL_COLOR_LOGIC_OP);
 
-                    // Aplica a cor de background
-       //             int aux = cor;
+            // Aplica a cor de background
 
 			set_color(bcor,&cor);
 			quadrado(x,wh-y,tamanho);
 
 			glPopAttrib();
-//                    glFlush();
-        //            set_color(aux);
 
 		} break;
 
@@ -476,7 +437,6 @@ void mouse_motion(int x, int y)
 
 	glPopAttrib();
 	glFlush();
-          // printf("%s\n","estou na motion");
         //glDisable(GL_COLOR_LOGIC_OP);
    }
 }
@@ -487,19 +447,12 @@ void mouse(int btn, int state, int x, int y)
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
 	{
-	    // VERBOSE
 		//puts("mouse down");
-
-		//printf("%d",pick_color(x,y));
 
 		// define a cor de desenho
 		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww) !=0))
 		{
-		//	puts("setei a cor");
-
 			set_color(pick_color(x,y,wh,ww),&cor);
-
-		//	printf("cor: %d\n", cor);
 
             // redesenha a paleta
 			colorpalete(cor,bcor,wh,ww);
@@ -514,7 +467,7 @@ void mouse(int btn, int state, int x, int y)
 		}
 
 
-//        if (!area_de_desenho(x,y)) cont=0;
+        // if (!area_de_desenho(x,y)) cont=0;
 		if(area_de_desenho(x,y))
 		{
 
@@ -549,44 +502,32 @@ void mouse(int btn, int state, int x, int y)
                         yp[0] = y;
                         cont++;
 
-                    }
-                    else
-                    {
-/*<<<<<<< .mine
-                        // VERBOSE
-                        printf("x =%d e y=%d\n",x,y);
-                        printf("x[0] =%d e y[0]=%d\n",xp[0],yp[0]);
-                        printf("x[1] =%d e y[1]=%d\n",xp[1],yp[1]);
-=======
->>>>>>> .r43*/
-
-                        //puts("jeghrjagjh");
-                        if(!fill){glBegin(GL_LINES);
-                            glVertex2i(x,wh-y);
-                            glVertex2i(xp[0],wh-yp[0]);
-                        glEnd();
-
-                        glBegin(GL_LINES);
-                            glVertex2i(x,wh-y);
-                            glVertex2i(xp[1],wh-yp[1]);
-                        glEnd();
-                        } else {
-                            glBegin(GL_TRIANGLES);
-                            glVertex2f(xp[0], wh-yp[0]);
-                            glVertex2f(xp[1],wh-yp[1]);
-                            glVertex2f(x,wh- y);
+                    } else {
+                            if(!fill){glBegin(GL_LINES);
+                                glVertex2i(x,wh-y);
+                                glVertex2i(xp[0],wh-yp[0]);
                             glEnd();
-                        }
 
-                        cont = 0;
-                    }
-				} break;
+                            glBegin(GL_LINES);
+                                glVertex2i(x,wh-y);
+                                glVertex2i(xp[1],wh-yp[1]);
+                            glEnd();
+                            } else {
+                                glBegin(GL_TRIANGLES);
+                                glVertex2f(xp[0], wh-yp[0]);
+                                glVertex2f(xp[1],wh-yp[1]);
+                                glVertex2f(x,wh- y);
+                                glEnd();
+                            }
+
+                            cont = 0;
+                        }
+                    } break;
 
 				case(POINTS):
 				{
                     {
                         glBegin(GL_POINTS);
-                        //drawSquare(x,y);
                         glVertex2f(x,wh-y);
                         glEnd();
                         cont++;
@@ -639,15 +580,7 @@ void mouse(int btn, int state, int x, int y)
 
 	if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP)
 	{
-//puts("up");
-
 		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont_motion!=0))
-
-/*<<<<<<< .mine
-
-		if ((xp[0]!=0) && (yp[0]!=0) && (pick(x,y,wh,ww)==0) && (cont!=0))
-=======
->>>>>>> .r43*/
 		{
                 // aqui eu desenho as figuras definitivas (ao soltar o botão)
 			switch (draw_mode) {
@@ -811,15 +744,11 @@ void mouse(int btn, int state, int x, int y)
 	{
 		if ((!area_de_desenho(x,y)) && (pick_color(x,y,wh,ww)!=0))
 		{
-		    // VERBOSE
-			// puts("setei a cor de fundo");
-
 			set_bgcolor(pick_color(x,y,wh,ww),&bcor, &rb, &gb, &bb);
 
 	        // redesenha a paleta de cores
 			colorpalete(cor, bcor, wh, ww);
 		}
-        //retangulo(5,wh-5,30,wh-30);
 	}
 
 }
@@ -828,6 +757,7 @@ void mouse(int btn, int state, int x, int y)
 
 void key(unsigned char k, int xx, int yy)
 {
+    // Tecla f ativa ou desativa o modo fill
 	if(draw_mode!=TEXT)
 	{
 	    if((k=='f')||(k='F')) {
@@ -837,11 +767,9 @@ void key(unsigned char k, int xx, int yy)
 	}
 	else
 	{
-		//glColor3f(1.0,1.0,0.5);
 		glRasterPos2i(rx,ry);
 		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, k);
 		glFlush();
-		//glutStrokeCharacter(GLUT_STROKE_ROMAN,k);
 		rx+=glutBitmapWidth(GLUT_BITMAP_9_BY_15,k);
 	}
 
