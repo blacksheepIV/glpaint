@@ -525,7 +525,10 @@ void mouse(int btn, int state, int x, int y)
 				case(POINTS):
 				{
                     {
-                        drawSquare(x,y);
+                        glBegin(GL_POINTS);
+                        //drawSquare(x,y);
+                        glVertex2f(x,wh-y);
+                        glEnd();
                         cont++;
                     }
                     break;
@@ -535,9 +538,12 @@ void mouse(int btn, int state, int x, int y)
                         ry=wh-y;
 
                          // Desenha um ponto para marcar o inicio do texto
+                        glPushAttrib(GL_POINT_SIZE);
+                        glPointSize(2);
                         glBegin(GL_POINTS);
                         glVertex2f(rx,ry);
                         glEnd();
+                        glPopAttrib();
 
                         glRasterPos2i(rx,ry);
                         cont=0;
