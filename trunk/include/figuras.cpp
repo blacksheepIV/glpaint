@@ -23,8 +23,6 @@ void borracha(int xc, int yc, float lado)
 
 void quadrado(int xc, int yc, float lado)
 {
-    //glPushClientAttrib(GL_ALL_ATTRIB_BITS);
-    //glLineWidth(1);
 
     glBegin(GL_LINE_LOOP);
         glVertex2f(xc-lado/2,yc-lado/2);
@@ -32,7 +30,6 @@ void quadrado(int xc, int yc, float lado)
         glVertex2f(xc+lado/2,yc+lado/2);
         glVertex2f(xc-lado/2,yc+lado/2);
     glEnd();
-    //glPopAttrib();
 }
 
 void screen_box(int x, int y, int s)

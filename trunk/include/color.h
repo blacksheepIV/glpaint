@@ -6,7 +6,7 @@
 #include <GL/glu.h>
 
 void colorpalete(int cor, int bcor, int wh, int ww);
-void set_color(int color/*, int* cor*/);
+void set_color(int color);
 void set_bgcolor(int color, int* bcor, GLfloat* rb, GLfloat* gb, GLfloat* bb);
 
 #endif // COLOR_H_INCLUDED
