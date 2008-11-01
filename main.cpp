@@ -148,11 +148,11 @@ void mouse_idle()
 
 		glLogicOp(GL_XOR);
 
-      /*      glPushAttrib(GL_ALL_ATTRIB_BITS);//
+            glPushAttrib(GL_ALL_ATTRIB_BITS);//
 
             glLineWidth(1);
 
-            glColor3i(1,1,1);//set_color(WHITE,&cor);//
+            set_color(WHITE);//
        //     printf("cor %d\n",cor);
 
             quadrado(xi,wh-yi,tamanho-1);
@@ -204,7 +204,7 @@ void mouse_passive_motion(int x, int y)
 			case (ERASER):
 			{
 //if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
-			/*    glPushAttrib(GL_ALL_ATTRIB_BITS);//
+			    glPushAttrib(GL_ALL_ATTRIB_BITS);//
 
                     glLineWidth(1);
 
