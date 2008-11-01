@@ -1,11 +1,12 @@
 #include "color.h"
 #include "figuras.h"
 #include "definicoes.h"
+#include <stdio.h>
 
 void colorpalete(int cor, int bcor, int wh, int ww){
 //        int shift=0;
 //	int aux = cor;
-
+printf("cor %d, bcor%d\n", cor, bcor);
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -16,7 +17,7 @@ void colorpalete(int cor, int bcor, int wh, int ww){
 	glColor3f(1.0,1.0,1.0);
 	screen_box(10,ww/10,ww/15);
 
-	set_color(cor,&cor);
+	set_color(cor/*,&cor*/);
 	screen_box(1+10,1+ww/10,ww/15-2);
 	//set_color(aux,cor);
 
@@ -24,7 +25,7 @@ void colorpalete(int cor, int bcor, int wh, int ww){
 	glColor3f(1.0,1.0,1.0);
 	screen_box(10,ww/10-ww/15,ww/15);
 
-	set_color(bcor, &cor);
+	set_color(bcor/*, &cor*/);
 	screen_box(1+10,1+ww/10-ww/15,ww/15-2);
 	//set_color(aux,cor);
 
@@ -77,20 +78,21 @@ void colorpalete(int cor, int bcor, int wh, int ww){
 
 }
 
-void set_color(int color, int* cor)
+
+void set_color(int color/*, int* cor*/)
 {
 	switch (color)
 	{
-		case (RED): {glColor3f(1.0,0.0,0.0); *cor=color;/*colorpalete();*/} break;
-		case (GREEN): {glColor3f(0.0,1.0,0.0); *cor=color; /*colorpalete();*/} break;
-		case (BLUE): {glColor3f(0.0,0.0,1.0); *cor=color; /*colorpalete();*/} break;
-		case (CYAN): {glColor3f(0.0,1.0,1.0); *cor=color; /*colorpalete();*/} break;
-		case (MAGENTA): {glColor3f(1.0,0.0,1.0); *cor=color; /*colorpalete();*/} break;
-		case (YELLOW): {glColor3f(1.0,1.0,0.0); *cor=color; /*colorpalete();*/} break;
-		case (ORANGE): {glColor3f(1.0,0.5,0.0); *cor=color; /*colorpalete();*/} break;
-		case (GRAY): {glColor3f(0.5,0.5,0.5); *cor=color; /*colorpalete();*/} break;
-		case (WHITE): {glColor3f(1.0,1.0,1.0); *cor=color; /*colorpalete();*/} break;
-		case (BLACK): {glColor3f(0.0,0.0,0.0); *cor=color; /*colorpalete();*/} break;
+		case (RED): {glColor3f(1.0,0.0,0.0); /*cor=color;*//*colorpalete();*/} break;
+		case (GREEN): {glColor3f(0.0,1.0,0.0); /*cor=color;*/ /*colorpalete();*/} break;
+		case (BLUE): {glColor3f(0.0,0.0,1.0); /*cor=color; *//*colorpalete();*/} break;
+		case (CYAN): {glColor3f(0.0,1.0,1.0); /*cor=color; *//*colorpalete();*/} break;
+		case (MAGENTA): {glColor3f(1.0,0.0,1.0); /*cor=color;*/ /*colorpalete();*/} break;
+		case (YELLOW): {glColor3f(1.0,1.0,0.0); /*cor=color; *//*colorpalete();*/} break;
+		case (ORANGE): {glColor3f(1.0,0.5,0.0); /*cor=color; *//*colorpalete();*/} break;
+		case (GRAY): {glColor3f(0.5,0.5,0.5); /*cor=color; *//*colorpalete();*/} break;
+		case (WHITE): {glColor3f(1.0,1.0,1.0); /*cor=color; *//*colorpalete();*/} break;
+		case (BLACK): {glColor3f(0.0,0.0,0.0); /*cor=color; *//*colorpalete();*/} break;
 
 		default: break;
 	}

@@ -73,7 +73,6 @@ void drawSquare(int x, int y)
 
 void myReshape(GLsizei w, GLsizei h)
 {
-
 	/* adjust clipping box */
 
 	glMatrixMode(GL_PROJECTION);
@@ -149,17 +148,20 @@ void mouse_idle()
 
 		glLogicOp(GL_XOR);
 
-            glPushAttrib(GL_ALL_ATTRIB_BITS);//
+      /*      glPushAttrib(GL_ALL_ATTRIB_BITS);//
 
             glLineWidth(1);
 
-            set_color(WHITE,&cor);//
+            glColor3i(1,1,1);//set_color(WHITE,&cor);//
+       //     printf("cor %d\n",cor);
 
             quadrado(xi,wh-yi,tamanho-1);
 
-            glPopAttrib();//
+            glPopAttrib();//*/
 
-		set_color(bcor,&cor);
+		set_color(bcor/*,&cor*/);
+
+	//	  printf("cor %d\n",cor);
 
 		borracha(xi,wh-yi,tamanho-2);
 
@@ -202,18 +204,22 @@ void mouse_passive_motion(int x, int y)
 			case (ERASER):
 			{
 //if (!area_de_desenho(x-tamanho/2,y) || !area_de_desenho(x+tamanho/2,y) || !area_de_desenho(x,y-tamanho/2) || !area_de_desenho(x,y+tamanho/2)) break;
-			    glPushAttrib(GL_ALL_ATTRIB_BITS);//
+			/*    glPushAttrib(GL_ALL_ATTRIB_BITS);//
 
                     glLineWidth(1);
 
-                    set_color(WHITE,&cor);//
+                   // glColor3i(1,1,1);
+                   set_color(WHITE);//
+                   //cor=WHITE;
+                //      printf("cor %d\n",cor);
 
                     quadrado(x,wh-y,tamanho-1);
 
-                glPopAttrib();//
+                glPopAttrib();//*/
 
 
-				set_color(bcor,&cor);
+				set_color(bcor/*,&cor*/);
+			//	  printf("cor %d\n",cor);
 
                 // desenha borracha temporária
 				borracha(x,wh-y,tamanho-2);
@@ -369,7 +375,8 @@ void mouse_motion(int x, int y)
                         // Aplica a cor de background
            //             int aux = cor;
 
-				set_color(bcor,&cor);
+				set_color(bcor/*,&cor*/);
+				  printf("cor %d\n",cor);
 				borracha(x,wh-y,tamanho);
 
 				glPopAttrib();
@@ -432,12 +439,15 @@ void mouse(int btn, int state, int x, int y)
 		{
 		//	puts("setei a cor");
 
-			set_color(pick_color(x,y,wh,ww),&cor);
+
+			set_color(pick_color(x,y,wh,ww)/*,&cor*/);
+			cor = pick_color(x,y,wh,ww);
 
 		//	printf("cor: %d\n", cor);
 
             // redesenha a paleta
 			colorpalete(cor,bcor,wh,ww);
+			puts("441");
 		}
 
 
@@ -563,7 +573,8 @@ void mouse(int btn, int state, int x, int y)
 				    //glColor3f(rb,gb,bb);
 
 					glPushAttrib(GL_ALL_ATTRIB_BITS);
-					set_color(bcor,&cor);
+					set_color(bcor/*,&cor*/);
+					  printf("cor %d\n",cor);
 
 					borracha(x,wh-y,tamanho);
 					//puts("eraser");
@@ -675,10 +686,11 @@ void mouse(int btn, int state, int x, int y)
     {
         // repinta a paleta
 		//colorpalete(cor, bcor, wh, ww);
-
+//int cor_aux = cor;
 		glPushAttrib(GL_ALL_ATTRIB_BITS); // push 1
-
+printf("681   cor %d, bcor%d\n", cor, bcor);
 		colorpalete(cor, bcor, wh, ww);
+		puts("682");
 
 
         glColor3i(1,1,1);
@@ -759,6 +771,8 @@ void mouse(int btn, int state, int x, int y)
 				glVertex2f(3*ww/5+ww/10,wh-ww/10);
 				glVertex2f(ww/2+ww/10,wh);
 				glEnd();
+
+				  printf("cor %d\n",cor);
 				break;
 		}
 
@@ -784,6 +798,7 @@ void mouse(int btn, int state, int x, int y)
 
 	        // redesenha a paleta de cores
 			colorpalete(cor, bcor, wh, ww);
+			puts("788");
 		}
         //retangulo(5,wh-5,30,wh-30);
 
@@ -962,7 +977,7 @@ void display(void){
 
 	drawButtons(1,1,1,1,1,1,1);
 	colorpalete(cor,bcor,wh,ww);
-
+puts("967");
 
 	glFlush();
 }
