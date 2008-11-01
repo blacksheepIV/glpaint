@@ -4,9 +4,6 @@
 #include <stdio.h>
 
 void colorpalete(int cor, int bcor, int wh, int ww){
-//        int shift=0;
-//	int aux = cor;
-printf("cor %d, bcor%d\n", cor, bcor);
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -79,41 +76,40 @@ printf("cor %d, bcor%d\n", cor, bcor);
 }
 
 
-void set_color(int color/*, int* cor*/)
+void set_color(int color)
 {
 	switch (color)
 	{
-		case (RED): {glColor3f(1.0,0.0,0.0); /*cor=color;*//*colorpalete();*/} break;
-		case (GREEN): {glColor3f(0.0,1.0,0.0); /*cor=color;*/ /*colorpalete();*/} break;
-		case (BLUE): {glColor3f(0.0,0.0,1.0); /*cor=color; *//*colorpalete();*/} break;
-		case (CYAN): {glColor3f(0.0,1.0,1.0); /*cor=color; *//*colorpalete();*/} break;
-		case (MAGENTA): {glColor3f(1.0,0.0,1.0); /*cor=color;*/ /*colorpalete();*/} break;
-		case (YELLOW): {glColor3f(1.0,1.0,0.0); /*cor=color; *//*colorpalete();*/} break;
-		case (ORANGE): {glColor3f(1.0,0.5,0.0); /*cor=color; *//*colorpalete();*/} break;
-		case (GRAY): {glColor3f(0.5,0.5,0.5); /*cor=color; *//*colorpalete();*/} break;
-		case (WHITE): {glColor3f(1.0,1.0,1.0); /*cor=color; *//*colorpalete();*/} break;
-		case (BLACK): {glColor3f(0.0,0.0,0.0); /*cor=color; *//*colorpalete();*/} break;
+		case (RED): {glColor3f(1.0,0.0,0.0); } break;
+		case (GREEN): {glColor3f(0.0,1.0,0.0); } break;
+		case (BLUE): {glColor3f(0.0,0.0,1.0); } break;
+		case (CYAN): {glColor3f(0.0,1.0,1.0); } break;
+		case (MAGENTA): {glColor3f(1.0,0.0,1.0); } break;
+		case (YELLOW): {glColor3f(1.0,1.0,0.0); } break;
+		case (ORANGE): {glColor3f(1.0,0.5,0.0); } break;
+		case (GRAY): {glColor3f(0.5,0.5,0.5); } break;
+		case (WHITE): {glColor3f(1.0,1.0,1.0); } break;
+		case (BLACK): {glColor3f(0.0,0.0,0.0); } break;
 
 		default: break;
 	}
 
-	//glFlush();
 }
 
 void set_bgcolor(int color, int* bcor, GLfloat* rb, GLfloat* gb, GLfloat* bb)
 {
 	switch (color)
 	{
-		case (RED): {*rb=1.0;*gb=0.0;*bb=0.0; *bcor=color;/*colorpalete();*/} break;
-		case (GREEN): {*rb=0.0;*gb=1.0;*bb=0.0; *bcor=color; /*colorpalete();*/} break;
-		case (BLUE): {*rb=0.0,*gb=0.0,*bb=1.0; *bcor=color; /*colorpalete();*/} break;
-		case (CYAN): {*rb=0.0,*gb=1.0,*bb=1.0; *bcor=color; /*colorpalete();*/} break;
-		case (MAGENTA): {*rb=1.0,*gb=0.0,*bb=1.0; *bcor=color; /*colorpalete();*/} break;
-		case (YELLOW): {*rb=1.0,*gb=1.0,*bb=0.0; *bcor=color; /*colorpalete();*/} break;
-		case (ORANGE): {*rb=1.0,*gb=0.5,*bb=0.0; *bcor=color; /*colorpalete();*/} break;
-		case (GRAY): {*rb=0.5,*gb=0.5,*bb=0.5; *bcor=color; /*colorpalete();*/} break;
-		case (WHITE): {*rb=1.0,*gb=1.0,*bb=1.0; *bcor=color;/* colorpalete();*/} break;
-		case (BLACK): {*rb=0.0,*gb=0.0,*bb=0.0; *bcor=color; /*colorpalete();*/} break;
+		case (RED): {*rb=1.0;*gb=0.0;*bb=0.0; *bcor=color; } break;
+		case (GREEN): {*rb=0.0;*gb=1.0;*bb=0.0; *bcor=color; } break;
+		case (BLUE): {*rb=0.0,*gb=0.0,*bb=1.0; *bcor=color; } break;
+		case (CYAN): {*rb=0.0,*gb=1.0,*bb=1.0; *bcor=color; } break;
+		case (MAGENTA): {*rb=1.0,*gb=0.0,*bb=1.0; *bcor=color; } break;
+		case (YELLOW): {*rb=1.0,*gb=1.0,*bb=0.0; *bcor=color; } break;
+		case (ORANGE): {*rb=1.0,*gb=0.5,*bb=0.0; *bcor=color; } break;
+		case (GRAY): {*rb=0.5,*gb=0.5,*bb=0.5; *bcor=color; } break;
+		case (WHITE): {*rb=1.0,*gb=1.0,*bb=1.0; *bcor=color; } break;
+		case (BLACK): {*rb=0.0,*gb=0.0,*bb=0.0; *bcor=color; } break;
 
 		default: break;
 	}
