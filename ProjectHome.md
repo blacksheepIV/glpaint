@@ -1,0 +1,1 @@
+A college project to learn opengl programing. Simple paint program, writen in linux, but is supposed to run in other operating systems.
